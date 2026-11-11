@@ -2,32 +2,19 @@
 
 Static site (Astro 5), served by nginx on fly.io.
 
-## Deploy to fly.io (first time)
+## Deploy
 
-From this folder, on a computer with [flyctl](https://fly.io/docs/flyctl/install/) installed:
+**Source of truth: https://github.com/vectorstofinal/millz-a10-simpit.** Every push to `main` deploys to fly.io through GitHub Actions (`.github/workflows/deploy.yml`, repo secret `FLY_API_TOKEN`). You can also re-run a deploy from the Actions tab (Run workflow).
 
-```powershell
-fly auth login
-fly apps create millz-a10-simpit   # if the name is taken, pick another and change `app` in fly.toml
-fly deploy
-```
+The Dropbox `Blog site` folder is a working copy and can lag behind GitHub. Edit through GitHub, or `git pull` first.
 
-fly builds the Docker image remotely, so you don't need Node or Docker locally.
-The site will be at `https://<app-name>.fly.dev`. If the app name changes, update `site` in `astro.config.mjs`.
-
-After the first deploy, `fly deploy` is all you need.
-
-Cost: one shared-cpu-1x / 256 MB machine that stops when idle (`min_machines_running = 0`).
-The first visitor after an idle period waits about a second while it starts.
-Set `min_machines_running = 1` to keep it warm.
-
-### Custom domain (optional)
+Manual deploy, if you ever need it, from a clone on a PC with flyctl installed:
 
 ```powershell
-fly certs add simpit.example.com
+fly deploy --ha=false
 ```
 
-Then add the DNS records it prints and change `site` in `astro.config.mjs`.
+App: `millz-a10-simpit`, region `dfw` (fly no longer allows new machines in den), one shared-cpu-1x / 256 MB machine that stops when idle.
 
 ## Add a post
 
@@ -50,7 +37,7 @@ Then add the DNS records it prints and change `site` in `astro.config.mjs`.
 2. Put downloads in `public/files/<group>/` and images in `public/img/`, then add each download to `src/data/files.ts`.
 3. Embed an STL viewer anywhere in a post:
    `<stl-viewer src="/files/dimmer-knob/dimmer-knob-26mm.stl" label="Dimmer knob"></stl-viewer>`
-4. `fly deploy`.
+4. Commit and push to `main`. GitHub Actions deploys it.
 
 Update the status tiles at the top of `src/pages/index.astro` as the build moves.
 Settings live in `src/pages/settings.md`.
