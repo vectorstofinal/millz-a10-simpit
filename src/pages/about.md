@@ -9,10 +9,12 @@ I'm J. I run **millz**, a small maker shop with an aviation streak: CNC routing,
 
 ## The shop
 
-- **CNC router:** 4x4 bed, Redline controller, 80 mm air-cooled spindle, VCarve Pro
+- **CNC router:** Onefinity, 4x4 bed, Redline controller, 80 mm air-cooled spindle, VCarve Pro
 - **Lasers:** Thunder Laser Bolt Pro 36 (80 W RF CO2) and a Thunder Laser Aurora Lite, both on LightBurn
 - **3D printer:** Prusa XL, 0.4 mm nozzle, mostly PETG
 - **CAD:** FreeCAD and OpenSCAD
+
+More detail, and what each machine does in the build: [equipment](/equipment/).
 
 ## Licensing
 

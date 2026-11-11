@@ -39,15 +39,18 @@ From the [fit strip](/posts/aux-lts-panel/#cut-the-fit-strip-first), cut at 70% 
 
 ## CNC router: PCB isolation milling
 
-Redline-controlled router, 80 mm air-cooled spindle, VCarve Pro. Single-sided FR-4, Z0 on copper. **Starting points**, being proven on the coupon now. Details: [board post](/posts/aux-lts-board/).
+Onefinity router, Redline controller, 80 mm air-cooled spindle, VCarve Pro. Single-sided FR-4, Z0 on the copper. Proven on the AUX LTS PCB. Details: [PCB milled post](/posts/aux-lts-pcb-milled/), [first board post](/posts/aux-lts-board/).
 
-| Tool | RPM | Feed | Plunge | Depth | Notes |
+| Tool | RPM | Feed | Plunge | Depth | Status / notes |
 |---|---|---|---|---|---|
-| 0.4 mm flat end mill | ~20k | 250–300 mm/min | 60 mm/min | 0.12 mm, 1 pass | Isolation ✓ on coupon. Scratch touch-off for Z0 |
-| 1.0 mm carbide drill | 18–20k | drilling cycle | 150–200 mm/min | thickness + 0.4 mm | No peck. +0.2 leaves the exit too small for header pins |
-| 1/8 in end mill | ~18k | 600–800 mm/min | — | 0.5 mm passes | Downcut for clean copper edges |
+| 0.4 mm flat end mill (isolation) | 24k | 120 mm/min | — | 0.08 mm, 1 pass | **Proven.** Z0 by scratch touch-off. Broke 3 bits at 0.10–0.12 mm with a by-eye zero |
+| 1.0 mm carbide drill | 18–20k | drilling cycle | 150–200 mm/min | thickness + 0.4 mm | **Proven.** No peck. +0.2 leaves the exit too small for header pins |
+| 1/8 in end mill (standoffs, cutouts, outline) | ~18k | 600–800 mm/min | — | 0.5 mm passes | **Proven.** Downcut for clean copper edges. Corners clear a 16 × 30 mm toggle case |
 
-Design rules for 0.4 mm isolation: ≥0.5 mm net-to-net, 0.8 mm traces, 1.8 mm pads on 1.0 mm holes (0.40 mm ring), traces ≥1.0 mm from the board edge.
+- **Scratch touch-off:** spindle on, step down 0.01 mm over scrap copper until the bit just marks, set Z0. My electrical probe won't trigger on a fresh 0.4 mm bit.
+- **Depth:** 1 oz copper is ~0.035 mm. 0.08 mm leaves margin for flatness; don't go below ~0.06 mm.
+
+Design rules for 0.4 mm isolation: ≥0.5 mm net-to-net, 0.8 mm traces, 1.8 mm pads on 1.0 mm holes (0.40 mm ring), traces ≥1.0 mm from the PCB edge.
 
 ## 3D printing
 
