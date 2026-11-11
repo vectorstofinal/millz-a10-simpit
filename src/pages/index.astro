@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('posts', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+// Update this as the build moves along.
+const status = [
+  { k: 'ACES II seat', v: 'Built', s: 'done' },
+  { k: 'Side consoles', v: 'Built', s: 'done' },
+  { k: 'Glare shield', v: 'Built', s: 'done' },
+  { k: 'AUX LTS panel', v: 'Top layer next', s: 'wip' },
+  { k: 'AUX LTS board', v: 'Coupon milled', s: 'wip' },
+  { k: 'Controller box', v: 'Bench rig', s: 'wip' },
+];
+---
+<Base>
+  <section class="hero">
+    <div class="hero-grid">
+    <div class="hero-text">
+    <span class="eyebrow">Replica A-10C cockpit · DCS World · built in the millz shop</span>
+    <h1>A-10 <span>SimPit</span></h1>
+    <p class="lede">I'm building an A-10C Warthog cockpit for DCS: laser-cut acrylic panels, green backlighting, home-milled boards, and a lot of test coupons. This site has everything I've worked out along the way. The settings, files and mistakes are all here, free to use.</p>
+    </div>
+    <a class="hero-img" href="/3d/aux-lts/"><img src="/img/aux-lts-3d.png" alt="AUX LTS panel, 3D model with the green backlight on" width="610" height="550" /><span>AUX LTS · open the 3D model</span></a>
+    </div>
+    <ul class="status" aria-label="Build status">
+      {status.map((s) => <li class={s.s}><span class="k">{s.k}</span><span class="v">{s.v}</span></li>)}
+    </ul>
+  </section>
+
+  <h2>Build log</h2>
+  <ul class="post-list">
+    {posts.map((p) => (
+      <li>
+        <a class="card" href={`/posts/${p.id}/`}>
+          <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
+          <span class="t">{p.data.title}</span>
+          <span class="s">{p.data.summary}</span>
+          {p.data.tags.length > 0 && <span class="tags">{p.data.tags.map((t) => <span class="tag">{t}</span>)}</span>}
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>

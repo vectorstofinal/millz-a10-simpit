@@ -1,0 +1,14 @@
+---
+import Base from './Base.astro';
+const { frontmatter } = Astro.props;
+---
+<Base title={frontmatter.title} description={frontmatter.description}>
+  <article class="article">
+    <header>
+      {frontmatter.eyebrow && <span class="eyebrow">{frontmatter.eyebrow}</span>}
+      <h1>{frontmatter.title}</h1>
+      {frontmatter.lede && <p class="lede">{frontmatter.lede}</p>}
+    </header>
+    <div class="prose"><slot /></div>
+  </article>
+</Base>

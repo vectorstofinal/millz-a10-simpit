@@ -1,0 +1,15 @@
+---
+import { type SiteFile, originLabel } from '../data/files';
+interface Props { items: SiteFile[]; }
+const { items } = Astro.props;
+---
+<ul class="files">
+  {items.map((f) => (
+    <li>
+      <span class="n">{f.name}</span>
+      <span class="d">{f.desc}</span>
+      <span class="m"><span class="tag">{f.kind}</span><span class="tag">{originLabel[f.origin]}</span></span>
+      <a class="btn dl" href={f.path} download>Download</a>
+    </li>
+  ))}
+</ul>

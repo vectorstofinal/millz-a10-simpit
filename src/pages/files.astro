@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import FileList from '../components/FileList.astro';
+import { files, groups } from '../data/files';
+---
+<Base title="Files" description="Every file from the build: DXFs, LightBurn jobs, PCB milling files, STLs and Arduino sketches.">
+  <div class="article" style="max-width:880px">
+    <header>
+      <span class="eyebrow">Downloads</span>
+      <h1>Files</h1>
+      <p class="lede">Everything I've made for the pit that's safe to share. My originals are CC0, so do what you want with them. The panel files are edits of The Warthog Project's free release, which its author put out for anyone to use.</p>
+    </header>
+    <div class="note warn">Measure your own parts before you cut. Switches, pots and acrylic vary. Every size here was checked against <em>my</em> parts, and the posts say which ones.</div>
+    {groups.map((g) => (
+      <section class="filebox" style="margin-top:28px">
+        <h2>{g}</h2>
+        <FileList items={files.filter((f) => f.group === g)} />
+      </section>
+    ))}
+    <p style="color:var(--muted);font-size:15px;margin-top:32px">Looking for the cockpit structure (seat, tub, consoles, glare shield)? Those plans aren't mine to share. Buy them from FLIM at Vr-pits; see <a href="/about/#credits">credits</a>.</p>
+  </div>
+</Base>

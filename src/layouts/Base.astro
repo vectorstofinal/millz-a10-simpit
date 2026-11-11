@@ -1,0 +1,58 @@
+---
+import '../styles/global.css';
+interface Props { title?: string; description?: string; }
+const { title, description = 'Building a replica A-10C Warthog sim cockpit in the millz shop. Laser settings, feeds and speeds, PCB files, STLs and build notes, free to use.' } = Astro.props;
+const siteName = 'Millz A-10 SimPit';
+const fullTitle = title ? `${title} · ${siteName}` : siteName;
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/', label: 'Build log' },
+  { href: '/files/', label: 'Files' },
+  { href: '/settings/', label: 'Settings' },
+  { href: '/3d/aux-lts/', label: '3D' },
+  { href: '/about/', label: 'About' },
+];
+const isCurrent = (href: string) => href === '/' ? (path === '/' || path.startsWith('/posts')) : path.startsWith(href);
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={new URL(path, Astro.site)} />
+  <link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content={new URL("/img/aux-lts-3d.png", Astro.site)} />
+  <meta name="theme-color" content="#0d1110" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+</head>
+<body>
+  <header class="site-head">
+    <div class="wrap">
+      <a class="brand" href="/">Millz <b>A-10</b> SimPit</a>
+      <nav class="nav" aria-label="Main">
+        {nav.map((n) => <a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}</a>)}
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <slot />
+  </main>
+  <footer class="site-foot">
+    <div class="wrap">
+      <span>Built in the millz shop. Original files are CC0: use them however you like.</span>
+      <span><a href="/about/#credits">Credits &amp; licensing</a> · <a href="/rss.xml">RSS</a></span>
+    </div>
+  </footer>
+  <script>
+    if (document.querySelector('stl-viewer')) import('../scripts/stl-viewer');
+  </script>
+</body>
+</html>
