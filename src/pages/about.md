@@ -9,8 +9,8 @@ I'm J. I run **millz**, a small maker shop with an aviation streak: CNC routing,
 
 ## The shop
 
-- **CNC router:** Onefinity, 4x4 bed, Redline controller, 80 mm air-cooled spindle, VCarve Pro
-- **Lasers:** Thunder Laser Bolt Pro 36 (80 W RF CO2) and a Thunder Laser Aurora Lite, both on LightBurn
+- **CNC router:** Onefinity Elite Foreman (Gen 2), 4x4 bed, Redline controller, 80 mm air-cooled spindle, VCarve Pro
+- **Laser:** Thunder Laser Bolt Pro 36 (80 W RF CO2), LightBurn
 - **3D printer:** Prusa XL, 0.4 mm nozzle, mostly PETG
 - **CAD:** FreeCAD and OpenSCAD
 

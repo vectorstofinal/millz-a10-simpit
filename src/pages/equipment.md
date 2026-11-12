@@ -3,16 +3,16 @@ layout: ../layouts/Page.astro
 title: Equipment
 eyebrow: What's in the millz shop
 lede: The machines, software and supplies behind this build, and what each one actually does in it. Settings I've proven on them are on the settings page.
-description: The CNC router, lasers, 3D printer, software and materials used to build the Millz A-10C sim cockpit.
+description: The CNC router, laser, 3D printer, software and materials used to build the Millz A-10C sim cockpit.
 ---
 
 <div class="note">Settings for all of these are on the <a href="/settings/">settings page</a>. Nothing here is sponsored; it's just what I have.</div>
 
-## CNC router: Onefinity
+## CNC router: Onefinity Elite Foreman (Gen 2)
 
 | Spec | Detail |
 |---|---|
-| Machine | Onefinity CNC router, 4 × 4 ft bed (46.5 in of usable Y; the full 48 in is possible if I need it) |
+| Machine | Onefinity Elite Foreman (Gen 2), 4 × 4 ft bed (46.5 in of usable Y; the full 48 in is possible if I need it) |
 | Controller | Onefinity Redline |
 | Spindle | 80 mm air-cooled |
 | CAM | Vectric VCarve Pro |
@@ -51,10 +51,6 @@ A CO2 laser can't touch copper (it reflects 10.6 µm), so PCBs stay on the route
 
 - In LightBurn's Optimization Settings, I keep **Order by Layer/Priority** and **Cut inner shapes first** on. Both are saved in the `.lbrn2` file.
 - Engrave layers sit above cut layers in the layer list, so they run first.
-
-## Laser: Thunder Laser Aurora Lite
-
-My other CO2 laser, also run from LightBurn. The panel work on this site is all from the Bolt Pro.
 
 ## 3D printer: Prusa XL
 

@@ -39,7 +39,7 @@ From the [fit strip](/posts/aux-lts-panel/#cut-the-fit-strip-first), cut at 70% 
 
 ## CNC router: PCB isolation milling
 
-Onefinity router, Redline controller, 80 mm air-cooled spindle, VCarve Pro. Single-sided FR-4, Z0 on the copper. Proven on the AUX LTS PCB. Details: [PCB milled post](/posts/aux-lts-pcb-milled/), [first board post](/posts/aux-lts-board/).
+Onefinity Elite Foreman (Gen 2), Redline controller, 80 mm air-cooled spindle, VCarve Pro. Single-sided FR-4, Z0 on the copper. Proven on the AUX LTS PCB. Details: [PCB milled post](/posts/aux-lts-pcb-milled/), [first board post](/posts/aux-lts-board/).
 
 | Tool | RPM | Feed | Plunge | Depth | Status / notes |
 |---|---|---|---|---|---|
