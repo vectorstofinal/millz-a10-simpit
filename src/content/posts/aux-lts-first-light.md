@@ -3,8 +3,8 @@ title: "AUX LTS: first light"
 date: 2026-11-13
 summary: "All 36 LEDs on the AUX LTS PCB are soldered and lit: 0.432 A at 12 V, 12 mA each. Ground links made from LED lead offcuts, a printed gauge for trimming header pins, what made the soldering hard, and what I'm changing on the next PCB."
 tags: [pcb, backlighting, electronics, soldering]
-hero: /img/aux-lts-gnd-links.png
-heroAlt: "Copper side of the AUX LTS PCB with its three ground areas coloured and the two link positions marked"
+hero: /img/aux-lts-first-light.jpg
+heroAlt: "AUX LTS black base layer with all 36 green LEDs lit, two toggles and two pots fitted"
 files: [trim-gauge-stl, shroud-stl]
 ---
 
@@ -56,6 +56,11 @@ Each LED went into the PCB first, one at a time, and the PCB carried them down i
 At about 20 LEDs I took the PCB back off to see if the press fit was going to lock it on for good. It was a tiny bit snug pulling apart and went back together easily. The LEDs actually helped it line up. So the holes stay as cut.
 
 ## First light
+
+<figure>
+  <img src="/img/aux-lts-first-light.jpg" alt="AUX LTS black base layer on the bench with all 36 green LEDs lit through their holes. Two toggles and two pots are fitted; the two pushbutton holes are still empty." loading="lazy" width="1600" height="1237" />
+  <figcaption>The lighting test: the black base with the PCB behind it, 12 V in, all 36 LEDs lit. The toggles and pots are fitted; the two pushbuttons, the diffuser and the painted top come next. Shot with the panel upside down.</figcaption>
+</figure>
 
 | LEDs soldered | Current at 12 V | Per LED |
 |---|---|---|
