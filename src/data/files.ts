@@ -47,6 +47,8 @@ export const files: SiteFile[] = [
     desc: 'Board only, as milled (mirrored). Layers: 1 isolate 0.4 mm, 2 drill 1.0, 3 drill 3.2, 4 cutouts, 5 outline.' },
   { id: 'shroud-stl', path: '/files/aux-lts-pcb/idc-2x13-keyed-shroud.stl', name: 'IDC 2x13 keyed shroud.stl', kind: 'STL', group: 'AUX LTS board (PCB)', origin: 'original', view3d: true,
     desc: 'Printed shroud glued over the extra-long header pins on the copper side. 41 x 11.8 x 9 mm, cavity 38.4 x 9.2.' },
+  { id: 'trim-gauge-stl', path: '/files/aux-lts-pcb/header-pin-trim-gauge-8mm.stl', name: 'Header pin trim gauge 8mm.stl', kind: 'STL', group: 'AUX LTS board (PCB)', origin: 'original', view3d: true,
+    desc: 'Cutting guide for long header pins: slide it over the pins on the copper side and cut flush with the top, leaving 8 mm above the copper. Same footprint as the shroud (41 x 11.8 mm, 38.4 x 9.2 slot), 8.0 mm tall.' },
 
   // Laser tests
   { id: 'fit-strip', path: '/files/laser-tests/aux-lts-fit-test-strip.dxf', name: 'AUX LTS fit test strip.dxf', kind: 'DXF (mm)', group: 'Laser test files', origin: 'original',
