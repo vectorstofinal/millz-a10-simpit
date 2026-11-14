@@ -20,7 +20,7 @@ description: The CNC router, laser, 3D printer, software and materials used to b
 
 **What it does in this build:**
 
-- **The cockpit structure.** The ACES II seat, both side consoles, the front console and the glare shield are all cut from birch ply and MDF on this machine. See [the structure](/posts/the-structure/).
+- **The cockpit structure.** The ACES II seat, both side consoles, the front console and the glare shield are all cut from birch ply and 1/4 in A/C plywood on this machine. See [the structure](/posts/the-structure/).
 - **Panel PCBs, isolation-milled.** Single-sided FR-4, with traces, holes, cutouts and outline all done in one job and one zero. See [milling the AUX LTS board](/posts/aux-lts-board/) and [AUX LTS PCB: milled](/posts/aux-lts-pcb-milled/).
 
 PCB tooling:
@@ -90,7 +90,7 @@ FDM only; no resin printer in the shop.
 | 1/8 in cast acrylic: black, Milky White 2447, White Matte, clear | [Houston Acrylic](https://www.houstonacrylic.com) | Panel layers (base, diffuser, painted top) |
 | Single-sided copper-clad FR-4 | — | Panel PCBs |
 | 3 mm green LEDs, built-in resistor | Rated 9–12 V, 12–14 mA at 12 V | Panel backlighting |
-| Birch ply (0.47 in) and 1/4 in MDF | — | Cockpit structure |
+| Birch ply (0.47 in) and 1/4 in A/C plywood (in place of the plans' 1/4 in MDF) | — | Cockpit structure |
 
 ## In the pit
 

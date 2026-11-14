@@ -15,7 +15,7 @@ What I *can* share is what the build taught me.
 
 ## How it went
 
-- **Cutting.** Everything was cut on the router in the millz shop: birch ply for the structural parts and 1/4 in MDF for the thin ones. I labeled every part as it came off the table with its FreeCAD part label.
+- **Cutting.** Everything was cut on the router in the millz shop: birch ply for the structural parts and 1/4 in A/C plywood for the thin ones. The plans call for 1/4 in MDF there, but my local supplier didn't think quarter-inch MDF was even a thing (too fragile), so I used A/C ply instead. I labeled every part as it came off the table with its FreeCAD part label.
 - **Seat first.** I built the low-profile ACES II seat first. FLIM's original guide builds the seat back first. I preferred building it inside-out from the model: pan and inner walls, then skins, then the spine and headrest.
 - **Glue plus screws.** I used FLIM's method: medium CA with accelerator on the glue joints, and screws doing the structural work. A 23-gauge pin nailer holds things while the CA grabs. You don't need an 18-gauge gun.
 - **Check screw lengths against the actual stack.** In a few places, the screw length you'd guess from the plans barely bites into the part behind. Measure the real stack thickness before you drive anything.
