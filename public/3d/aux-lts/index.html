@@ -131,10 +131,10 @@ td.z{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:now
         <thead><tr><th>Qty</th><th>Part</th><th>Fit on this panel</th></tr></thead>
         <tbody>
           <tr><td class="qty">36</td><td>3 mm green LED, built-in resistor</td><td>12 V, 12–14 mA each, so 0.43–0.50 A for the panel. The tip sits 1.0 mm into the middle layer.</td></tr>
-          <tr><td class="qty">1</td><td>NVIS LTS toggle, ON-OFF-ON</td><td>Brown 16 × 30 mm case, lever along the long axis. M12 bushing 9 mm, ending flush with the face.</td></tr>
-          <tr><td class="qty">1</td><td>HARS/SAS toggle</td><td>Pink, same footprint. Its legend LEDs moved to ±10.4 mm to clear the case.</td></tr>
+          <tr><td class="qty">1</td><td>NVIS LTS toggle, ON-OFF-ON</td><td>Brown 16 × 30 mm case, lever along the long axis. M12 bushing 9 mm, ending flush with the face. Three screw terminals with solder lugs.</td></tr>
+          <tr><td class="qty">1</td><td>HARS/SAS toggle</td><td>Brown, same footprint. Two screw terminals at the ends, no center terminal. Its legend LEDs moved to ±10.4 mm to clear the case.</td></tr>
           <tr><td class="qty">2</td><td>B10K pot</td><td>Ø18 body, M7 bushing 6 mm, nut 2 mm. The anti-rotation tab at 9 o'clock goes into a base slot. Nearby LEDs moved out to r 11.4 mm.</td></tr>
-          <tr><td class="qty">2</td><td>MS25089-3G pushbutton</td><td>Ø16 thread through the 16.0 mm top hole, 17.4 mm flange in front. 2.33 mm nut captive in a 19.3 mm hex.</td></tr>
+          <tr><td class="qty">2</td><td>MS25089-3G pushbutton</td><td>Ø16 thread through the 16.0 mm top hole, 17.4 mm flange in front. 2.33 mm nut captive in a 19.3 mm hex. Two-circuit switch: four rear terminals in an X; the normally-open pair is two opposite terminals.</td></tr>
           <tr><td class="qty">4 + 4</td><td>M3 screws, front and back</td><td>Through the 4.0 mm holes into the standoffs. The standoff pads are in the GND pour.</td></tr>
           <tr><td class="qty">1</td><td>2×13 extra-long pin header</td><td>E-Simpo L15 (3 mm short side, 2.5 mm plastic, 9.5 mm long side), or a 19 mm header trimmed. Pushed in from the front and soldered on the copper.</td></tr>
           <tr><td class="qty">1</td><td>Keyed shroud <span class="pill">printed</span></td><td>From <span class="muted">IDC 2x13 keyed shroud.stl</span>: 41 × 11.8 × 9 mm, cavity 38.4 × 9.2. Glue it on after the A2 and +5 V wires are soldered.</td></tr>
@@ -148,16 +148,16 @@ td.z{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:now
       <div class="tbl"><table>
         <thead><tr><th>Control</th><th>Lug → board pad</th><th>Header pin</th></tr></thead>
         <tbody>
-          <tr><td>NVIS LTS toggle</td><td><span class="wsw" style="background:#9b6bff"></span>TOP lug → TOP pad<br><span class="wsw" style="background:#3d8bff"></span>OFF lug → OFF pad<br><span class="wsw" style="background:#3a3d40"></span>COM → GND pad</td><td class="z">D7 (17)<br>D5 (15)<br>GND</td></tr>
-          <tr><td>HARS/SAS toggle</td><td><span class="wsw" style="background:#eeeeee"></span>OVERRIDE lug → OVR pad<br><span class="wsw" style="background:#3a3d40"></span>COM → GND pad</td><td class="z">D9 (19)<br>GND</td></tr>
-          <tr><td>SIGNAL LIGHTS LAMP TEST</td><td><span class="wsw" style="background:#ffd23d"></span>signal lug → pad<br><span class="wsw" style="background:#3a3d40"></span>other lug → GND pad</td><td class="z">D3 (13)<br>GND</td></tr>
-          <tr><td>FIRE DETECT TEST</td><td><span class="wsw" style="background:#ff8a2a"></span>signal lug → pad<br><span class="wsw" style="background:#3a3d40"></span>other lug → GND pad</td><td class="z">D2 (12)<br>GND</td></tr>
-          <tr><td>REFUEL STATUS pot (left)</td><td><span class="wsw" style="background:#3bd16f"></span>wiper → WIP pad<br><span class="wsw" style="background:#3a3d40"></span>left lug → GND pad<br><span class="wsw" style="background:#e23b3b"></span>right lug → +5 V pad by pin 7 (long wire, ~95 mm)</td><td class="z">A4 (25)<br>GND<br>+5 V (7)</td></tr>
-          <tr><td>WPN STA pot (right)</td><td><span class="wsw" style="background:#2fc7d3"></span>wiper → A2 pad by pin 23 (long wire, ~110 mm)<br><span class="wsw" style="background:#e23b3b"></span>left lug → +5 V pad<br><span class="wsw" style="background:#3a3d40"></span>right lug → GND pad</td><td class="z">A2 (23)<br>+5 V (7)<br>GND</td></tr>
+          <tr><td>NVIS LTS toggle</td><td><span class="wsw" style="background:#2fa84f"></span>TOP lug → TOP pad<br><span class="wsw" style="background:#3d8bff"></span>OFF lug → OFF pad<br><span class="wsw" style="background:#3a3d40"></span>COM → GND pad</td><td class="z">D7 (17)<br>D5 (15)<br>GND</td></tr>
+          <tr><td>HARS/SAS toggle</td><td><span class="wsw" style="background:#f2d21f"></span>upper terminal → OVR pad<br><span class="wsw" style="background:#3a3d40"></span>lower terminal → GND pad</td><td class="z">D9 (19)<br>GND</td></tr>
+          <tr><td>SIGNAL LIGHTS LAMP TEST</td><td><span class="wsw" style="background:#eeeeee"></span>NO terminal → pad<br><span class="wsw" style="background:#3a3d40"></span>opposite NO terminal → GND pad</td><td class="z">D3 (13)<br>GND</td></tr>
+          <tr><td>FIRE DETECT TEST</td><td><span class="wsw" style="background:#ff8a2a"></span>NO terminal → pad<br><span class="wsw" style="background:#3a3d40"></span>opposite NO terminal → GND pad</td><td class="z">D2 (12)<br>GND</td></tr>
+          <tr><td>REFUEL STATUS pot (left)</td><td><span class="wsw" style="background:#4a6fe0"></span>wiper → WIP pad<br><span class="wsw" style="background:#3a3d40"></span>left lug → GND pad<br><span class="wsw" style="background:#e23b3b"></span>right lug → +5 V pad by pin 7 (long wire, ~95 mm)</td><td class="z">A4 (25)<br>GND<br>+5 V (7)</td></tr>
+          <tr><td>WPN STA pot (right)</td><td><span class="wsw" style="background:#4a6fe0"></span>wiper → A2 pad by pin 23 (long wire, ~110 mm)<br><span class="wsw" style="background:#e23b3b"></span>left lug → +5 V pad<br><span class="wsw" style="background:#3a3d40"></span>right lug → GND pad</td><td class="z">A2 (23)<br>+5 V (7)<br>GND</td></tr>
           <tr><td>36 LEDs</td><td>Anodes on the LED+ trace; cathodes in the GND pour</td><td class="z">LED+ (1–2)<br>GND (3–6, 8, 21)</td></tr>
         </tbody>
       </table></div>
-      <p class="note">LED+ is PWM-dimmed on the high side in the console box, so the whole pour can be ground. The right pot's ends are swapped for routing, so invert A2 in firmware. Check with a meter which toggle lug closes TOP, OFF and OVERRIDE before soldering; the lug positions in the model are approximate.</p>
+      <p class="note">LED+ is PWM-dimmed on the high side in the console box, so the whole pour can be ground. The right pot's ends are swapped for routing, so invert A2 in firmware. Check with a meter which toggle lug closes TOP, OFF and OVERRIDE before soldering; the lug positions in the model are approximate. Wire colors match the built panel, except the pushbutton wires, which are not fitted yet. The HARS/SAS toggle has only two terminals and closes at NORM as mounted, so its input is reversed in firmware.</p>
     </section>
   </div>
   <p class="note">The layers come from the AUX_LTS_split cut files and the board from the v2 milling file. The switches, pots and pushbuttons are modeled from caliper measurements; the knobs are the exact printed design.</p>
@@ -318,7 +318,7 @@ const potXY = H(3.5), togXY = H(6.0), pbXY = H(8.0), boltXY = H(2.0);
 const nvis = togXY.find(h => Math.abs(h[0]) < 1), hars = togXY.find(h => h[0] < -1);
 
 // Toggles
-function toggle(x, y, caseMat, name, info, leverTilt, terminals) {
+function toggle(x, y, caseMat, name, info, leverTilt, terminals, blanks = []) {
   const body = new THREE.Group(); body.position.set(x, y, 0);
   body.add(boxAt(16, 30, 22, caseMat, 0, 0, -11));
   body.add(boxAt(17, 31, 0.7, M.nickel, 0, 0, -0.35));                 // frame plate
@@ -327,14 +327,16 @@ function toggle(x, y, caseMat, name, info, leverTilt, terminals) {
   const lever = new THREE.Group(); lever.position.z = 7;
   lever.add(cyl(2.3, 1.5, 25, M.steel, 0), (() => { const s = new THREE.Mesh(new THREE.SphereGeometry(1.7, 20, 12), M.steel); s.position.z = 25; return s; })());
   lever.rotation.x = -leverTilt; body.add(lever);
-  terminals.forEach(ty => { body.add(boxAt(4.5, 5, 1, M.nickel, 0, ty, -22.4)); body.add(cyl(1.6, 1.6, 1.6, M.nickel, -24.5).translateY(ty)); });
+  // screw terminals: plate, solder lug under the screw head, screw. Blank positions have no terminal hardware.
+  terminals.forEach(ty => { body.add(boxAt(4.5, 5, 1, M.nickel, 0, ty, -22.4)); body.add(boxAt(8.5, 3.2, 0.4, M.tin, 2.6, ty, -23.1)); body.add(cyl(1.6, 1.6, 1.6, M.nickel, -24.5).translateY(ty)); });
+  blanks.forEach(ty => { body.add(cyl(1.5, 1.5, 0.3, M.dark, -22.3).translateY(ty)); });
   tag(body, name, info); add(body, -26, 'switches');
   const nut = new THREE.Group(); nut.position.set(x, y, 0);
   nut.add(cyl(7.4, 7.4, 0.5, M.nickel, 3.0), hexPrism(8, 2.5, M.nickel, 3.5, Math.PI/6));
   tag(nut, 'Toggle nut + washer', '3.0 mm total, 16 mm across corners. It sits inside the middle layer’s 17 mm hole and clamps the base.'); add(nut, 14, 'switches');
 }
-toggle(nvis[0], nvis[1], M.brown, 'NVIS LTS toggle', 'ON-OFF-ON (TOP / ALL / OFF). 16 × 30 mm case, M12 bushing 9 mm.', 0, [-10, 0, 10]);
-toggle(hars[0], hars[1], M.pink, 'HARS/SAS toggle', 'OVERRIDE / NORM. Same 16 × 30 mm footprint. Shown at NORM.', -0.32, [-9, 0, 9]);
+toggle(nvis[0], nvis[1], M.brown, 'NVIS LTS toggle', 'ON-OFF-ON (TOP / ALL / OFF). 16 × 30 mm case, M12 bushing 9 mm. Three screw terminals with solder lugs: the center one is the common.', 0, [-10, 0, 10]);
+toggle(hars[0], hars[1], M.brown, 'HARS/SAS toggle', 'OVERRIDE / NORM. Same 16 × 30 mm footprint. Shown at NORM. Two screw terminals, at the two ends; the center position is blank. As mounted it closes at NORM.', -0.32, [-10, 10], [0]);
 
 // Dimmer knob mesh (from dimmer_knob.scad, $fn 96) + pointer triangle painted on the skirt slope
 const b64buf = (b) => { const s = atob(b), u = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u[i] = s.charCodeAt(i); return u.buffer; };
@@ -374,14 +376,23 @@ for (const [x, y] of potXY) {
 }
 
 // MS25089 pushbuttons
+M.pbGreen = new THREE.MeshStandardMaterial({color:0x1f7a5c, roughness:0.6});
+const PB_REAR = ' Rear: four terminals in an X, two isolated circuits. The two opposite terminals with screws are the normally-open pair used here; the other pair is normally closed and left empty.';
 pbXY.forEach(([x, y], i) => {
   const b = new THREE.Group(); b.position.set(x, y, 0);
   b.add(cyl(8.7, 8.7, 1, M.knob, 9), cyl(6.5, 6.5, 4, M.knob, 10), cyl(4.8, 4.6, 5.0, M.knob, 14));
   const cap = new THREE.Mesh(new THREE.SphereGeometry(9.6, 32, 8, 0, Math.PI*2, 0, 0.5), M.knob); cap.rotation.x = Math.PI/2; cap.position.z = 19 - 9.6*Math.cos(0.5); b.add(cap);
   b.add(cyl(7.95, 7.95, 8, M.dark, 1), threads(8.0, 1.6, 8.6, M.dark));
   b.add(cyl(7.2, 7.2, 12, M.steel, -11), cyl(7.26, 7.26, 6, M.label, -8));
-  for (const lx of [-2.6, 2.6]) b.add(boxAt(1, 3.2, 5, M.gold, lx, 0, -13.5));
-  tag(b, 'MS25089-3G pushbutton', x < 20 ? 'SIGNAL LIGHTS LAMP TEST. Ø16 thread through the 16.0 mm top hole. 17.4 mm flange on the face.' : 'FIRE DETECT BLEED AIR LEAK TEST. Ø16 thread through the 16.0 mm top hole. 17.4 mm flange on the face.');
+  // rear: green terminal base with an X divider and four terminals (two isolated circuits).
+  // Screws are fitted only in the normally-open pair, which is two opposite terminals. Angle depends on how far the switch screws in.
+  b.add(cyl(6.6, 6.6, 0.8, M.pbGreen, -11.8));
+  for (const a of [45, 135]) { const r = boxAt(12.6, 0.9, 1.2, M.pbGreen, 0, 0, -12.4); r.rotation.z = a * Math.PI / 180; b.add(r); }
+  [[0, 4.3, true], [0, -4.3, true], [4.3, 0, false], [-4.3, 0, false]].forEach(([tx, ty, no]) => {
+    b.add(boxAt(tx ? 3.4 : 2.6, tx ? 2.6 : 3.4, 0.5, M.gold, tx, ty, -12.05));
+    if (no) { const s = cyl(1.2, 1.2, 1.3, M.nickel, -13.6); s.position.x = tx; s.position.y = ty; b.add(s); }
+  });
+  tag(b, 'MS25089-3G pushbutton', x < 20 ? 'SIGNAL LIGHTS LAMP TEST. Ø16 thread through the 16.0 mm top hole. 17.4 mm flange on the face.' + PB_REAR : 'FIRE DETECT BLEED AIR LEAK TEST. Ø16 thread through the 16.0 mm top hole. 17.4 mm flange on the face.' + PB_REAR);
   add(b, 78, 'switches');
   // captive nut, shaped from the actual hex pocket (scaled to the nut's 19.05 mm across flats)
   const q = P.mid.polys.slice().sort((a, b) => Math.abs(a[0][0]+a[3][0]-2*x) - Math.abs(b[0][0]+b[3][0]-2*x))[0];
@@ -468,7 +479,8 @@ add(cabG, -100, 'cable');
 
 // Hook-up wires (copper side; shown when assembled). Lug positions are approximate.
 const wireG = new THREE.Group();
-const WC = {gnd:0x3a3d40, v5:0xe23b3b, d7:0x9b6bff, d5:0x3d8bff, d9:0xeeeeee, d3:0xffd23d, d2:0xff8a2a, a4:0x3bd16f, a2:0x2fc7d3};
+// colors as built (photo 2026-11-14): GND black, +5 V red, NVIS green/blue, HARS yellow, pot wipers blue. Pushbutton wires not fitted yet (placeholders).
+const WC = {gnd:0x3a3d40, v5:0xe23b3b, d7:0x2fa84f, d5:0x3d8bff, d9:0xf2d21f, d3:0xeeeeee, d2:0xff8a2a, a4:0x4a6fe0, a2:0x4a6fe0};
 const wireMats = {}; for (const [k, c] of Object.entries(WC)) wireMats[k] = new THREE.MeshStandardMaterial({color:c, roughness:0.5});
 const PD = B2.pads, ZP = -8.05;   // wire end at the pad, sitting in the solder on the copper side
 function wire(pts, c, name, info) {
@@ -489,13 +501,13 @@ const [nvx, nvy] = nvis, [hax, hay] = hars;
 shortWire([nvx, nvy + 10, -24.5], 'NVIS TOP', 'd7', 'Wire: NVIS TOP', 'Toggle lug that closes at TOP → pad → pin 17 (D7).');
 shortWire([nvx, nvy, -24.5], 'NVIS COM', 'gnd', 'Wire: NVIS common', 'Center lug → GND pad in the pour.');
 shortWire([nvx, nvy - 10, -24.5], 'NVIS OFF', 'd5', 'Wire: NVIS OFF', 'Toggle lug that closes at OFF → pad → pin 15 (D5). ALL = neither input low.');
-shortWire([hax, hay + 9, -24.5], 'HARS OVR', 'd9', 'Wire: HARS/SAS OVERRIDE', 'Lug that closes at OVERRIDE → pad above the cutout → pin 19 (D9).');
-shortWire([hax, hay, -24.5], 'HARS COM', 'gnd', 'Wire: HARS/SAS common', 'Center lug → GND pad.');
+shortWire([hax, hay + 10, -24.5], 'HARS OVR', 'd9', 'Wire: HARS/SAS signal', 'Upper terminal → pad above the cutout → pin 19 (D9). As built the switch closes at NORM, so the firmware reverses it.');
+shortWire([hax, hay - 10, -24.5], 'HARS COM', 'gnd', 'Wire: HARS/SAS ground', 'Lower terminal → GND pad. This toggle has no center terminal.');
 const [lpx, lpy] = pbXY.find(h => Math.abs(h[0]) < 1), [fpx, fpy] = pbXY.find(h => h[0] > 20);
-shortWire([lpx + 2.6, lpy, -16.2], 'LAMP SIG', 'd3', 'Wire: LAMP TEST signal', 'Pushbutton lug → pad → pin 13 (D3).');
-shortWire([lpx - 2.6, lpy, -16.2], 'LAMP COM', 'gnd', 'Wire: LAMP TEST common', 'Other lug → GND pad.');
-shortWire([fpx + 2.6, fpy, -16.2], 'FIRE SIG', 'd2', 'Wire: FIRE TEST signal', 'Pushbutton lug → pad → pin 12 (D2).');
-shortWire([fpx - 2.6, fpy, -16.2], 'FIRE COM', 'gnd', 'Wire: FIRE TEST common', 'Other lug → GND pad.');
+shortWire([lpx, lpy + 4.3, -13.6], 'LAMP SIG', 'd3', 'Wire: LAMP TEST signal', 'Pushbutton normally-open terminal → pad → pin 13 (D3).');
+shortWire([lpx, lpy - 4.3, -13.6], 'LAMP COM', 'gnd', 'Wire: LAMP TEST ground', 'Opposite normally-open terminal → GND pad.');
+shortWire([fpx, fpy + 4.3, -13.6], 'FIRE SIG', 'd2', 'Wire: FIRE TEST signal', 'Pushbutton normally-open terminal → pad → pin 12 (D2).');
+shortWire([fpx, fpy - 4.3, -13.6], 'FIRE COM', 'gnd', 'Wire: FIRE TEST ground', 'Opposite normally-open terminal → GND pad.');
 const [plx, ply] = potXY.find(h => h[0] < 0), [prx, pry] = potXY.find(h => h[0] > 0);
 const potLug = (x, y, dx) => [x + dx, y - 14.3, -9.5];
 shortWire(potLug(plx, ply, -5), 'POTL GND', 'gnd', 'Wire: left pot low end', 'REFUEL STATUS pot, left lug → GND pad.', 1.2);

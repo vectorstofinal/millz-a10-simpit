@@ -33,10 +33,31 @@ photo: /img/aux-lts-lit-panel.jpg
 |---|---|---|---|---|
 | REFUEL STATUS & INDEXER LIGHTS (DIM–BRT) | B10K pot, 16 mm | 25 (A4) | `ALCP_RSIL` | Standard wiring |
 | WPN STA STATUS LTS (OFF–BRT) | B10K pot, 16 mm | 23 (A2) | `ALCP_WPNSTA` | Ends swapped on the PCB; **reversed in firmware** (`reverse = true`) |
-| NVIS LTS (TOP / ALL / OFF) | 3-position toggle, ON-OFF-ON | 17 (TOP), 15 (OFF) | `ALCP_NVIS_LTS` | ALL = neither closed |
-| HARS/SAS (OVERRIDE / NORM) | 2-position toggle | 19 | `ALCP_HARSSAS` | Pin 19 closes at **NORM** (wired to the opposite lug). Fixed with the `reverse` flag |
-| SIGNAL LIGHTS LAMP TEST | MS25089-3G pushbutton | 13 (D3) | `LAMP_TEST_BTN` | Momentary |
-| FIRE DETECT BLEED AIR LEAK TEST | MS25089-3G pushbutton | 12 (D2) | `ALCP_FDBA_TEST` | Momentary |
+| NVIS LTS (TOP / ALL / OFF) | 3-position toggle, ON-OFF-ON | 17 (TOP), 15 (OFF) | `ALCP_NVIS_LTS` | Three terminals, center = ground. ALL = neither closed |
+| HARS/SAS (OVERRIDE / NORM) | 2-position toggle | 19 | `ALCP_HARSSAS` | Two terminals only, no center one. As mounted, pin 19 closes at **NORM**. Fixed with the `reverse` flag |
+| SIGNAL LIGHTS LAMP TEST | MS25089-3G pushbutton | 13 (D3) | `LAMP_TEST_BTN` | Momentary. Wired to the normally-open pair |
+| FIRE DETECT BLEED AIR LEAK TEST | MS25089-3G pushbutton | 12 (D2) | `ALCP_FDBA_TEST` | Momentary. Wired to the normally-open pair |
+
+## Terminals and wire colors
+
+<figure>
+  <img src="/img/aux-lts-terminals-back.jpg" alt="Copper side of the AUX LTS PCB: the NVIS toggle with three screw terminals, the HARS/SAS toggle with two, both pots soldered, and the two pushbuttons with screws in their normally-open terminals" width="1200" height="1600" />
+  <figcaption>Back of the panel, header at the bottom. The pushbuttons aren't wired yet; the screws mark the two terminals each one will use.</figcaption>
+</figure>
+
+"Upper" and "lower" mean toward the top and bottom edges of the panel.
+
+| Control | Terminals | Wires as built |
+|---|---|---|
+| NVIS LTS toggle | Three screw terminals with solder lugs | Upper: green. Center: black, ground. Lower: blue |
+| HARS/SAS toggle | Two screw terminals, one at each end. The center position has no terminal | Upper: yellow, to pin 19. Lower: black, ground |
+| REFUEL STATUS pot | Three solder lugs | Black ground, blue wiper (short), red +5 V (long, to the pad by pin 7) |
+| WPN STA pot | Three solder lugs | Black ground, blue wiper (long, to the pad by pin 23), red +5 V (short) |
+| Pushbuttons (2) | Four screw terminals in an X | One normally-open terminal to the signal pad, the opposite one to ground |
+
+**Pushbutton terminals.** The MS25089-3G is a two-circuit switch, not a plain normally-open button. Its four terminals are two separate pairs: one pair is closed until you press the button, and the other pair closes when you press it. On mine the normally-open pair is the two terminals directly across from each other. I put screws only in that pair, so there's no question later about which ones to wire. Leave the other pair empty. These are surplus parts, so check each one with a meter first.
+
+**HARS/SAS toggle.** With only two terminals there is no "other lug" to move the wire to: the switch is simply closed in one lever position and open in the other. As I mounted it, closed is NORM, so the firmware reverses it.
 
 ## Header pinout (this panel)
 
@@ -73,9 +94,9 @@ Copper side up, header toward you: pin 1 is the **left end of the row nearer the
 | Qty | Part | Notes |
 |---|---|---|
 | 2 | B10K pot, 16 mm, M7 bushing, knurled split shaft | Anti-rotation tab sits in the base slot, lugs pointing down |
-| 1 | Toggle, ON-OFF-ON, 16 × 30 mm case, screw terminals | NVIS |
-| 1 | Toggle, 2-position, same footprint, screw terminals | HARS/SAS |
-| 2 | MS25089-3G pushbutton | Mounts from the front; nut captive in the middle layer, no washer. Wires on screw terminals where the hardware allows, otherwise soldered |
+| 1 | Toggle, ON-OFF-ON, 16 × 30 mm case, three screw terminals | NVIS |
+| 1 | Toggle, 2-position, same footprint, two screw terminals | HARS/SAS |
+| 2 | MS25089-3G pushbutton | Two-circuit switch, four screw terminals. Mounts from the front; nut captive in the middle layer, no washer. Wires go on the normally-open pair |
 | 36 | 3 mm green LED, built-in resistor, 12 V | Water-clear |
 | 2 | [Printed dimmer knob](/posts/printed-dimmer-knob/) | PETG, 0.1 mm layers |
 | 4 | M3 × 6 mm brass hex standoff, female-female | |
@@ -84,16 +105,16 @@ Copper side up, header toward you: pin 1 is the **left end of the row nearer the
 | 1 | 2×13 straight pin header, long | Long pins trimmed to 8 mm above the copper ([gauge](/files/aux-lts-pcb/header-pin-trim-gauge-8mm.stl)) |
 | 1 | [Printed keyed shroud](/files/aux-lts-pcb/idc-2x13-keyed-shroud.stl) | Epoxied over the header, key notch toward the PCB center |
 | 2 | Ground link "staples" | Bent LED lead offcuts on the front, 3.8 mm span |
-| — | 22 AWG solid hook-up wire | 15 wires from the switch terminals to pads beside each control. Toggles are on screw terminals, pots are soldered |
+| — | 22 AWG solid hook-up wire | 15 wires from the switch terminals to pads beside each control. Toggles and pushbuttons are on screw terminals, pots are soldered |
 
 ## Taking it apart
 
-<div class="note warn">Unplug the ribbon first. Tools: a 2 mm hex key for the face screws, a wrench or nut driver for the switch nuts (toggle nuts about 14 mm across the flats, pot nuts about 9.5 mm), a small screwdriver for the toggle terminals, and a soldering iron for the pots (and the pushbuttons, unless they're on screw terminals).</div>
+<div class="note warn">Unplug the ribbon first. Tools: a 2 mm hex key for the face screws, a wrench or nut driver for the switch nuts (toggle nuts about 14 mm across the flats, pot nuts about 9.5 mm), a small screwdriver for the toggle and pushbutton terminals, and a soldering iron for the pots.</div>
 
 1. **Remove the panel from the console** (four corner fasteners) and unplug the ribbon. Pull the socket straight off; don't rock it.
 2. **Pull off both knobs.** They're press-fit on the knurled shafts.
 3. **Remove the four M3×12 face screws.** The standoffs stay on the PCB.
-4. **Lift the top and middle layers off together.** The pushbuttons come with them, clamped between their flanges and the captive nuts in the middle layer, and slide out of the base and the PCB. Their wires stay attached, so lift gently. If a wire is too short, disconnect it at the pushbutton first (screw terminal, or unsolder).
+4. **Lift the top and middle layers off together.** The pushbuttons come with them, clamped between their flanges and the captive nuts in the middle layer, and slide out of the base and the PCB. Their wires stay attached, so lift gently. If a wire is too short, disconnect it at the pushbutton's screw terminal first.
 5. **Separate top and middle (only if needed):** unscrew each pushbutton from the front by its collar. Disconnect its wires first, or they'll twist. Its nut drops out of the hex pocket.
 6. **Free the switches from the base:** unscrew the toggle and pot nuts from the front of the base. To take a toggle out completely, loosen its terminal screws and lift the wires off.
 7. **Pull the base straight off the PCB.** The 36 LEDs are a press fit in the base, so it takes a firm, even pull. The pots (soldered) stay wired to the PCB and drop out of their holes; so do the toggles, unless you've already freed them from their terminals.
