@@ -3,8 +3,8 @@ title: "AUX LTS: wired, tested and stacked"
 date: 2026-11-13
 summary: "The switches and pots are wired, every connection checks out from the far end of the ribbon, and the painted top layer is on. It finally looks like an A-10 panel. One toggle went in backwards, and fixing it took one word of firmware."
 tags: [panels, electronics, wiring, testing]
-hero: /img/aux-lts-stacked-front.jpg
-heroAlt: "Assembled AUX LTS panel: painted black top layer with white engraved legends, REFUEL pot with a printed knob, NVIS and HARS/SAS toggles, two empty pushbutton holes"
+hero: /img/aux-lts-lit-panel.jpg
+heroAlt: "Assembled AUX LTS panel backlit green through the diffuser: engraved legends glowing, pushbuttons fitted, REFUEL pot with a printed knob"
 ---
 
 <div class="bottom-line">The AUX LTS panel is wired, tested end to end through the ribbon, and stacked with the painted top layer. Eleven of the fifteen hook-up wires are in; the last four go on the pushbuttons, which mount from the front. One toggle was wired with its outer lug backwards. That's a one-word fix in the DCS-BIOS sketch, because the common lug was right.</div>
@@ -55,6 +55,19 @@ To find pin 1 on a header with no key: pins 1 and 2 beep to each other (they're 
 The painted White Matte top lasered cleanly with the settings from the [paint tests](/settings/): legends filled at 1500 mm/s and 52% power, then the cut at 70% and 30 mm/s. With the diffuser and top layer on, the stack is 9 mm thick. M3×12 screws through the face leave 3 mm of thread in each standoff, which only works with short screws on the PCB side ([the screw-length trap](/posts/aux-lts-pcb-milled/#the-screw-length-trap)).
 
 Before the middle layer goes on, the toggle and pot nuts have to be tight, because you can't reach them afterwards. And the two pushbutton nuts drop into their hex pockets in the middle layer before the top goes on.
+
+## Lit through the full stack
+
+<figure>
+  <img src="/img/aux-lts-lit-panel.jpg" alt="AUX LTS panel lit green through the diffuser and painted top: all legends glowing evenly, two black MS25089 pushbuttons fitted, REFUEL pot with a printed knob" loading="lazy" width="1600" height="1330" />
+  <figcaption>12 V into ribbon pins 1 (LED+) and 3 (ground), all 36 LEDs through the diffuser and the painted White Matte top. The pushbuttons are in.</figcaption>
+</figure>
+
+The legends light evenly, and the unlit face is a proper dark matte. Three things to clean up:
+
+- **Light leaking around the switches.** Green rings show around both toggles and the WPN STA shaft. That's light escaping from the diffuser layer's cut edges behind each hole. The fix is to blacken those edges with a paint pen, or put a black washer under each nut.
+- **Glow at the panel edges** and corner notches, for the same reason: the diffuser's outer edge needs blacking out too.
+- **A few hot spots** over individual LEDs. A phone at full brightness exaggerates them, so I'll judge them dimmed in a dark room before scuffing any LED tips.
 
 ## Next
 

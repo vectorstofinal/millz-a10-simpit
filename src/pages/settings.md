@@ -58,7 +58,7 @@ Prusa XL, 0.4 mm nozzle, PETG.
 
 | Part | Layer | Perimeters | Supports | Orientation |
 |---|---|---|---|---|
-| [Dimmer knob](/posts/printed-dimmer-knob/) | 0.15 mm | 3 | None | Skirt down |
+| [Dimmer knob](/posts/printed-dimmer-knob/) | 0.1 mm | 3 | None | Skirt down |
 
 Shaft fit on a 6 mm knurled split-shaft pot: Ø6.15 bore with a 0.85 mm key rib, printed in PETG, is a snug fit.
 
