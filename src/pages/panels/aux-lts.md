@@ -5,7 +5,7 @@ eyebrow: Panel reference · Left console
 lede: Everything about this panel in one place, including what's in it, how it's wired and how to take it apart. If you scanned the QR code on the back of the panel, this is the page you want.
 description: AUX LTS panel for the Millz A-10C sim cockpit. Build details, parts list, pinout, DCS-BIOS mapping, and disassembly and reassembly steps.
 console: Left console
-status: Built and lit. Pushbutton wiring and DCS bench test in progress.
+status: Built, lit and working in DCS on the bench.
 summary: Refuel and weapon-station light dimmers, NVIS and HARS/SAS toggles, and the lamp-test and fire-detect pushbuttons. Three acrylic layers, 36 green LEDs, home-milled PCB.
 photo: /img/aux-lts-lit-panel.jpg
 ---
@@ -33,8 +33,8 @@ photo: /img/aux-lts-lit-panel.jpg
 |---|---|---|---|---|
 | REFUEL STATUS & INDEXER LIGHTS (DIM–BRT) | B10K pot, 16 mm | 25 (A4) | `ALCP_RSIL` | Standard wiring |
 | WPN STA STATUS LTS (OFF–BRT) | B10K pot, 16 mm | 23 (A2) | `ALCP_WPNSTA` | Ends swapped on the PCB; **reversed in firmware** (`reverse = true`) |
-| NVIS LTS (TOP / ALL / OFF) | 3-position toggle, ON-OFF-ON | 17 (TOP), 15 (OFF) | `ALCP_NVIS_LTS` | Three terminals, center = ground. ALL = neither closed |
-| HARS/SAS (OVERRIDE / NORM) | 2-position toggle | 19 | `ALCP_HARSSAS` | Two terminals only, no center one. As mounted, pin 19 closes at **NORM**. Fixed with the `reverse` flag |
+| NVIS LTS (TOP / ALL / OFF) | 3-position toggle, ON-OFF-ON | 15, 17 | `ALCP_NVIS_LTS` | Three terminals, center = ground. ALL = neither closed. On the bench, pin 15 closed at **TOP** and pin 17 at **OFF**, the opposite of the PCB pad labels. Handled by the pin order in firmware |
+| HARS/SAS (OVERRIDE / NORM) | 2-position toggle | 19 | `ALCP_HARSSAS` | Two terminals only, no center one. As mounted, pin 19 closes at **NORM**. Fixed with `reverse = true` |
 | SIGNAL LIGHTS LAMP TEST | MS25089-3G pushbutton | 13 (D3) | `LAMP_TEST_BTN` | Momentary. Wired to the normally-open pair |
 | FIRE DETECT BLEED AIR LEAK TEST | MS25089-3G pushbutton | 12 (D2) | `ALCP_FDBA_TEST` | Momentary. Wired to the normally-open pair |
 
@@ -134,34 +134,40 @@ To replace an LED, unsolder it from the copper side once the base is off.
 
 ## DCS-BIOS code
 
-The panel has no microcontroller of its own; it runs on its console box's Arduino Mega. These are the lines that drive it, ready to drop into the box sketch. Only the two pin macros change with the socket the panel plugs into.
+The panel has no microcontroller of its own; it runs on its console box's Arduino Mega. These are the lines that drive it, ready to drop into the box sketch. Only the pin macros change with the socket the panel plugs into. This matches version 3 of the bench sketch, tested against DCS on 2026-11-14.
 
 ```cpp
 // AUX LTS panel (left console). DCS-BIOS Arduino library, A-10C module.
 // Socket pin map: set for the box socket this panel plugs into.
-// Bench rig socket: ribbon pins 11-20 (D1-D10) -> Mega D22-D31, pins 22-26 (A1-A5) -> A0-A4.
+// Universal socket: ribbon pins 11-20 (D1-D10) -> Mega D22-D31, pins 22-26 (A1-A5) -> A0-A4.
 #define AUX_D(n) (21 + (n))   // socket D1..D10 -> Mega pin
 #define AUX_A2   A1           // ribbon pin 23
 #define AUX_A4   A3           // ribbon pin 25
 
-// Pushbuttons: closed = pressed
-DcsBios::Switch2Pos auxFireDetectTest("ALCP_FDBA_TEST", AUX_D(2));   // pin 12
-DcsBios::Switch2Pos auxLampTest      ("LAMP_TEST_BTN",  AUX_D(3));   // pin 13
+// Pushbuttons: closed = pressed. 10 ms debounce; the library's 50 ms default is noticeable.
+DcsBios::Switch2Pos auxFireDetectTest("ALCP_FDBA_TEST", AUX_D(2), false, 10);   // pin 12
+DcsBios::Switch2Pos auxLampTest      ("LAMP_TEST_BTN",  AUX_D(3), false, 10);   // pin 13
 
-// NVIS LTS: TOP pin, OFF pin; neither closed = ALL. Swap the two pins if DCS shows TOP/OFF reversed.
-DcsBios::Switch3Pos auxNvisLts("ALCP_NVIS_LTS", AUX_D(7), AUX_D(5)); // pins 17, 15
+// NVIS LTS: first pin sends 0 (OFF in DCS), second sends 2 (TOP); neither closed = 1 (ALL).
+// On this panel pin 17 closes at OFF and pin 15 closes at TOP.
+DcsBios::Switch3Pos auxNvisLts("ALCP_NVIS_LTS", AUX_D(7), AUX_D(5));            // pins 17, 15
 
-// HARS/SAS: pin 19 closes at NORM on this panel. Set reverse so DCS matches the lever.
-DcsBios::Switch2Pos auxHarsSas("ALCP_HARSSAS", AUX_D(9), false);     // reverse: set on the bench
+// HARS/SAS: DCS takes 1 as OVERRIDE. Pin 19 closes at NORM on this panel, so reverse = true.
+DcsBios::Switch2Pos auxHarsSas("ALCP_HARSSAS", AUX_D(9), true);                 // pin 19
 
-// Dimmer pots (10-bit ADC). Tune min/max to the DIM/OFF and BRT marks if needed.
-DcsBios::Potentiometer auxRefuelLts("ALCP_RSIL",   AUX_A4, false, 0, 1023);
-DcsBios::Potentiometer auxWpnStaLts("ALCP_WPNSTA", AUX_A2, true,  0, 1023); // ends swapped on the PCB
+// Dimmer pots. Read every 20 ms, send on a change of 256 (of 65535), light smoothing.
+// The library's default Potentiometer floods messages and the sim knobs lag behind your hand.
+typedef DcsBios::PotentiometerEWMA<20, 256, 2> PanelPot;
+PanelPot auxRefuelLts("ALCP_RSIL",   AUX_A4, false, 0, 1023);
+PanelPot auxWpnStaLts("ALCP_WPNSTA", AUX_A2, true,  0, 1023);   // ends swapped on the PCB
 ```
 
 - All six control names are checked against the DCS-BIOS A-10C module. In DCS itself, `ALCP_WPNSTA` is marked "No Function": the knob moves in the virtual cockpit but does nothing.
-- **The backlight isn't in this code.** It's dimmed locally by the console box from the lighting knob (high-side PWM on ribbon pins 1–2), with no DCS in the loop. The bench sketch's DCS-driven dimmer is an interim bench setup.
-- Full bench sketch: [AUX_LTS_bench.ino](/files/controller-box/AUX_LTS_bench.ino).
+- **Switch directions come from testing, not documentation.** DCS-BIOS doesn't say which end of a switch is 0. For this panel: NVIS LTS 0 = OFF, 2 = TOP; HARS/SAS 1 = OVERRIDE.
+- **Both pots sweep the full 0 to 1023**, so the min/max values stay at 0 and 1023.
+- **Startup sync belongs to the box sketch, not the panel.** The library only sends a control when it changes, so the sim doesn't know where the switches are when a mission starts. The bench sketch watches the data coming from DCS and re-sends every control about 3 seconds after it starts. Copy that part (`StreamWatch` and `updateStartupSync`) from the full sketch.
+- **The backlight isn't in this code.** It's dimmed locally by the console box from the lighting knob (high-side PWM on ribbon pins 1–2), with no DCS in the loop.
+- Full sketch as tested on the bench: [AUX_LTS_dcsbios.ino (v3)](/files/controller-box/AUX_LTS_dcsbios.ino). Its pin numbers follow my bench jumpers (D22, D24, D26, D28, D30, A1, A2), not the universal socket map above. The story is in [the first DCS test post](/posts/aux-lts-first-dcs-test/).
 
 ## Known quirks
 
@@ -184,3 +190,5 @@ DcsBios::Potentiometer auxWpnStaLts("ALCP_WPNSTA", AUX_A2, true,  0, 1023); // e
 - [AUX LTS PCB: milled, and how 36 LEDs get in](/posts/aux-lts-pcb-milled/)
 - [AUX LTS: first light](/posts/aux-lts-first-light/)
 - [AUX LTS: wired, tested and stacked](/posts/aux-lts-wired-and-stacked/)
+- [AUX LTS: corners trimmed, and a back case](/posts/aux-lts-trimmed-back-case/)
+- [AUX LTS: first controller test, and it works in DCS](/posts/aux-lts-first-dcs-test/)
