@@ -9,7 +9,7 @@
 
 :root{
   color-scheme:dark;
-  --bg:#0d1110;        /* console night grey-green */
+  --bg:#0d1110;        /* console night gray-green */
   --panel:#141a18;
   --line:#26302d;
   --ink:#e3ebe7;
@@ -139,7 +139,7 @@ td.z{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:now
           <tr><td class="qty">1</td><td>2×13 extra-long pin header</td><td>E-Simpo L15 (3 mm short side, 2.5 mm plastic, 9.5 mm long side), or a 19 mm header trimmed. Pushed in from the front and soldered on the copper.</td></tr>
           <tr><td class="qty">1</td><td>Keyed shroud <span class="pill">printed</span></td><td>From <span class="muted">IDC 2x13 keyed shroud.stl</span>: 41 × 11.8 × 9 mm, cavity 38.4 × 9.2. Glue it on after the A2 and +5 V wires are soldered.</td></tr>
           <tr><td class="qty">15 + 2</td><td>Hook-up wires + GND links</td><td>13 short lug-to-pad wires, 2 long ones (right pot wiper, left pot +5 V), and two 3.8 mm GND link wires across the LED+ trace.</td></tr>
-          <tr><td class="qty">2</td><td>Dimmer knob <span class="pill">printed</span></td><td>From dimmer_knob.scad: 26 mm conical skirt, knurled Ø17 grip, recessed top band, low roof in line with the white pointer triangle. Light grey PETG. Keyed to the shaft slot; fit and pointer alignment checked on a real pot.</td></tr>
+          <tr><td class="qty">2</td><td>Dimmer knob <span class="pill">printed</span></td><td>From dimmer_knob.scad: 26 mm conical skirt, knurled Ø17 grip, recessed top band, low roof in line with the white pointer triangle. Light gray PETG. Keyed to the shaft slot; fit and pointer alignment checked on a real pot.</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -370,7 +370,7 @@ for (const [x, y] of potXY) {
   k.add(new THREE.Mesh(ptrGeom, M.ptrPaint));
   // left knob at DIM (fully CCW); right knob turned 135° clockwise to mid-range
   if (x > 0) k.rotation.z = -135 * Math.PI / 180;
-  tag(k, 'Dimmer knob (printed)', 'Light grey PETG, 26 mm conical skirt, knurled Ø17 grip, recessed top band and a low roof whose ridge lines up with the white pointer triangle. Keyed to the shaft slot (bore 6.15, rib 0.85): fit and alignment checked on a real pot.'); add(k, 64, 'switches');
+  tag(k, 'Dimmer knob (printed)', 'Light gray PETG, 26 mm conical skirt, knurled Ø17 grip, recessed top band and a low roof whose ridge lines up with the white pointer triangle. Keyed to the shaft slot (bore 6.15, rib 0.85): fit and alignment checked on a real pot.'); add(k, 64, 'switches');
 }
 
 // MS25089 pushbuttons
@@ -487,10 +487,10 @@ function shortWire(lug, k, c, name, info, back = 2.5) {
 }
 const [nvx, nvy] = nvis, [hax, hay] = hars;
 shortWire([nvx, nvy + 10, -24.5], 'NVIS TOP', 'd7', 'Wire: NVIS TOP', 'Toggle lug that closes at TOP → pad → pin 17 (D7).');
-shortWire([nvx, nvy, -24.5], 'NVIS COM', 'gnd', 'Wire: NVIS common', 'Centre lug → GND pad in the pour.');
+shortWire([nvx, nvy, -24.5], 'NVIS COM', 'gnd', 'Wire: NVIS common', 'Center lug → GND pad in the pour.');
 shortWire([nvx, nvy - 10, -24.5], 'NVIS OFF', 'd5', 'Wire: NVIS OFF', 'Toggle lug that closes at OFF → pad → pin 15 (D5). ALL = neither input low.');
 shortWire([hax, hay + 9, -24.5], 'HARS OVR', 'd9', 'Wire: HARS/SAS OVERRIDE', 'Lug that closes at OVERRIDE → pad above the cutout → pin 19 (D9).');
-shortWire([hax, hay, -24.5], 'HARS COM', 'gnd', 'Wire: HARS/SAS common', 'Centre lug → GND pad.');
+shortWire([hax, hay, -24.5], 'HARS COM', 'gnd', 'Wire: HARS/SAS common', 'Center lug → GND pad.');
 const [lpx, lpy] = pbXY.find(h => Math.abs(h[0]) < 1), [fpx, fpy] = pbXY.find(h => h[0] > 20);
 shortWire([lpx + 2.6, lpy, -16.2], 'LAMP SIG', 'd3', 'Wire: LAMP TEST signal', 'Pushbutton lug → pad → pin 13 (D3).');
 shortWire([lpx - 2.6, lpy, -16.2], 'LAMP COM', 'gnd', 'Wire: LAMP TEST common', 'Other lug → GND pad.');

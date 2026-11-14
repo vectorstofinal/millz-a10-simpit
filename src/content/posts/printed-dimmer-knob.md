@@ -50,6 +50,6 @@ The OpenSCAD file also prints a set of six fit-test rings (bore 6.00–6.30 x ri
 
 ## Printing
 
-Prusa XL, 0.4 mm nozzle, PETG. Skirt down, no supports, 0.1 mm layers, 3 perimeters. Light grey filament, or paint it. Then fill the pointer triangle with white.
+Prusa XL, 0.4 mm nozzle, PETG. Skirt down, no supports, 0.1 mm layers, 3 perimeters. Light gray filament, or paint it. Then fill the pointer triangle with white.
 
 The pot turns a little more than the ~270° arc marked on the panel. I handle that in firmware: the DCS-BIOS `Potentiometer` takes calibrated min/max values, so the marked DIM and BRT positions map to 0 and 100% and anything past them clamps.

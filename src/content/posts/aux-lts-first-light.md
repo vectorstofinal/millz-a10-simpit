@@ -14,11 +14,11 @@ This picks up from [AUX LTS PCB: milled](/posts/aux-lts-pcb-milled/). The PCB is
 
 ## Ground links: two staples
 
-The traces split the PCB's ground copper into three separate areas. Only the centre one reaches the header's main ground pins (3–8). The outer area has 17 LEDs and no header ground pin at all, so without a link, those 17 stay dark.
+The traces split the PCB's ground copper into three separate areas. Only the center one reaches the header's main ground pins (3–8). The outer area has 17 LEDs and no header ground pin at all, so without a link, those 17 stay dark.
 
 <figure>
-  <img src="/img/aux-lts-gnd-links.png" alt="Copper side of the AUX LTS PCB: outer, centre and HARS/SAS ground areas in three colours, LED+ trace in yellow, two link positions circled" loading="lazy" />
-  <figcaption>Copper side up. The three ground areas: outer (17 LEDs, 3 standoffs), centre (13 LEDs, header ground pins 3–8) and HARS/SAS (6 LEDs, header pin 21). Link 2 crosses the LED+ trace; Link 1 crosses a switch signal trace.</figcaption>
+  <img src="/img/aux-lts-gnd-links.png" alt="Copper side of the AUX LTS PCB: outer, center and HARS/SAS ground areas in three colors, LED+ trace in yellow, two link positions circled" loading="lazy" />
+  <figcaption>Copper side up. The three ground areas: outer (17 LEDs, 3 standoffs), center (13 LEDs, header ground pins 3–8) and HARS/SAS (6 LEDs, header pin 21). Link 2 crosses the LED+ trace; Link 1 crosses a switch signal trace.</figcaption>
 </figure>
 
 Each link is a U bent from a trimmed LED lead, with legs 3.8 mm apart. It goes in from the front and is soldered to the ground copper on each side. Bare wire is fine, because a single-sided PCB has no copper on the front. Fit the links before the PCB goes onto the base, since the front is covered once it's mounted.

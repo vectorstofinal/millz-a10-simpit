@@ -32,7 +32,7 @@ The first PCB isolation pass didn't go smoothly. I broke three 0.4 mm end mills:
 | 2 | 24k | 120 mm/min | 0.10 mm | by eye | broke mid-trace |
 | 3 | **24k** | **120 mm/min** | **0.08 mm** | **scratch touch-off** | **finished the PCB** |
 
-Both PCB breaks happened mid-trace, not on a plunge. That points to side load: too deep in the fibreglass, with a by-eye zero probably running deeper still in places. In my first post I said to err deep, because a flat end mill's groove doesn't get wider with depth. That's true for the groove, but a 0.4 mm end mill can't take the extra load. Shallow and accurately zeroed is what works.
+Both PCB breaks happened mid-trace, not on a plunge. That points to side load: too deep in the fiberglass, with a by-eye zero probably running deeper still in places. In my first post I said to err deep, because a flat end mill's groove doesn't get wider with depth. That's true for the groove, but a 0.4 mm end mill can't take the extra load. Shallow and accurately zeroed is what works.
 
 1 oz copper is about 0.035 mm thick, so 0.08 mm still leaves about 0.045 mm of margin for the blank not being perfectly flat. I wouldn't go below 0.06 mm.
 
@@ -44,7 +44,7 @@ The full table is on the [settings page](/settings/#cnc-router-pcb-isolation-mil
 
 Before soldering anything, I checked the PCB against the acrylic layers in the DXF files. I mapped the PCB coordinates onto the panel through the four standoff holes:
 
-- **All 36 LED lead pairs** sit centred on the base's LED holes, within 0.01 mm. The standoff holes match exactly, and the diffuser's LED pockets are within 0.09 mm.
+- **All 36 LED lead pairs** sit centered on the base's LED holes, within 0.01 mm. The standoff holes match exactly, and the diffuser's LED pockets are within 0.09 mm.
 - **Every LED faces the same way:** anode (long lead) toward the panel's straight top edge. So there's no polarity map to follow.
 - **Eight LEDs are tight:** their rims sit 0.5 mm from a switch body (four around the HARS/SAS toggle, two on each pot). The next closest is almost 3 mm. Those eight are the test LEDs for the dry fit.
 

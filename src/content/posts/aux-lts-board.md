@@ -61,7 +61,7 @@ The **coupon** is a 39 x 16 mm window of the real header area. That's the tighte
 | 1.0 mm carbide drill | 18–20k | VCarve drilling cycle | 150–200 mm/min (250–300 once proven) | full depth, no peck, **thickness + 0.4 mm** |
 | 1/8 in end mill (cutouts, outline) | ~18k | 600–800 mm/min | — | 0.5 mm passes, downcut preferred |
 
-- **Drill depth matters.** The 130° point is 0.23 mm long. At thickness + 0.2 mm, the exit hole is only ~0.86 mm, which is too tight for header pins (0.64 mm square, 0.9 mm across the diagonal). Go +0.4 mm. A burnt ring or fuzz at the exit means the feed is too slow or the bit is dull.
+- **Drill depth matters.** The 130° point is 0.23 mm long. At thickness + 0.2 mm, the exit hole is only ~0.86 mm, which is too tight for header pins (0.64 mm square, 0.9 mm across the diagonal). Go +0.4 mm. A burned ring or fuzz at the exit means the feed is too slow or the bit is dull.
 - **Err deep on isolation.** A flat end mill's groove width doesn't change with depth, so 0.15 mm costs nothing over 0.10 mm, and a shallow spot leaves a short.
 - **Toggle cutout corners.** A 1/8 in end mill leaves r 1.59 mm corners, which clears a sharp-cornered 16 x 30 mm toggle case by only ~0.05 mm. Use a 1/16 in end mill for the cutouts if you have one, or test on the coupon.
 

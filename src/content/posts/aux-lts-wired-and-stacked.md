@@ -20,7 +20,7 @@ Since [first light](/posts/aux-lts-first-light/), the panel has gone from a lit 
 
 <figure>
   <img src="/img/aux-lts-wired-back.jpg" alt="Copper side of the AUX LTS PCB with the toggles and pots wired to their pads in 22 AWG solid wire, and the ribbon cable plugged into the header" loading="lazy" width="1600" height="1200" />
-  <figcaption>The back. Each lug has a short wire to the pad next to it, plus two long runs that cross the PCB to pads beside the header. The grey printed part at the bottom left is the header shroud. It goes on last.</figcaption>
+  <figcaption>The back. Each lug has a short wire to the pad next to it, plus two long runs that cross the PCB to pads beside the header. The gray printed part at the bottom left is the header shroud. It goes on last.</figcaption>
 </figure>
 
 - **Wire:** 22 AWG solid core. Stranded is more flexible, but it's hard to get into small holes. Solid is fine for wiring that never moves, as long as there's a small bend near each pad so a bump can't lever the joint and lift a milled pad.
