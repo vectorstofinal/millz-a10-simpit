@@ -14,7 +14,7 @@ Last time the panel was [wired, tested and stacked](/posts/aux-lts-wired-and-sta
 
 ## Why the PCB needed trimming
 
-The console tops are 11.9 mm birch deck plates with openings in them. Panels lie on top and screw down through their corner fasteners. My PCB hangs 6 mm below the panel's base layer, which puts it right inside the deck's thickness. So the deck opening has to clear the PCB. But a 143 mm PCB under a 146 mm panel leaves only 1.5 mm per side, with nothing left for a rail.
+The console tops are plywood deck plates with openings in them. Panels lie on top and screw down through their corner fasteners. My PCB hangs 6 mm below the panel's base layer, which puts it inside the deck's thickness. So the deck opening has to clear the PCB. But a 143 mm PCB under a 146 mm panel leaves only 1.5 mm per side, with nothing left for a rail.
 
 The answer is ears: the opening is the PCB outline plus 2 mm, and four tabs of wood reach in under the corner fasteners, each with a threaded insert. To make room, each PCB corner gets cut back 12.5 mm from the side edge, from the corner to 13 mm past its fastener. On this PCB that's 25 mm long at the pot end and 35 mm at the header end, so the deck ears are about 13.5 mm wide.
 
@@ -48,5 +48,5 @@ The OpenSCAD file is generic. For the next panel I only change the block at the 
 
 ## Next
 
-1. Cut the new deck plate for this part of the console. It holds AUX LTS and the emergency brake panel just ahead of it. Between them the two panels fill the plate almost exactly, so I'm measuring my console before I cut.
+1. Cut the new deck plate for this part of the console. It holds AUX LTS and the emergency brake panel just ahead of it. It's a tight fit, so I'm measuring my console before I cut.
 2. Plug into the bench rig and fly it against DCS.
