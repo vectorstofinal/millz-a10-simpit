@@ -1,0 +1,29 @@
+---
+import Base from '../../layouts/Base.astro';
+// Every panel page in this folder (one .md per panel) is listed here automatically.
+const pages = Object.values(import.meta.glob('./*.md', { eager: true })) as any[];
+const panels = pages
+  .map((p) => ({ url: p.url, ...p.frontmatter }))
+  .sort((a, b) => (a.console + a.title).localeCompare(b.console + b.title));
+---
+<Base title="Panels" description="One reference page per cockpit panel: build details, parts, pinout, DCS-BIOS mapping and how to take it apart.">
+  <div class="article" style="max-width:880px">
+    <header>
+      <span class="eyebrow">Panel reference</span>
+      <h1>Panels</h1>
+      <p class="lede">One page per panel: what's in it, how it's wired, and how to take it apart. Each panel has a QR code on its back that points here.</p>
+    </header>
+    <ul class="post-list">
+      {panels.map((p) => (
+        <li>
+          <a class="card" href={p.url + '/'}>
+            <time>{p.console}</time>
+            <span class="t">{p.title}</span>
+            <span class="s">{p.summary}</span>
+            <span class="tags"><span class="tag">{p.status}</span></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>
