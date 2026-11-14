@@ -73,9 +73,9 @@ Copper side up, header toward you: pin 1 is the **left end of the row nearer the
 | Qty | Part | Notes |
 |---|---|---|
 | 2 | B10K pot, 16 mm, M7 bushing, knurled split shaft | Anti-rotation tab sits in the base slot, lugs pointing down |
-| 1 | Toggle, ON-OFF-ON, 16 × 30 mm case | NVIS |
-| 1 | Toggle, 2-position, same footprint | HARS/SAS |
-| 2 | MS25089-3G pushbutton | Mounts from the front; nut captive in the middle layer, no washer |
+| 1 | Toggle, ON-OFF-ON, 16 × 30 mm case, screw terminals | NVIS |
+| 1 | Toggle, 2-position, same footprint, screw terminals | HARS/SAS |
+| 2 | MS25089-3G pushbutton | Mounts from the front; nut captive in the middle layer, no washer. Wires on screw terminals where the hardware allows, otherwise soldered |
 | 36 | 3 mm green LED, built-in resistor, 12 V | Water-clear |
 | 2 | [Printed dimmer knob](/posts/printed-dimmer-knob/) | PETG, 0.1 mm layers |
 | 4 | M3 × 6 mm brass hex standoff, female-female | |
@@ -84,19 +84,19 @@ Copper side up, header toward you: pin 1 is the **left end of the row nearer the
 | 1 | 2×13 straight pin header, long | Long pins trimmed to 8 mm above the copper ([gauge](/files/aux-lts-pcb/header-pin-trim-gauge-8mm.stl)) |
 | 1 | [Printed keyed shroud](/files/aux-lts-pcb/idc-2x13-keyed-shroud.stl) | Epoxied over the header, key notch toward the PCB center |
 | 2 | Ground link "staples" | Bent LED lead offcuts on the front, 3.8 mm span |
-| — | 22 AWG solid hook-up wire | 15 wires from the switch lugs to pads beside each control |
+| — | 22 AWG solid hook-up wire | 15 wires from the switch terminals to pads beside each control. Toggles are on screw terminals, pots are soldered |
 
 ## Taking it apart
 
-<div class="note warn">Unplug the ribbon first. Tools: a 2 mm hex key for the face screws, a wrench or nut driver for the switch nuts (toggle nuts about 14 mm across the flats, pot nuts about 9.5 mm), and a soldering iron if you need to separate the pushbutton wires.</div>
+<div class="note warn">Unplug the ribbon first. Tools: a 2 mm hex key for the face screws, a wrench or nut driver for the switch nuts (toggle nuts about 14 mm across the flats, pot nuts about 9.5 mm), a small screwdriver for the toggle terminals, and a soldering iron for the pots (and the pushbuttons, unless they're on screw terminals).</div>
 
 1. **Remove the panel from the console** (four corner fasteners) and unplug the ribbon. Pull the socket straight off; don't rock it.
 2. **Pull off both knobs.** They're press-fit on the knurled shafts.
 3. **Remove the four M3×12 face screws.** The standoffs stay on the PCB.
-4. **Lift the top and middle layers off together.** The pushbuttons come with them, clamped between their flanges and the captive nuts in the middle layer, and slide out of the base and the PCB. Their wires stay attached, so lift gently. If a wire is too short, unsolder it at the PCB pad first.
-5. **Separate top and middle (only if needed):** unscrew each pushbutton from the front by its collar. Unsolder its wires first, or they'll twist. Its nut drops out of the hex pocket.
-6. **Free the switches from the base:** unscrew the toggle and pot nuts from the front of the base.
-7. **Pull the base straight off the PCB.** The 36 LEDs are a press fit in the base, so it takes a firm, even pull. The toggles and pots stay wired to the PCB and drop out of their holes.
+4. **Lift the top and middle layers off together.** The pushbuttons come with them, clamped between their flanges and the captive nuts in the middle layer, and slide out of the base and the PCB. Their wires stay attached, so lift gently. If a wire is too short, disconnect it at the pushbutton first (screw terminal, or unsolder).
+5. **Separate top and middle (only if needed):** unscrew each pushbutton from the front by its collar. Disconnect its wires first, or they'll twist. Its nut drops out of the hex pocket.
+6. **Free the switches from the base:** unscrew the toggle and pot nuts from the front of the base. To take a toggle out completely, loosen its terminal screws and lift the wires off.
+7. **Pull the base straight off the PCB.** The 36 LEDs are a press fit in the base, so it takes a firm, even pull. The pots (soldered) stay wired to the PCB and drop out of their holes; so do the toggles, unless you've already freed them from their terminals.
 
 To replace an LED, unsolder it from the copper side once the base is off.
 
@@ -107,9 +107,40 @@ To replace an LED, unsolder it from the copper side once the base is off.
 3. **Pushbutton nuts** (no washers) into the two hex pockets of the middle layer.
 4. **Middle layer** on with its pocketed face toward the base. It should sit flat with no rocking. If it rocks, an LED tip is missing its pocket.
 5. **Top layer, then the four M3×12 screws:** snug, in a cross pattern. Overtightening cracks acrylic and marks the paint.
-6. **Pushbuttons:** screw them in from the front by the collar until the flange sits flat. Snug only; use threadlocker if one works loose. Resolder their wires if you removed them.
+6. **Pushbuttons:** screw them in from the front by the collar until the flange sits flat. Snug only; use threadlocker if one works loose. Reconnect their wires if you removed them, after the button is screwed in.
 7. **Knobs on,** pointers lined up with the DIM/OFF marks at the end of the travel.
 8. **Check:** 12 V on pin 1, ground on pin 3. Expect about 0.43 A with all 36 LEDs lit.
+
+## DCS-BIOS code
+
+The panel has no microcontroller of its own; it runs on its console box's Arduino Mega. These are the lines that drive it, ready to drop into the box sketch. Only the two pin macros change with the socket the panel plugs into.
+
+```cpp
+// AUX LTS panel (left console). DCS-BIOS Arduino library, A-10C module.
+// Socket pin map: set for the box socket this panel plugs into.
+// Bench rig socket: ribbon pins 11-20 (D1-D10) -> Mega D22-D31, pins 22-26 (A1-A5) -> A0-A4.
+#define AUX_D(n) (21 + (n))   // socket D1..D10 -> Mega pin
+#define AUX_A2   A1           // ribbon pin 23
+#define AUX_A4   A3           // ribbon pin 25
+
+// Pushbuttons: closed = pressed
+DcsBios::Switch2Pos auxFireDetectTest("ALCP_FDBA_TEST", AUX_D(2));   // pin 12
+DcsBios::Switch2Pos auxLampTest      ("LAMP_TEST_BTN",  AUX_D(3));   // pin 13
+
+// NVIS LTS: TOP pin, OFF pin; neither closed = ALL. Swap the two pins if DCS shows TOP/OFF reversed.
+DcsBios::Switch3Pos auxNvisLts("ALCP_NVIS_LTS", AUX_D(7), AUX_D(5)); // pins 17, 15
+
+// HARS/SAS: pin 19 closes at NORM on this panel. Set reverse so DCS matches the lever.
+DcsBios::Switch2Pos auxHarsSas("ALCP_HARSSAS", AUX_D(9), false);     // reverse: set on the bench
+
+// Dimmer pots (10-bit ADC). Tune min/max to the DIM/OFF and BRT marks if needed.
+DcsBios::Potentiometer auxRefuelLts("ALCP_RSIL",   AUX_A4, false, 0, 1023);
+DcsBios::Potentiometer auxWpnStaLts("ALCP_WPNSTA", AUX_A2, true,  0, 1023); // ends swapped on the PCB
+```
+
+- All six control names are checked against the DCS-BIOS A-10C module. In DCS itself, `ALCP_WPNSTA` is marked "No Function": the knob moves in the virtual cockpit but does nothing.
+- **The backlight isn't in this code.** It's dimmed locally by the console box from the lighting knob (high-side PWM on ribbon pins 1–2), with no DCS in the loop. The bench sketch's DCS-driven dimmer is an interim bench setup.
+- Full bench sketch: [AUX_LTS_bench.ino](/files/controller-box/AUX_LTS_bench.ino).
 
 ## Known quirks
 
