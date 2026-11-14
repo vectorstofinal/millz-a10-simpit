@@ -65,6 +65,14 @@ export const files: SiteFile[] = [
     desc: 'v6 dimmer knob for 6 mm knurled split-shaft B10K pots. Print skirt-down in PETG, no supports.' },
   { id: 'knob-scad', path: '/files/dimmer-knob/dimmer_knob.scad', name: 'dimmer_knob.scad', kind: 'OpenSCAD', group: 'Printed parts', origin: 'original',
     desc: 'Parametric source. Bore, key rib, pointer angle, grip height, knurl count are all variables at the top.' },
+  { id: 'back-case-stl', path: '/files/aux-lts-back-case/aux-lts-back-case-v2.stl', name: 'AUX LTS back case v2.stl', kind: 'STL', group: 'Printed parts', origin: 'original', view3d: true,
+    desc: 'Back case for the trimmed AUX LTS PCB. 28 mm clear inside, four screw columns on the standoffs (M3x8 replaces each M3x4 PCB screw), header opening, vents, 40 mm QR recess. Print floor-down, no supports.' },
+  { id: 'back-case-scad', path: '/files/aux-lts-back-case/panel_back_case.scad', name: 'panel_back_case.scad', kind: 'OpenSCAD', group: 'Printed parts', origin: 'original',
+    desc: 'Generic back case for any panel: change the PANEL block (outline DXF + layer, standoff positions, header, depth, QR spot). Needs the outline DXF below in the same folder.' },
+  { id: 'back-case-outline', path: '/files/aux-lts-back-case/aux-lts-pcb-v2-trimmed-outline.dxf', name: 'aux-lts-pcb-v2-trimmed-outline.dxf', kind: 'DXF (mm)', group: 'AUX LTS board (PCB)', origin: 'original',
+    desc: 'AUX LTS PCB v2 outline with the four corners trimmed for the deck ears (back view). Layers 5_OUTLINE_TRIMMED and TRIM_REGIONS.' },
+  { id: 'trim-template', path: '/files/aux-lts-back-case/aux-lts-pcb-corner-trim-template.pdf', name: 'AUX LTS PCB corner trim template (1:1, Letter).pdf', kind: 'PDF', group: 'AUX LTS board (PCB)', origin: 'original',
+    desc: 'Print at 100% and check the 100 mm scale bar. Copper side up, header toward you; cut off the hatched corners.' },
 
   // Controller box
   { id: 'bench-ino', path: '/files/controller-box/AUX_LTS_bench.ino', name: 'AUX_LTS_bench.ino', kind: 'Arduino', group: 'Controller box', origin: 'original',
