@@ -77,8 +77,8 @@ export const files: SiteFile[] = [
   // Controller box
   { id: 'bench-ino', path: '/files/controller-box/AUX_LTS_bench.ino', name: 'AUX_LTS_bench.ino', kind: 'Arduino', group: 'Controller box', origin: 'original',
     desc: 'DCS-BIOS sketch for a Mega 2560: AUX LTS on one universal 2x13 socket, plus a gamma-mapped high-side backlight dimmer.' },
-  { id: 'aux-lts-dcsbios-ino', path: '/files/controller-box/AUX_LTS_dcsbios.ino', name: 'AUX_LTS_dcsbios.ino (v2)', kind: 'Arduino', group: 'Controller box', origin: 'original',
-    desc: 'DCS-BIOS sketch for a Mega 2560, AUX LTS as wired on the bench (D22-D30, A1/A2). Re-sends the hardware state when the DCS export stream starts. Backlight section is switched off by default.' },
+  { id: 'aux-lts-dcsbios-ino', path: '/files/controller-box/AUX_LTS_dcsbios.ino', name: 'AUX_LTS_dcsbios.ino (v3)', kind: 'Arduino', group: 'Controller box', origin: 'original',
+    desc: 'DCS-BIOS sketch for a Mega 2560, AUX LTS as wired on the bench (D22-D30, A1/A2). Re-sends the hardware state when the DCS export stream starts. Pot messages are rate-limited so the sim knobs keep up. Backlight section is switched off by default.' },
   { id: 'bench-wiring', path: '/img/aux-lts-bench-rig-wiring.png', name: 'AUX LTS bench rig - wiring.png', kind: 'PNG', group: 'Controller box', origin: 'original',
     desc: 'Wiring for the bench rig: socket to Mega pins, TIP42C interim dimmer, ATX breakout, star ground.' },
 ];

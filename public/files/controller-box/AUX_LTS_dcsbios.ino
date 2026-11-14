@@ -1,7 +1,7 @@
 /*
   A-10C simpit - AUX LTS panel, DCS-BIOS sketch (bench wiring as tested 2026-11-14)
 
-  SKETCH VERSION: 2   (2026-11-14)
+  SKETCH VERSION: 3   (2026-11-14)
   Version rule: this number goes up by one every time this sketch is changed. Never reuse a number.
   History:
     v1  2026-11-14  First DCS-BIOS version for the as-wired bench hookup. Based on
@@ -11,6 +11,9 @@
     v2  2026-11-14  After the first DCS test: NVIS pin order exchanged and HARS/SAS reversed (both
                     read backward in the sim); pushbutton debounce cut from 50 ms to 10 ms;
                     hardware state is re-sent to DCS about 3 s after the export stream starts.
+    v3  2026-11-14  Pots: knobs moved in slow motion in the sim. Pot messages are now rate-limited
+                    (poll every 20 ms instead of every loop pass), with lighter smoothing and a
+                    coarser send step, so a turn sends at most about 50 messages per second per pot.
 
   Board : Arduino Mega 2560
   Lib   : DCS-BIOS Arduino library (DCS-Skunkworks, or the FP-Fork 0.3.9 in Dropbox)
@@ -30,7 +33,7 @@
   Both pots sweep the full 0..1023, so no endpoint trimming.
 */
 
-#define SKETCH_VERSION 2
+#define SKETCH_VERSION 3
 
 #define DCSBIOS_DEFAULT_SERIAL
 #include "DcsBios.h"
@@ -64,9 +67,23 @@ DcsBios::Switch3Pos nvisLts("ALCP_NVIS_LTS", PIN_NVIS_OFF, PIN_NVIS_TOP);
 // (closed sends "0", open sends "1").
 DcsBios::Switch2Pos harsSas("ALCP_HARSSAS", PIN_HARS_SAS, true);
 
-// ---- pots: Potentiometer(msg, pin, reverse, input_min, input_max) ----
-DcsBios::Potentiometer refuelStatusLts("ALCP_RSIL",   PIN_REFUEL,  false, 0, 1023);
-DcsBios::Potentiometer wpnStaLts      ("ALCP_WPNSTA", PIN_WPN_STA, true,  0, 1023);   // reversed
+// ---- pots: PanelPot(msg, pin, reverse, input_min, input_max) ----
+// The library default (DcsBios::Potentiometer) reads the pot on every loop pass and sends whenever
+// the value moves by 128 of 65535, which can be hundreds of messages per second while turning.
+// These three numbers tune that. All values are on the 0..65535 scale DCS-BIOS uses.
+//   POT_POLL_MS    how often each pot is read. 20 ms = at most 50 messages per second per pot.
+//   POT_HYSTERESIS minimum change before a new value is sent. 256 = 256 steps over full travel.
+//   POT_EWMA_DIV   smoothing. Each read moves 1/N of the way to the new value. 2 = light (settles
+//                  in about 60 ms at 20 ms polling). Higher is smoother but slower.
+// If the sim knob still trails the real one: lower POT_POLL_MS to 10. If it jitters at rest: raise
+// POT_HYSTERESIS to 384 or POT_EWMA_DIV to 3.
+#define POT_POLL_MS    20
+#define POT_HYSTERESIS 256
+#define POT_EWMA_DIV   2
+typedef DcsBios::PotentiometerEWMA<POT_POLL_MS, POT_HYSTERESIS, POT_EWMA_DIV> PanelPot;
+
+PanelPot refuelStatusLts("ALCP_RSIL",   PIN_REFUEL,  false, 0, 1023);
+PanelPot wpnStaLts      ("ALCP_WPNSTA", PIN_WPN_STA, true,  0, 1023);   // reversed
 
 #if ENABLE_BACKLIGHT
 // ---- console backlight: stand-in CONSOLE knob -> high-side PWM, local only (no DCS in the loop) ----
@@ -77,7 +94,7 @@ const int     KNOB_BRT = 1013;          // raw counts at or above this: full bri
 const uint8_t MIN_DUTY = 6;             // floor so the lowest lit setting is visible
 
 // The same knob reported to DCS so the virtual cockpit follows. It does not affect the LEDs.
-DcsBios::Potentiometer consoleKnob("LCP_CONSOLE", CONSOLE_KNOB_PIN, false, KNOB_OFF, KNOB_BRT);
+PanelPot consoleKnob("LCP_CONSOLE", CONSOLE_KNOB_PIN, false, KNOB_OFF, KNOB_BRT);
 
 uint8_t knobToDuty(int raw) {
   if (raw <= KNOB_OFF) return 0;

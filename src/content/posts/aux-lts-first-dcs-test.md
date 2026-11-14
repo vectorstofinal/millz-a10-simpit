@@ -1,14 +1,14 @@
 ---
 title: "AUX LTS: first controller test, and it works in DCS"
 date: 2026-11-14
-summary: "The AUX LTS panel went onto an Arduino Mega through its ribbon cable. All seven signals read correctly, and after two sketch versions the real panel drives the one in the sim, including syncing its switch positions at startup."
+summary: "The AUX LTS panel went onto an Arduino Mega through its ribbon cable. All seven signals read correctly, and after three sketch versions the real panel drives the one in the sim, including syncing its switch positions at startup."
 tags: [panels, arduino, dcs-bios, controller-box]
 hero: /img/aux-lts-dcs-first-test.jpg
 heroAlt: "DCS A-10C left console, looking down at the AUX LTS panel with its HARS/SAS and NVIS LTS toggles, two dimmer knobs and two test buttons"
 files: [aux-lts-dcsbios-ino]
 ---
 
-<div class="bottom-line">The AUX LTS panel now moves its twin in DCS. Two pots, two pushbuttons and two toggles all read correctly on a Mega through the ribbon cable. Three things needed fixing in the sketch, none in the wiring: both toggles were backward, the buttons had a small delay, and the sim didn't pick up my switch positions at startup. Version 2 of the sketch fixes all three.</div>
+<div class="bottom-line">The AUX LTS panel now moves its twin in DCS. Two pots, two pushbuttons and two toggles all read correctly on a Mega through the ribbon cable. Four things needed fixing in the sketch, none in the wiring: both toggles were backward, the buttons had a small delay, the sim didn't pick up my switch positions at startup, and the knobs moved in slow motion. Version 3 of the sketch fixes all four.</div>
 
 Last time I [trimmed the PCB corners and printed a back case](/posts/aux-lts-trimmed-back-case/). The last item on that list was to plug the panel in and fly it against DCS. That happened today.
 
@@ -62,7 +62,13 @@ The fix for the startup problem: the sketch watches the data coming from DCS. Ab
 
 That worked better than I expected. The sim picked up my switch positions at mission start, and again when I went out to the game menu and came back.
 
-Starting with this one, every sketch carries a version number in its header that goes up with each change. The download below is version 2.
+## Version 3: knobs in slow motion
+
+One more thing showed up after that. The two dimmer knobs moved in slow motion in the sim compared to my hand.
+
+By default the DCS-BIOS library reads a pot on every pass through its loop and sends a message for every small change. Turning a knob can produce hundreds of messages a second, and the sim knob ends up playing back a backlog. Version 3 reads each pot every 20 ms, so a turn sends at most about 50 messages a second, with a slightly coarser step and lighter smoothing. The knobs are much, much better now.
+
+Starting with this one, every sketch carries a version number in its header that goes up with each change. The download below is version 3.
 
 ## Next
 
