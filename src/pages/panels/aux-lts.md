@@ -87,7 +87,7 @@ Copper side up, header toward you: pin 1 is the **left end of the row nearer the
 1. **Top:** White Matte cast acrylic, 3 mm, matte face painted black, with the legends laser-engraved through the paint.
 2. **Middle (diffuser):** Milky White 2447 cast acrylic, 3 mm. It has 36 LED pockets in its back face, two hex pockets that hold the pushbutton nuts, and clearance pockets for the toggle and pot nuts.
 3. **Base:** black cast acrylic, 3 mm. It has 36 press-fit 3.0 mm LED holes, the switch holes and two pot anti-rotation slots.
-4. **PCB:** single-sided FR-4, isolation-milled. Copper faces the back. See [milling the PCB](/posts/aux-lts-pcb-milled/).
+4. **PCB:** single-sided FR-4, isolation-milled. Copper faces the back. See [milling the PCB](/posts/aux-lts-pcb-milled/). Its four corners are cut back 12.5 mm to clear the console deck ears ([why](/posts/aux-lts-trimmed-back-case/)); the [3D model](/3d/aux-lts/) shows the PCB as trimmed.
 
 **Parts list**
 
@@ -178,7 +178,7 @@ PanelPot auxWpnStaLts("ALCP_WPNSTA", AUX_A2, true,  0, 1023);   // ends swapped 
 ## Files
 
 - **Acrylic:** [top DXF](/files/aux-lts-panel/aux-lts-1-top.dxf) · [top LightBurn job](/files/aux-lts-panel/aux-lts-1-top-white-matte-painted.lbrn2) · [middle DXF](/files/aux-lts-panel/aux-lts-2-middle.dxf) · [middle LightBurn job](/files/aux-lts-panel/aux-lts-2-middle-mirrored.lbrn2) · [base DXF](/files/aux-lts-panel/aux-lts-3-base.dxf) · [base LightBurn job](/files/aux-lts-panel/aux-lts-3-base-black.lbrn2)
-- **PCB:** [VCarve job DXF](/files/aux-lts-pcb/aux-lts-pcb-v2-vcarve-job-250x130.dxf) · [CNC DXF](/files/aux-lts-pcb/aux-lts-pcb-v2-cnc-back-view.dxf)
+- **PCB:** [VCarve job DXF](/files/aux-lts-pcb/aux-lts-pcb-v2-vcarve-job-250x130.dxf) · [CNC DXF](/files/aux-lts-pcb/aux-lts-pcb-v2-cnc-back-view.dxf) · [trimmed outline DXF](/files/aux-lts-back-case/aux-lts-pcb-v2-trimmed-outline.dxf) · [corner trim template](/files/aux-lts-back-case/aux-lts-pcb-corner-trim-template.pdf)
 - **Printed:** [header shroud](/files/aux-lts-pcb/idc-2x13-keyed-shroud.stl) · [pin trim gauge](/files/aux-lts-pcb/header-pin-trim-gauge-8mm.stl) · [dimmer knob](/files/dimmer-knob/dimmer-knob-26mm.stl)
 - **Firmware:** [AUX_LTS_bench.ino](/files/controller-box/AUX_LTS_bench.ino)
 - **3D:** [interactive model](/3d/aux-lts/)
