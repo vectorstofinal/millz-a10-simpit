@@ -79,6 +79,10 @@ export const files: SiteFile[] = [
     desc: 'DCS-BIOS sketch for a Mega 2560: AUX LTS on one universal 2x13 socket, plus a gamma-mapped high-side backlight dimmer.' },
   { id: 'aux-lts-dcsbios-ino', path: '/files/controller-box/AUX_LTS_dcsbios.ino', name: 'AUX_LTS_dcsbios.ino (v3)', kind: 'Arduino', group: 'Controller box', origin: 'original',
     desc: 'DCS-BIOS sketch for a Mega 2560, AUX LTS as wired on the bench (D22-D30, A1/A2). Re-sends the hardware state when the DCS export stream starts. Pot messages are rate-limited so the sim knobs keep up. Backlight section is switched off by default.' },
+  { id: 'led-dim-play-ino', path: '/files/controller-box/LED_dim_play.ino', name: 'LED_dim_play.ino (v1)', kind: 'Arduino', group: 'Controller box', origin: 'original',
+    desc: 'Backlight dimming test sketch for a Mega 2560, no DCS-BIOS. PWM on D12 (Timer1) with frequency, duty, curve, floor and cap set from the serial monitor, plus a pot-noise test for ground sharing.' },
+  { id: 'led-dimmer-breadboard', path: '/img/led-dimmer-breadboard.png', name: 'LED dimmer - breadboard layout.png', kind: 'PNG', group: 'Controller box', origin: 'original',
+    desc: 'Breadboard layout for the interim high-side dimmer: TIP42C switched by a 2N7000 from Mega D12, with the supply, Mega and ribbon connections.' },
   { id: 'bench-wiring', path: '/img/aux-lts-bench-rig-wiring.png', name: 'AUX LTS bench rig - wiring.png', kind: 'PNG', group: 'Controller box', origin: 'original',
     desc: 'Wiring for the bench rig: socket to Mega pins, TIP42C interim dimmer, ATX breakout, star ground.' },
 ];
