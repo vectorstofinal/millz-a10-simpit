@@ -85,6 +85,18 @@ export const files: SiteFile[] = [
     desc: 'Breadboard layout for the interim high-side dimmer: TIP42C switched by a 2N7000 from Mega D12, with the supply, Mega and ribbon connections.' },
   { id: 'bench-wiring', path: '/img/aux-lts-bench-rig-wiring.png', name: 'AUX LTS bench rig - wiring.png', kind: 'PNG', group: 'Controller box', origin: 'original',
     desc: 'Wiring for the bench rig: socket to Mega pins, TIP42C interim dimmer, ATX breakout, star ground.' },
+  { id: 'mega-carrier-gerbers', path: '/files/mega-carrier/gerbers_mega_carrier_v1.2.zip', name: 'Mega carrier v1.2 - gerbers.zip', kind: 'Gerber', group: 'Controller box', origin: 'original',
+    desc: 'Gerbers and drill files for the 100 x 100 mm, 2-layer Mega 4-socket carrier. As ordered 2026-11-15. Not yet built or tested.' },
+  { id: 'mega-carrier-bom', path: '/files/mega-carrier/BOM_mega_carrier_v1.2.csv', name: 'Mega carrier v1.2 - BOM.csv', kind: 'CSV', group: 'Controller box', origin: 'original',
+    desc: 'Parts list with LCSC numbers for JLCPCB assembly. The RJ45 jacks and Mega header pins are hand-fitted and not listed.' },
+  { id: 'mega-carrier-cpl', path: '/files/mega-carrier/CPL_mega_carrier_v1.2.csv', name: 'Mega carrier v1.2 - CPL.csv', kind: 'CSV', group: 'Controller box', origin: 'original',
+    desc: 'Top-side placement file, with rotations already corrected for JLCPCB part models.' },
+  { id: 'mega-carrier-kicad-pcb', path: '/files/mega-carrier/mega_carrier_v1_2.kicad_pcb', name: 'mega_carrier_v1_2.kicad_pcb', kind: 'KiCad 7', group: 'Controller box', origin: 'original',
+    desc: 'KiCad PCB file. There is no schematic; the layout was built by script and autorouted.' },
+  { id: 'mega-carrier-kicad-pro', path: '/files/mega-carrier/mega_carrier_v1_2.kicad_pro', name: 'mega_carrier_v1_2.kicad_pro', kind: 'KiCad 7', group: 'Controller box', origin: 'original',
+    desc: 'KiCad project file with the net classes and design rules for the carrier.' },
+  { id: 'mega-carrier-polarity-check', path: '/img/mega-carrier-polarity-check.png', name: 'Mega carrier v1.2 - placement polarity check.png', kind: 'PNG', group: 'Controller box', origin: 'original',
+    desc: 'Where pin 1, each cathode and each "+" must be. Compare with the fab\'s placement preview before paying.' },
 ];
 
 export const byId = (id: string) => files.find((f) => f.id === id);

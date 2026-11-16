@@ -10,7 +10,7 @@ files: [led-dim-play-ino, led-dimmer-breadboard]
 
 <div class="bottom-line">The backlight scheme from the <a href="/posts/panel-connector-standard/">connector standard</a> holds up on real hardware. A two-transistor dimmer on a breadboard takes the 36 AUX LTS LEDs from full (0.45 A at 12 V) down to barely lit, at 20 kHz, with no dropout. Sharing the ribbon ground with LED current works, but only with all the ground pins connected: one wire threw the pot readings off by 3 to 6%, five wires cut that sixfold. No whine at any frequency and no banding on a phone camera. The minimum brightness gets picked later, in the dark, in the pit.</div>
 
-The carrier PCBs for the controller box are on order. Until they show up I wanted to play with LED power and dimming, because the connector standard makes two bets I had never tested: that the LEDs can be PWM-dimmed on the high side from the box, and that the LED current can come home on the same ribbon grounds the pots use.
+The [carrier PCBs for the controller box](/posts/mega-carrier-pcb/) are on order. Until they show up I wanted to play with LED power and dimming, because the connector standard makes two bets I had never tested: that the LEDs can be PWM-dimmed on the high side from the box, and that the LED current can come home on the same ribbon grounds the pots use.
 
 <figure>
   <img src="/img/led-dimming-bench.jpg" alt="AUX LTS panel lit green on the bench, connected by ribbon cable to an Arduino Mega and a breadboard with a TIP42C dimmer and a knob, with the bench supply showing 12.00 V and 0.424 A" loading="lazy" width="1600" height="1200" />
