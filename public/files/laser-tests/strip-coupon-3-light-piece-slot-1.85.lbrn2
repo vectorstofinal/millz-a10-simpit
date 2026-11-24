@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightBurnProject AppVersion="2.1.04" DeviceName="BoltPro36_2639992_enet" FormatVersion="1" MaterialHeight="0" MirrorX="False" MirrorY="True" AskForSendName="True">
+    <UIPrefs>
+        <Optimize_ByLayer Value="0"/>
+        <Optimize_ByGroup Value="-1"/>
+        <Optimize_ByPriority Value="1"/>
+        <Optimize_WhichDirection Value="0"/>
+        <Optimize_InnerToOuter Value="1"/>
+        <Optimize_ByDirection Value="0"/>
+        <Optimize_ReduceTravel Value="1"/>
+        <Optimize_HideBacklash Value="0"/>
+        <Optimize_ReduceDirChanges Value="0"/>
+        <Optimize_ChooseCorners Value="0"/>
+        <Optimize_AllowReverse Value="1"/>
+        <Optimize_RemoveOverlaps Value="0"/>
+        <Optimize_OptimalEntryPoint Value="0"/>
+        <Optimize_OverlapDist Value="0.025"/>
+    </UIPrefs>
+    <CutSetting type="Cut">
+        <index Value="1"/>
+        <name Value="Holes - cut (30 / 70)"/>
+        <minPower Value="70"/>
+        <maxPower Value="70"/>
+        <maxPower2 Value="20"/>
+        <speed Value="30"/>
+        <runBlower Value="0"/>
+        <airAssist Value="0"/>
+        <numPasses Value="1"/>
+        <priority Value="0"/>
+    </CutSetting>
+    <CutSetting type="Cut">
+        <index Value="0"/>
+        <name Value="Outline + slot - cut (30 / 70)"/>
+        <minPower Value="70"/>
+        <maxPower Value="70"/>
+        <maxPower2 Value="20"/>
+        <speed Value="30"/>
+        <runBlower Value="0"/>
+        <airAssist Value="0"/>
+        <numPasses Value="1"/>
+        <priority Value="1"/>
+    </CutSetting>
+    <Shape Type="Ellipse" CutIndex="1" Rx="2" Ry="2">
+        <XForm>1 0 0 1 412.5000 330.0000</XForm>
+    </Shape>
+    <Shape Type="Ellipse" CutIndex="1" Rx="2" Ry="2">
+        <XForm>1 0 0 1 412.5000 280.0000</XForm>
+    </Shape>
+    <Shape Type="Ellipse" CutIndex="1" Rx="2" Ry="2">
+        <XForm>1 0 0 1 502.5000 330.0000</XForm>
+    </Shape>
+    <Shape Type="Ellipse" CutIndex="1" Rx="2" Ry="2">
+        <XForm>1 0 0 1 502.5000 280.0000</XForm>
+    </Shape>
+    <Shape Type="Path" CutIndex="0">
+        <XForm>1 0 0 -1 457.5 305.0</XForm>
+        <VertList>V49.9829 -28.2611c0x1c1x1V49.9319 -28.5176c0x1c1x1V49.8478 -28.7654c0x1c1x1V49.7321 -29.0000c0x1c1x1V49.5867 -29.2175c0x1c1x1V49.4142 -29.4142c0x1c1x1V49.2175 -29.5867c0x1c1x1V49.0000 -29.7321c0x1c1x1V48.7654 -29.8478c0x1c1x1V48.5176 -29.9319c0x1c1x1V48.2611 -29.9829c0x1c1x1V48.0000 -30.0000c0x1c1x1V-48.0000 -30.0000c0x1c1x1V-48.2611 -29.9829c0x1c1x1V-48.5176 -29.9319c0x1c1x1V-48.7654 -29.8478c0x1c1x1V-49.0000 -29.7321c0x1c1x1V-49.2175 -29.5867c0x1c1x1V-49.4142 -29.4142c0x1c1x1V-49.5867 -29.2175c0x1c1x1V-49.7321 -29.0000c0x1c1x1V-49.8478 -28.7654c0x1c1x1V-49.9319 -28.5176c0x1c1x1V-49.9829 -28.2611c0x1c1x1V-50.0000 -28.0000c0x1c1x1V-50.0000 28.0000c0x1c1x1V-48.0000 30.0000c0x1c1x1V48.0000 30.0000c0x1c1x1V48.2611 29.9829c0x1c1x1V48.5176 29.9319c0x1c1x1V48.7654 29.8478c0x1c1x1V49.0000 29.7321c0x1c1x1V49.2175 29.5867c0x1c1x1V49.4142 29.4142c0x1c1x1V49.5867 29.2175c0x1c1x1V49.7321 29.0000c0x1c1x1V49.8478 28.7654c0x1c1x1V49.9319 28.5176c0x1c1x1V49.9829 28.2611c0x1c1x1V50.0000 28.0000c0x1c1x1V50.0000 0.9250c0x1c1x1V-35.0750 0.9250c0x1c1x1V-35.2555 0.9072c0x1c1x1V-35.4290 0.8546c0x1c1x1V-35.5889 0.7691c0x1c1x1V-35.7291 0.6541c0x1c1x1V-35.8441 0.5139c0x1c1x1V-35.9296 0.3540c0x1c1x1V-35.9822 0.1805c0x1c1x1V-36.0000 0.0000c0x1c1x1V-35.9822 -0.1805c0x1c1x1V-35.9296 -0.3540c0x1c1x1V-35.8441 -0.5139c0x1c1x1V-35.7291 -0.6541c0x1c1x1V-35.5889 -0.7691c0x1c1x1V-35.4290 -0.8546c0x1c1x1V-35.2555 -0.9072c0x1c1x1V-35.0750 -0.9250c0x1c1x1V50.0000 -0.9250c0x1c1x1V50.0000 -28.0000c0x1c1x1</VertList>
+        <PrimList>LineClosed</PrimList>
+    </Shape>
+</LightBurnProject>

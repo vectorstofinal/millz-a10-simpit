@@ -53,6 +53,12 @@ export const files: SiteFile[] = [
   // Laser tests
   { id: 'fit-strip', path: '/files/laser-tests/aux-lts-fit-test-strip.dxf', name: 'AUX LTS fit test strip.dxf', kind: 'DXF (mm)', group: 'Laser test files', origin: 'original',
     desc: 'Cut this first. LED, pot, toggle, MS25089 and M3 holes at a few sizes so you can check fits before cutting a panel.' },
+  { id: 'strip-coupon-1', path: '/files/laser-tests/strip-coupon-1-slot-fit-and-bend.lbrn2', name: 'Strip coupon 1 - slot fit and bend.lbrn2', kind: 'LightBurn', group: 'Laser test files', origin: 'original',
+    desc: 'Fit test for an LED strip on edge in 3 mm acrylic: eight slots from 1.0 to 2.4 mm wide, and five U slots with centerline radii from 10 down to 2.5 mm.' },
+  { id: 'strip-coupon-2', path: '/files/laser-tests/strip-coupon-2-legend-top.lbrn2', name: 'Strip coupon 2 - legend top (White Matte, painted).lbrn2', kind: 'LightBurn', group: 'Laser test files', origin: 'original',
+    desc: 'Test top for judging light falloff: rows of "LAMP" in MS33558 (outlines) every 4 mm out to 24 mm either side of the slot line. Engrave through black paint, then cut.' },
+  { id: 'strip-coupon-3', path: '/files/laser-tests/strip-coupon-3-light-piece-slot-1.85.lbrn2', name: 'Strip coupon 3 - light piece (slot 1.85).lbrn2', kind: 'LightBurn', group: 'Laser test files', origin: 'original',
+    desc: 'Light-guide test piece for a 2.7 mm COB strip on edge: 100 x 60 mm, one 1.85 mm slot open to one edge. Cut one per material or back finish.' },
   { id: 'paint-lettering', path: '/files/laser-tests/paint-lettering-test-3x5.lbrn2', name: 'Paint lettering test (LAMP TEST 3x5).lbrn2', kind: 'LightBurn', group: 'Laser test files', origin: 'original',
     desc: '15 copies of "LAMP TEST" in MS33558 (outlines), 10-30% x 300-600 mm/s. Engrave-through-paint ladder.' },
   { id: 'paint-banding', path: '/files/laser-tests/paint-banding-test-5x2.lbrn2', name: 'Paint banding test (LAMP 5x2).lbrn2', kind: 'LightBurn', group: 'Laser test files', origin: 'original',
