@@ -83,8 +83,8 @@ export const files: SiteFile[] = [
   // Controller box
   { id: 'bench-ino', path: '/files/controller-box/AUX_LTS_bench.ino', name: 'AUX_LTS_bench.ino', kind: 'Arduino', group: 'Controller box', origin: 'original',
     desc: 'DCS-BIOS sketch for a Mega 2560: AUX LTS on one universal 2x13 socket, plus a gamma-mapped high-side backlight dimmer.' },
-  { id: 'aux-lts-dcsbios-ino', path: '/files/controller-box/AUX_LTS_dcsbios.ino', name: 'AUX_LTS_dcsbios.ino (v4)', kind: 'Arduino', group: 'Controller box', origin: 'original',
-    desc: 'DCS-BIOS sketch for a Mega 2560 under the carrier PCB, AUX LTS panel on socket S1 (D23, D24, D26, D28, D30, A1, A3). Re-sends the hardware state when the DCS export stream starts. Pot messages are rate-limited so the sim knobs keep up. No backlight control.' },
+  { id: 'aux-lts-dcsbios-ino', path: '/files/controller-box/AUX_LTS_dcsbios.ino', name: 'AUX_LTS_dcsbios.ino (v6)', kind: 'Arduino', group: 'Controller box', origin: 'original',
+    desc: 'DCS-BIOS sketch for a Mega 2560 under the carrier PCB, AUX LTS panel on socket S1 (D23, D24, D26, D28, D30, A1, A3). Re-sends the hardware state when the DCS export stream starts. Pot messages are rate-limited so the sim knobs keep up. Also dims the backlight on D12 from a stand-in CONSOLE knob on socket S3 and reports that knob to DCS; set ENABLE_BACKLIGHT to 0 if no knob is wired.' },
   { id: 'carrier-socket-scan-ino', path: '/files/controller-box/Carrier_socket_scan.ino', name: 'Carrier_socket_scan.ino (v2)', kind: 'Arduino', group: 'Controller box', origin: 'original',
     desc: 'Pin scanner for the Mega carrier PCB, no libraries. Prints which Mega pin moved when a panel control is worked, with the socket and ribbon pin the carrier design assigns to it. Ignores unconnected analog inputs.' },
   { id: 'aux-lts-dcsbios-v3-ino', path: '/files/controller-box/AUX_LTS_dcsbios_v3_breadboard.ino', name: 'AUX_LTS_dcsbios.ino (v3, breadboard wiring)', kind: 'Arduino', group: 'Controller box', origin: 'original',

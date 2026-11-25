@@ -1,7 +1,7 @@
 /*
   A-10C simpit - AUX LTS panel, DCS-BIOS sketch (Mega carrier v1.2, panel on socket S1)
 
-  SKETCH VERSION: 4   (2026-11-25)
+  SKETCH VERSION: 6   (2026-11-25)
   Version rule: this number goes up by one every time this sketch is changed. Never reuse a number.
   History:
     v1  2026-11-14  First DCS-BIOS version for the as-wired bench hookup. Based on
@@ -19,6 +19,16 @@
                     STATUS A2 -> A3 (the bench jumpers for those two were one pin off the
                     socket standard). Everything else is unchanged from v3. The optional
                     backlight section still uses the bench pins and now refuses to compile.
+    v5  2026-11-25  Backlight section ported to the carrier and switched on: 20 kHz PWM on D12
+                    (Timer1, the carrier's dim-master pin, through JP5) instead of D9 (Timer2).
+                    A stand-in CONSOLE knob on socket S3 sets the brightness locally and is also
+                    reported to DCS, so the sim's console-lights knob follows. Curve is linear with
+                    a 0.5 % floor. The panel's own controls are unchanged from v4.
+    v6  2026-11-25  Fix: at each end of the CONSOLE knob's travel the sim knob jumped to the
+                    opposite end. v5 gave the DCS-BIOS pot the knob's off/full points (10 and
+                    1013) as its input range, and the library does not clamp readings outside
+                    that range, so they wrapped round. The knob is now reported to DCS over its
+                    full 0-1023 range. The LED mapping is unchanged.
 
   Board : Arduino Mega 2560
   Lib   : DCS-BIOS Arduino library (DCS-Skunkworks, or the FP-Fork 0.3.9 in Dropbox)
@@ -36,21 +46,21 @@
   DCS values found on 2026-11-14: ALCP_NVIS_LTS 0 = OFF, 2 = TOP; ALCP_HARSSAS 1 = OVERRIDE.
     ribbon 23  WPN STA pot wiper   -> A1    reads 1023 at full CCW (ends swapped on the PCB)
     ribbon 25  REFUEL STATUS wiper -> A3    reads 0 at full CCW
+  Backlight (ENABLE_BACKLIGHT 1): the carrier's JP5 (MASTER) must be bridged and 12 V connected.
+    stand-in CONSOLE knob, B10K, on socket S3's pins: one end to S3 pin 7 (+5 V), the other end to
+    S3 pin 21 (GND), wiper to S3 pin 22 (= Mega A8). If it dims the wrong way, swap the two ends.
   Both pots sweep the full 0..1023, so no endpoint trimming.
 */
 
-#define SKETCH_VERSION 4
+#define SKETCH_VERSION 6
 
 #define DCSBIOS_DEFAULT_SERIAL
 #include "DcsBios.h"
 
-// Leave at 0. The backlight section below is the old bench version (PWM on D9, Timer2). On the
-// carrier D9 is a socket-4 input and the dim pin is D12 (Timer1), so it has to be ported before it
-// can be used. Until then, dim with LED_dim_play. With 0 the sketch only reads the panel's controls.
-#define ENABLE_BACKLIGHT 0
-#if ENABLE_BACKLIGHT
-#error "Backlight section not ported to the carrier yet: it drives D9, which is a socket-4 input there."
-#endif
+// 1 = this Mega also dims the backlight from a stand-in CONSOLE knob (see the header for wiring).
+// Set to 0 if no knob is wired to socket S3 pin 22: a floating knob input makes the LEDs wander
+// and floods DCS with knob messages. With 0 the sketch only reads the panel's own controls.
+#define ENABLE_BACKLIGHT 1
 
 // ---- pins (Mega) ----
 const uint8_t PIN_FDBA_TEST = 23;   // ribbon 12
@@ -97,20 +107,55 @@ PanelPot wpnStaLts      ("ALCP_WPNSTA", PIN_WPN_STA, true,  0, 1023);   // rever
 
 #if ENABLE_BACKLIGHT
 // ---- console backlight: stand-in CONSOLE knob -> high-side PWM, local only (no DCS in the loop) ----
-const uint8_t LED_PWM_PIN      = 9;     // Timer2, set to ~3.9 kHz in setup()
-const uint8_t CONSOLE_KNOB_PIN = A8;    // spare B10K: ends to 5V and GND, wiper here, 100 nF to GND
-const int     KNOB_OFF = 10;            // raw counts at or below this: LEDs off
-const int     KNOB_BRT = 1013;          // raw counts at or above this: full brightness
-const uint8_t MIN_DUTY = 6;             // floor so the lowest lit setting is visible
+// PWM is on D12 = PB6 = Timer1 OC1B, 16-bit, mode 14: 16 MHz / 800 = 20 kHz, 800 brightness steps.
+// D11 (Timer1's other output) is a socket-4 input on the carrier and is left alone.
+const uint8_t  CONSOLE_KNOB_PIN = A8;    // socket S3 ribbon pin 22
+const int      KNOB_OFF = 10;            // raw counts at or below this: LEDs off
+const int      KNOB_BRT = 1013;          // raw counts at or above this: full brightness
+const uint16_t PWM_TOP  = 799;           // timer counts 0..799
+const float    DIM_FLOOR_PCT = 0.5f;     // duty at the lowest lit knob position
+const float    DIM_CAP_PCT   = 100.0f;   // duty at full knob
+const float    DIM_GAMMA     = 1.0f;     // 1 = linear. 2.2 gives finer control at the dim end
 
 // The same knob reported to DCS so the virtual cockpit follows. It does not affect the LEDs.
-PanelPot consoleKnob("LCP_CONSOLE", CONSOLE_KNOB_PIN, false, KNOB_OFF, KNOB_BRT);
+// Full 0-1023 range on purpose: the DCS-BIOS pot class does not clamp, so an input range narrower
+// than the readings the knob can really produce wraps round at the ends (min shows as max).
+PanelPot consoleKnob("LCP_CONSOLE", CONSOLE_KNOB_PIN);
 
-uint8_t knobToDuty(int raw) {
+// On-time in timer ticks: 0 = pin held low (off), PWM_TOP + 1 = pin held high (full on).
+void backlightWriteTicks(uint16_t n) {
+  const uint16_t steps = PWM_TOP + 1;
+  if (n > steps) n = steps;
+  if (n == 0) {
+    TCCR1A &= ~_BV(COM1B1);       // disconnect the timer from the pin
+    PORTB  &= ~_BV(PB6);          // D12 low: LEDs off
+  } else if (n == steps) {
+    TCCR1A &= ~_BV(COM1B1);
+    PORTB  |= _BV(PB6);           // D12 high: LEDs full on
+  } else {
+    OCR1B = n - 1;                // high for n ticks of each period
+    TCCR1A |= _BV(COM1B1);        // timer drives the pin
+    PORTB  &= ~_BV(PB6);          // so a later disconnect starts from low
+  }
+}
+
+void backlightSetup() {
+  PORTB &= ~_BV(PB6);             // D12 low before it becomes an output and before the timer starts
+  DDRB  |= _BV(PB6);
+  TCCR1B = 0;                     // stop the timer
+  TCCR1A = _BV(WGM11);            // OC1A (D11), OC1B and OC1C (D13) all disconnected
+  ICR1   = PWM_TOP;
+  TCNT1  = 0;
+  TCCR1B = _BV(WGM13) | _BV(WGM12) | _BV(CS10);   // fast PWM, TOP = ICR1, no prescaler
+  backlightWriteTicks(0);
+}
+
+uint16_t knobToTicks(int raw) {
   if (raw <= KNOB_OFF) return 0;
-  if (raw >= KNOB_BRT) return 255;
-  float x = (float)(raw - KNOB_OFF) / (float)(KNOB_BRT - KNOB_OFF);
-  return MIN_DUTY + (uint8_t)(pow(x, 2.2f) * (255 - MIN_DUTY) + 0.5f);   // gamma 2.2
+  float x = (raw >= KNOB_BRT) ? 1.0f : (float)(raw - KNOB_OFF) / (float)(KNOB_BRT - KNOB_OFF);
+  float duty = (DIM_FLOOR_PCT + (DIM_CAP_PCT - DIM_FLOOR_PCT) * pow(x, DIM_GAMMA)) / 100.0f;
+  uint16_t n = (uint16_t)(duty * (float)(PWM_TOP + 1) + 0.5f);
+  return (n < 1) ? 1 : n;
 }
 
 void updateBacklight() {
@@ -129,7 +174,7 @@ void updateBacklight() {
   int value = (int)(filtered + 0.5f);
   if (abs(value - applied) < 2) return;           // deadband against ADC noise
   applied = value;
-  analogWrite(LED_PWM_PIN, knobToDuty(value));
+  backlightWriteTicks(knobToTicks(value));
 }
 #endif
 
@@ -180,9 +225,7 @@ void updateStartupSync() {
 
 void setup() {
 #if ENABLE_BACKLIGHT
-  TCCR2B = (TCCR2B & 0b11111000) | 0b010;         // Timer2 prescaler 8 -> ~3.9 kHz on D9
-  pinMode(LED_PWM_PIN, OUTPUT);
-  analogWrite(LED_PWM_PIN, 0);
+  backlightSetup();                               // LEDs off until the knob is first read
 #endif
   DcsBios::setup();
 }

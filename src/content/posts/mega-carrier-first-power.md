@@ -1,7 +1,7 @@
 ---
 title: "The carrier PCBs work, and the panel that was a mirror image"
 date: 2026-11-25
-summary: "The five Mega carrier PCBs arrived. The first one passed its power checks, dims the AUX LTS backlight from the Mega, and now runs the panel in DCS. In between, DCS saw nothing at all, and the fault turned out to be in the panel, not the carrier: its ribbon header is numbered as a mirror image. A second cable and a spare pin header fixed it."
+summary: "The five Mega carrier PCBs arrived. The first one passed its power checks, dims the AUX LTS backlight from the Mega, and now runs the panel in DCS, lighting included. In between, DCS saw nothing at all, and the fault turned out to be in the panel, not the carrier: its ribbon header is numbered as a mirror image. A second cable and a spare pin header fixed it."
 tags: [controller-box, pcb, electronics, testing, dcs-bios, aux-lts]
 files: [carrier-socket-scan-ino, aux-lts-dcsbios-ino, led-dim-play-ino]
 ---
@@ -97,7 +97,9 @@ Before any 12 V went back on, the scanner confirmed it on USB power alone: D23, 
 
 The DCS-BIOS sketch, now version 4 with the carrier's pin numbers, went back on. Everything on the panel now follows in the cockpit.
 
-That is the first panel running the way the whole cockpit is meant to: one ribbon into a socket, and the box's Mega talking to DCS. The backlight and DCS still run from two separate test sketches. Putting them in one is next.
+That is the first panel running the way the whole cockpit is meant to: one ribbon into a socket, and the box's Mega talking to DCS.
+
+**Later the same day:** the backlight and DCS now run from one sketch. A spare knob wired to socket 3 stands in for the console lighting knob. It dims the real LEDs directly, and the same reading goes to DCS, so the console-lights knob in the virtual cockpit turns with it. The first try had the sim knob jumping to the opposite end at each end of the travel. I had told DCS-BIOS the knob's range was a little narrower than it really is, and the library wraps readings that fall outside the range instead of stopping at the end. Giving it the full range fixed it.
 
 ## What I'm taking from it
 
@@ -108,7 +110,6 @@ That is the first panel running the way the whole cockpit is meant to: one ribbo
 
 ## Not done yet
 
-- One sketch that does DCS and the backlight together.
 - Sockets 2, 3 and 4 with the scanner.
 - The scope test for the moment the 12 V is pulled while the dim line is live.
 - Pot noise with the backlight dimmed, and the driver's switching delay, to compare with the breadboard numbers.

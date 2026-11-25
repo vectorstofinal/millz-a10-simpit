@@ -159,6 +159,7 @@ Run on 2026-11-25. The story is in [the bench post](/posts/mega-carrier-first-po
 | 5, Mega fitted, AUX LTS on S1 | Pass through a row-swap adapter: every switch line and both pots read on the designed pins, and the panel works in DCS |
 | 5, four sockets loaded | Not done yet |
 | 6, scope on LED+ | Not done yet. Dimming from the Mega works by eye |
+| Added: DCS and dimming in one sketch | Pass: a knob on S3 dims the S1 backlight and moves the console-lights knob in the sim, with the panel's controls still working |
 
 The adapter in step 5 is for that panel, not the carrier. The AUX LTS header turned out to be a mirror image of the standard; see its [panel page](/panels/aux-lts/).
 
@@ -168,7 +169,7 @@ With no Mega fitted, the dim line can be driven from a bench supply at J8's top 
 
 - [Carrier_socket_scan.ino](/files/controller-box/Carrier_socket_scan.ino): prints which Mega pin moved when you work a control, with the socket and ribbon pin the design assigns to it. Run this first on any new carrier, socket or panel.
 - [LED_dim_play.ino](/files/controller-box/LED_dim_play.ino): backlight dimming from the Serial Monitor, on D12. Needs JP5 bridged.
-- [AUX_LTS_dcsbios.ino](/files/controller-box/AUX_LTS_dcsbios.ino): the AUX LTS panel on socket S1, for DCS.
+- [AUX_LTS_dcsbios.ino](/files/controller-box/AUX_LTS_dcsbios.ino): the AUX LTS panel on socket S1, for DCS. It also dims the backlight on D12 from a knob wired to socket S3 (pin 7 = 5 V, pin 21 = ground, pin 22 = wiper) and reports that knob to DCS as the console-lights knob.
 
 ## Firmware notes for the dim master
 

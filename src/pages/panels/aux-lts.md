@@ -25,7 +25,7 @@ photo: /img/aux-lts-lit-panel.jpg
 | Design | [The Warthog Project](https://thewarthogproject.com) AUX LTS file, with [my edits](/posts/aux-lts-panel/) |
 | Backlight | 36 × 3 mm green LEDs, built-in resistors, 12 V. **0.432 A total** (12.0 mA each) |
 | Connector | 2×13 pin header (2.54 mm), 26-way ribbon to the console box. [Pinout standard](/posts/panel-connector-standard/) |
-| Firmware | DCS-BIOS on the console box's Arduino Mega ([sketch, v4](/files/controller-box/AUX_LTS_dcsbios.ino)) |
+| Firmware | DCS-BIOS on the console box's Arduino Mega ([sketch, v6](/files/controller-box/AUX_LTS_dcsbios.ino)) |
 
 ## Controls
 
@@ -139,7 +139,7 @@ To replace an LED, unsolder it from the copper side once the base is off.
 
 ## DCS-BIOS code
 
-The panel has no microcontroller of its own; it runs on its console box's Arduino Mega. These are the lines that drive it, ready to drop into the box sketch. Only the pin macros change with the socket the panel plugs into. This matches version 4 of the sketch, tested in DCS on the carrier PCB on 2026-11-25.
+The panel has no microcontroller of its own; it runs on its console box's Arduino Mega. These are the lines that drive it, ready to drop into the box sketch. Only the pin macros change with the socket the panel plugs into. This matches version 6 of the sketch, tested in DCS on the carrier PCB on 2026-11-25.
 
 ```cpp
 // AUX LTS panel (left console). DCS-BIOS Arduino library, A-10C module.
@@ -172,7 +172,7 @@ PanelPot auxWpnStaLts("ALCP_WPNSTA", AUX_A2, true,  0, 1023);   // ends swapped 
 - **Both pots sweep the full 0 to 1023**, so the min/max values stay at 0 and 1023.
 - **Startup sync belongs to the box sketch, not the panel.** The library only sends a control when it changes, so the sim doesn't know where the switches are when a mission starts. The bench sketch watches the data coming from DCS and re-sends every control about 3 seconds after it starts. Copy that part (`StreamWatch` and `updateStartupSync`) from the full sketch.
 - **The backlight isn't in this code.** It's dimmed locally by the console box from the lighting knob (high-side PWM on ribbon pins 1–2), with no DCS in the loop.
-- Full sketch as tested on the carrier: [AUX_LTS_dcsbios.ino (v4)](/files/controller-box/AUX_LTS_dcsbios.ino). Its pin numbers are socket S1 (D23, D24, D26, D28, D30, A1, A3), the same as the macros above. Versions 1 to 3 followed my breadboard jumpers; that story is in [the first DCS test post](/posts/aux-lts-first-dcs-test/).
+- Full sketch as tested on the carrier: [AUX_LTS_dcsbios.ino (v6)](/files/controller-box/AUX_LTS_dcsbios.ino). Its pin numbers are socket S1 (D23, D24, D26, D28, D30, A1, A3), the same as the macros above. It also dims the backlight from a stand-in CONSOLE knob on socket S3, which is box code, not panel code; set `ENABLE_BACKLIGHT` to 0 to leave that out. Versions 1 to 3 followed my breadboard jumpers; that story is in [the first DCS test post](/posts/aux-lts-first-dcs-test/).
 
 ## Known quirks
 
@@ -186,7 +186,7 @@ PanelPot auxWpnStaLts("ALCP_WPNSTA", AUX_A2, true,  0, 1023);   // ends swapped 
 - **Acrylic:** [top DXF](/files/aux-lts-panel/aux-lts-1-top.dxf) · [top LightBurn job](/files/aux-lts-panel/aux-lts-1-top-white-matte-painted.lbrn2) · [middle DXF](/files/aux-lts-panel/aux-lts-2-middle.dxf) · [middle LightBurn job](/files/aux-lts-panel/aux-lts-2-middle-mirrored.lbrn2) · [base DXF](/files/aux-lts-panel/aux-lts-3-base.dxf) · [base LightBurn job](/files/aux-lts-panel/aux-lts-3-base-black.lbrn2)
 - **PCB:** [VCarve job DXF](/files/aux-lts-pcb/aux-lts-pcb-v2-vcarve-job-250x130.dxf) · [CNC DXF](/files/aux-lts-pcb/aux-lts-pcb-v2-cnc-back-view.dxf) · [trimmed outline DXF](/files/aux-lts-back-case/aux-lts-pcb-v2-trimmed-outline.dxf) · [corner trim template](/files/aux-lts-back-case/aux-lts-pcb-corner-trim-template.pdf)
 - **Printed:** [header shroud](/files/aux-lts-pcb/idc-2x13-keyed-shroud.stl) · [pin trim gauge](/files/aux-lts-pcb/header-pin-trim-gauge-8mm.stl) · [dimmer knob](/files/dimmer-knob/dimmer-knob-26mm.stl)
-- **Firmware:** [AUX_LTS_dcsbios.ino (v4)](/files/controller-box/AUX_LTS_dcsbios.ino) · [Carrier_socket_scan.ino](/files/controller-box/Carrier_socket_scan.ino) for checking which pin each control lands on · [AUX_LTS_bench.ino](/files/controller-box/AUX_LTS_bench.ino), the older bench sketch
+- **Firmware:** [AUX_LTS_dcsbios.ino (v6)](/files/controller-box/AUX_LTS_dcsbios.ino) · [Carrier_socket_scan.ino](/files/controller-box/Carrier_socket_scan.ino) for checking which pin each control lands on · [AUX_LTS_bench.ino](/files/controller-box/AUX_LTS_bench.ino), the older bench sketch
 - **3D:** [interactive model](/3d/aux-lts/)
 
 ## Build log
