@@ -17,7 +17,7 @@ Two things were mine to add:
 - **The Mega's header pins**, 86 of them. The trick is to push the pin strips into the Mega first and lower the carrier onto them, so the Mega holds everything square while you solder from the top. Tack one pin per strip, check it sits flat, then do the rest.
 - **The MASTER jumper**, a solder blob across JP5, so this carrier's Mega can drive the dimmers.
 
-The RJ45 jacks I'd ordered fit their footprint. I haven't soldered them yet, because a single carrier doesn't need the dim bus.
+The RJ45 jacks I'd ordered fit their footprint. A single carrier doesn't need them; they come into play when two carriers are linked.
 
 ## Power checks, before a Mega went near it
 
@@ -33,6 +33,11 @@ I ran these on the bare PCB with a current-limited bench supply. They're the fir
 | AUX LTS panel on socket 1, 5 V on the dim line | All 36 LEDs lit, **0.435 A** |
 
 That fourth line is the fault the design reviews were about: a dimming signal arriving while the 12 V is off. The input guards did their job.
+
+<figure>
+  <img src="/img/mega-carrier-first-bench.jpg" alt="A green carrier PCB on a blue bench mat with no Arduino under it, joined by a gray ribbon cable to the AUX LTS panel, whose legends are lit green. Jumper wires run from a small breadboard to the carrier's 12 V plug and dim line. The bench supply behind shows 12.00 V and 0.452 A on channel 1 and 5.00 V on channel 3" loading="lazy" width="1600" height="1200" />
+  <figcaption>A carrier with no Mega under it, lighting the AUX LTS panel from socket 1. The bench supply's third channel holds the dim line at 5 V through the breadboard. The display reads 12 V and 0.45 A.</figcaption>
+</figure>
 
 The expected current for this panel is 0.432 A, so the dimmer is passing everything the LEDs want.
 
