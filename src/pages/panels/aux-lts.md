@@ -5,7 +5,7 @@ eyebrow: Panel reference · Left console
 lede: Everything about this panel in one place, including what's in it, how it's wired and how to take it apart. If you scanned the QR code on the back of the panel, this is the page you want.
 description: AUX LTS panel for the Millz A-10C sim cockpit. Build details, parts list, pinout, DCS-BIOS mapping, and disassembly and reassembly steps.
 console: Left console
-status: Built, lit and working in DCS on the bench.
+status: Built, lit and working in DCS on the carrier PCB, through a row-swap adapter.
 summary: Refuel and weapon-station light dimmers, NVIS and HARS/SAS toggles, and the lamp-test and fire-detect pushbuttons. Three acrylic layers, 36 green LEDs, home-milled PCB.
 photo: /img/aux-lts-lit-panel.jpg
 ---
@@ -14,7 +14,7 @@ photo: /img/aux-lts-lit-panel.jpg
   <img src="/img/aux-lts-lit-panel.jpg" alt="AUX LTS panel backlit green: REFUEL STATUS and WPN STA dimmers, NVIS and HARS/SAS toggles, SIGNAL LIGHTS LAMP TEST and FIRE DETECT pushbuttons" width="1600" height="1330" />
 </figure>
 
-<div class="note">Last updated 2026-11-14. The panel is built and lit. Still to do: the pushbutton wiring, the header shroud and the DCS bench test. Build history is in the <a href="#build-log">posts at the bottom</a>.</div>
+<div class="note">Last updated 2026-11-25. The panel is built, lit, and works in DCS from socket S1 of the <a href="/controller-box/mega-carrier/">Mega carrier PCB</a>. <strong>Its ribbon header is a mirror image of the connector standard, so it needs a row-swap adapter in its cable.</strong> See <a href="#header-pinout-this-panel">the header pinout</a>. Build history is in the <a href="#build-log">posts at the bottom</a>.</div>
 
 ## At a glance
 
@@ -25,7 +25,7 @@ photo: /img/aux-lts-lit-panel.jpg
 | Design | [The Warthog Project](https://thewarthogproject.com) AUX LTS file, with [my edits](/posts/aux-lts-panel/) |
 | Backlight | 36 × 3 mm green LEDs, built-in resistors, 12 V. **0.432 A total** (12.0 mA each) |
 | Connector | 2×13 pin header (2.54 mm), 26-way ribbon to the console box. [Pinout standard](/posts/panel-connector-standard/) |
-| Firmware | DCS-BIOS on an Arduino Mega ([bench sketch](/files/controller-box/AUX_LTS_bench.ino)) |
+| Firmware | DCS-BIOS on the console box's Arduino Mega ([sketch, v4](/files/controller-box/AUX_LTS_dcsbios.ino)) |
 
 ## Controls
 
@@ -33,7 +33,7 @@ photo: /img/aux-lts-lit-panel.jpg
 |---|---|---|---|---|
 | REFUEL STATUS & INDEXER LIGHTS (DIM–BRT) | B10K pot, 16 mm | 25 (A4) | `ALCP_RSIL` | Standard wiring |
 | WPN STA STATUS LTS (OFF–BRT) | B10K pot, 16 mm | 23 (A2) | `ALCP_WPNSTA` | Ends swapped on the PCB; **reversed in firmware** (`reverse = true`) |
-| NVIS LTS (TOP / ALL / OFF) | 3-position toggle, ON-OFF-ON | 15, 17 | `ALCP_NVIS_LTS` | Three terminals, center = ground. ALL = neither closed. On the bench, pin 15 closed at **TOP** and pin 17 at **OFF**, the opposite of the PCB pad labels. Handled by the pin order in firmware |
+| NVIS LTS (TOP / ALL / OFF) | 3-position toggle, ON-OFF-ON | 15, 17 | `ALCP_NVIS_LTS` | Three terminals, center = ground. ALL = neither closed. Pin 15 closes at **TOP** and pin 17 at **OFF**, the opposite of the PCB pad labels. Confirmed on the carrier. Handled by the pin order in firmware |
 | HARS/SAS (OVERRIDE / NORM) | 2-position toggle | 19 | `ALCP_HARSSAS` | Two terminals only, no center one. As mounted, pin 19 closes at **NORM**. Fixed with `reverse = true` |
 | SIGNAL LIGHTS LAMP TEST | MS25089-3G pushbutton | 13 (D3) | `LAMP_TEST_BTN` | Momentary. Wired to the normally-open pair |
 | FIRE DETECT BLEED AIR LEAK TEST | MS25089-3G pushbutton | 12 (D2) | `ALCP_FDBA_TEST` | Momentary. Wired to the normally-open pair |
@@ -60,6 +60,10 @@ photo: /img/aux-lts-lit-panel.jpg
 **HARS/SAS toggle.** With only two terminals there is no "other lug" to move the wire to: the switch is simply closed in one lever position and open in the other. As I mounted it, closed is NORM, so the firmware reverses it.
 
 ## Header pinout (this panel)
+
+<div class="note warn"><strong>This header is a mirror image of the standard.</strong> Its plastic strip is on the front of the PCB and the ribbon plugs onto the long pins at the back. I numbered the pins as seen from the front, so a standard ribbon socket pushed onto the back finds the two rows exchanged: pin 1 where pin 2 should be, 3 where 4 should be, and so on. The backlight still works, because pins 1 and 2 are both LED+ and pins 3 to 6 are all ground. The controls land one pin off, and pin 7 (+5 V) swaps with pin 8 (ground), which shorts the box's 5 V. The table below is the PCB's own numbering. The PCB files on this page have the same fault.</div>
+
+**The adapter.** A long double-ended 2×13 pin header with a ribbon socket pushed onto each side swaps the rows back. This panel's cable is two ordinary ribbons joined that way. Put the red stripes at the same end; the two sockets' key bumps then sit on opposite faces. Details and a drawing are in [the bench post](/posts/mega-carrier-first-power/).
 
 Copper side up, header toward you: pin 1 is the **left end of the row nearer the PCB center**. Pins 1 and 2 are joined by a short copper bar.
 
@@ -103,6 +107,7 @@ Copper side up, header toward you: pin 1 is the **left end of the row nearer the
 | 4 | M3 × 12 button-head screw | Face, through all three layers |
 | 4 | M3 × 4 screw | PCB to standoffs. **Not M3×6**: that collides with the face screw inside the standoff |
 | 1 | 2×13 straight pin header, long | Long pins trimmed to 8 mm above the copper ([gauge](/files/aux-lts-pcb/header-pin-trim-gauge-8mm.stl)) |
+| 1 | Row-swap adapter: a second long 2×13 pin header and a second 26-way ribbon | In the cable, because this panel's header is mirrored. Slide the header's plastic strip to the middle of the pins |
 | 1 | [Printed keyed shroud](/files/aux-lts-pcb/idc-2x13-keyed-shroud.stl) | Epoxied over the header, key notch toward the PCB center |
 | 2 | Ground link "staples" | Bent LED lead offcuts on the front, 3.8 mm span |
 | — | 22 AWG solid hook-up wire | 15 wires from the switch terminals to pads beside each control. Toggles and pushbuttons are on screw terminals, pots are soldered |
@@ -134,12 +139,12 @@ To replace an LED, unsolder it from the copper side once the base is off.
 
 ## DCS-BIOS code
 
-The panel has no microcontroller of its own; it runs on its console box's Arduino Mega. These are the lines that drive it, ready to drop into the box sketch. Only the pin macros change with the socket the panel plugs into. This matches version 3 of the bench sketch, tested against DCS on 2026-11-14.
+The panel has no microcontroller of its own; it runs on its console box's Arduino Mega. These are the lines that drive it, ready to drop into the box sketch. Only the pin macros change with the socket the panel plugs into. This matches version 4 of the sketch, tested in DCS on the carrier PCB on 2026-11-25.
 
 ```cpp
 // AUX LTS panel (left console). DCS-BIOS Arduino library, A-10C module.
 // Socket pin map: set for the box socket this panel plugs into.
-// Universal socket: ribbon pins 11-20 (D1-D10) -> Mega D22-D31, pins 22-26 (A1-A5) -> A0-A4.
+// Shown for socket S1 of the carrier: ribbon pins 11-20 (D1-D10) -> Mega D22-D31, pins 22-25 (A1-A4) -> A0-A3.
 #define AUX_D(n) (21 + (n))   // socket D1..D10 -> Mega pin
 #define AUX_A2   A1           // ribbon pin 23
 #define AUX_A4   A3           // ribbon pin 25
@@ -167,10 +172,11 @@ PanelPot auxWpnStaLts("ALCP_WPNSTA", AUX_A2, true,  0, 1023);   // ends swapped 
 - **Both pots sweep the full 0 to 1023**, so the min/max values stay at 0 and 1023.
 - **Startup sync belongs to the box sketch, not the panel.** The library only sends a control when it changes, so the sim doesn't know where the switches are when a mission starts. The bench sketch watches the data coming from DCS and re-sends every control about 3 seconds after it starts. Copy that part (`StreamWatch` and `updateStartupSync`) from the full sketch.
 - **The backlight isn't in this code.** It's dimmed locally by the console box from the lighting knob (high-side PWM on ribbon pins 1–2), with no DCS in the loop.
-- Full sketch as tested on the bench: [AUX_LTS_dcsbios.ino (v3)](/files/controller-box/AUX_LTS_dcsbios.ino). Its pin numbers follow my bench jumpers (D22, D24, D26, D28, D30, A1, A2), not the universal socket map above. The story is in [the first DCS test post](/posts/aux-lts-first-dcs-test/).
+- Full sketch as tested on the carrier: [AUX_LTS_dcsbios.ino (v4)](/files/controller-box/AUX_LTS_dcsbios.ino). Its pin numbers are socket S1 (D23, D24, D26, D28, D30, A1, A3), the same as the macros above. Versions 1 to 3 followed my breadboard jumpers; that story is in [the first DCS test post](/posts/aux-lts-first-dcs-test/).
 
 ## Known quirks
 
+- **Mirrored ribbon header.** See the [header pinout](#header-pinout-this-panel). It needs the row-swap adapter in its cable.
 - **Light leaks** around the toggles, the WPN STA shaft and the panel edges, where light escapes from the diffuser's cut edges. Fix: blacken those edges with a paint pen.
 - **A few hot spots** over single LEDs. Scuff the LED tips with fine sandpaper if they bother you at flying brightness.
 - **Faint laser haze** around the switch holes on the painted face. Clean with mild soapy water, never alcohol or acetone, which can craze the cut edges.
@@ -180,7 +186,7 @@ PanelPot auxWpnStaLts("ALCP_WPNSTA", AUX_A2, true,  0, 1023);   // ends swapped 
 - **Acrylic:** [top DXF](/files/aux-lts-panel/aux-lts-1-top.dxf) · [top LightBurn job](/files/aux-lts-panel/aux-lts-1-top-white-matte-painted.lbrn2) · [middle DXF](/files/aux-lts-panel/aux-lts-2-middle.dxf) · [middle LightBurn job](/files/aux-lts-panel/aux-lts-2-middle-mirrored.lbrn2) · [base DXF](/files/aux-lts-panel/aux-lts-3-base.dxf) · [base LightBurn job](/files/aux-lts-panel/aux-lts-3-base-black.lbrn2)
 - **PCB:** [VCarve job DXF](/files/aux-lts-pcb/aux-lts-pcb-v2-vcarve-job-250x130.dxf) · [CNC DXF](/files/aux-lts-pcb/aux-lts-pcb-v2-cnc-back-view.dxf) · [trimmed outline DXF](/files/aux-lts-back-case/aux-lts-pcb-v2-trimmed-outline.dxf) · [corner trim template](/files/aux-lts-back-case/aux-lts-pcb-corner-trim-template.pdf)
 - **Printed:** [header shroud](/files/aux-lts-pcb/idc-2x13-keyed-shroud.stl) · [pin trim gauge](/files/aux-lts-pcb/header-pin-trim-gauge-8mm.stl) · [dimmer knob](/files/dimmer-knob/dimmer-knob-26mm.stl)
-- **Firmware:** [AUX_LTS_bench.ino](/files/controller-box/AUX_LTS_bench.ino)
+- **Firmware:** [AUX_LTS_dcsbios.ino (v4)](/files/controller-box/AUX_LTS_dcsbios.ino) · [Carrier_socket_scan.ino](/files/controller-box/Carrier_socket_scan.ino) for checking which pin each control lands on · [AUX_LTS_bench.ino](/files/controller-box/AUX_LTS_bench.ino), the older bench sketch
 - **3D:** [interactive model](/3d/aux-lts/)
 
 ## Build log
@@ -192,3 +198,4 @@ PanelPot auxWpnStaLts("ALCP_WPNSTA", AUX_A2, true,  0, 1023);   // ends swapped 
 - [AUX LTS: wired, tested and stacked](/posts/aux-lts-wired-and-stacked/)
 - [AUX LTS: corners trimmed, and a back case](/posts/aux-lts-trimmed-back-case/)
 - [AUX LTS: first controller test, and it works in DCS](/posts/aux-lts-first-dcs-test/)
+- [The carrier PCBs work, and the panel that was a mirror image](/posts/mega-carrier-first-power/)

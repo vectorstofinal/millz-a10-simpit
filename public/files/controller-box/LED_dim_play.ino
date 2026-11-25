@@ -1,35 +1,38 @@
 /*
-  A-10C simpit - LED dimming bench play sketch (no DCS-BIOS)
+  A-10C simpit - LED dimming play sketch (no DCS-BIOS), Mega carrier v1.2 wiring
 
-  SKETCH VERSION: 1   (2026-11-15)
+  SKETCH VERSION: 2   (2026-11-25)
   Version rule: this number goes up by one every time this sketch is changed. Never reuse a number.
   History:
     v1  2026-11-15  First version. High-side backlight PWM on D12 (Timer1, 16-bit) with every
                     setting adjustable live from the Serial Monitor: PWM frequency, gamma, floor,
                     cap, knob end points, direct duty, raw pulse width, slow sweep, and a pot-noise
                     test that shows what the LED return current does to the panel's pot readings.
+    v2  2026-11-25  Moved from the breadboard to the Mega carrier v1.2 with the AUX LTS panel on
+                    socket S1. REFUEL pot is now on A3 (was A2). Starts in manual mode with the
+                    LEDs off instead of knob mode, because A8 has no knob on it unless one is
+                    wired to socket S3. Default PWM frequency is 20 kHz (was 1 kHz), the
+                    dim-master plan. No change to the PWM code or the commands.
 
-  Purpose: find the numbers for the dim-master firmware before the Mega carrier PCBs arrive.
-  D12 is used (not D9 as in the older bench sketches) because D12 / Timer1 OC1B is the dim-master
-  pin on the carrier, and D9 becomes a socket-4 input there.
+  Purpose: find the numbers for the dim-master firmware, now on the real carrier dimmer.
+  D12 / Timer1 OC1B is the dim-master pin on the carrier. It reaches the dimmers only when the
+  carrier's JP5 (MASTER) is bridged. D9 and D11 are socket-4 inputs and are left alone.
 
   Board : Arduino Mega 2560. No libraries needed.
   PC    : Arduino Serial Monitor at 115200 baud, line ending "Newline".
           Turn the DCS-BIOS Bridge connection off first (it holds the COM port).
   NOTE  : uploading this replaces AUX_LTS_dcsbios on the Mega. Upload that sketch again afterwards.
 
-  Wiring (interim high-side dimmer, kit parts):
-    Mega D12 -> 100 ohm -> 2N7000 gate; 100 k from gate to GND; 2N7000 source to GND
-    2N7000 drain -> 680 ohm -> TIP42C base; 10 k from base to emitter
-    TIP42C emitter -> +12 V (bench supply, current limit about 0.6 A)
-    TIP42C collector -> ribbon pins 1 and 2 (LED+)
-    Bench supply negative -> Mega GND, at the same point as the ribbon GND jumpers
-    Stand-in CONSOLE knob: B10K, ends to Mega 5V and GND, wiper to A8 (100 nF to GND if handy)
-    Panel pots stay as wired for AUX_LTS_dcsbios: ribbon 23 -> A1 (WPN STA), ribbon 25 -> A2 (REFUEL)
+  Wiring (Mega carrier v1.2, no jumper wires needed):
+    Carrier plugged onto the Mega, JP5 (MASTER) bridged, nothing else driving the DIM1 line
+    12 V on the carrier's J5 (bench supply, current limit about 1 A for one AUX LTS panel)
+    AUX LTS panel ribbon in socket S1: ribbon 23 -> A1 (WPN STA), ribbon 25 -> A3 (REFUEL)
+    Optional stand-in CONSOLE knob on socket S3's pins: B10K ends to S3 pin 7 (+5 V) and
+    S3 pin 21 (GND), wiper to S3 pin 22 (= Mega A8). Without it, stay out of knob mode.
 
   Commands (type in the Serial Monitor, then Enter):
     ?          help and current settings
-    k          knob mode (default): the A8 knob sets brightness through the curve
+    k          knob mode: the A8 knob sets brightness through the curve (needs the knob wired)
     d <pct>    manual duty in percent, 0 to 100 (ignores knob and curve)   e.g.  d 0.5
     t <ticks>  manual on-time in timer ticks (finest step; for finding the low end)   e.g.  t 3
     s          slow sweep, off -> full -> off over 10 s, through the curve
@@ -43,19 +46,19 @@
     q          status lines on / off
 */
 
-#define SKETCH_VERSION 1
+#define SKETCH_VERSION 2
 
 // ---- pins (Mega) ----
 // LED PWM is D12 = PB6 = Timer1 OC1B. It is driven through the port and timer registers directly.
-const uint8_t PIN_KNOB    = A8;   // stand-in CONSOLE knob
-const uint8_t PIN_WPN_STA = A1;   // ribbon 23, panel pot (read only by the noise test)
-const uint8_t PIN_REFUEL  = A2;   // ribbon 25, panel pot (read only by the noise test)
+const uint8_t PIN_KNOB    = A8;   // stand-in CONSOLE knob: socket S3 ribbon pin 22
+const uint8_t PIN_WPN_STA = A1;   // socket S1 ribbon 23, panel pot (read only by the noise test)
+const uint8_t PIN_REFUEL  = A3;   // socket S1 ribbon 25, panel pot (read only by the noise test)
 
 // Measured 2026-11-13: all 36 AUX LTS LEDs draw 0.432 A at 12 V. Used only for the estimate shown.
 const float FULL_ON_AMPS = 0.432f;
 
 // ---- settings (all adjustable from the Serial Monitor) ----
-float pwmHz    = 1000.0f;   // start low: the interim TIP42C is slow. Try f 20000 to see why.
+float pwmHz    = 20000.0f;  // the dim-master plan (800 steps). Any value from 30 to 40000 works.
 float gammaExp = 2.2f;
 float floorPct = 0.5f;      // duty at the lowest lit knob position
 float capPct   = 100.0f;    // duty at full knob
@@ -64,8 +67,8 @@ int   knobBrt  = 1013;
 
 // ---- state ----
 const uint8_t MODE_KNOB = 0, MODE_MANUAL = 1, MODE_SWEEP = 2;
-uint8_t  mode = MODE_KNOB;
-uint16_t pwmTop = 15999;        // timer counts 0..pwmTop
+uint8_t  mode = MODE_MANUAL;    // LEDs off until a d, t, s or k command
+uint16_t pwmTop = 799;          // timer counts 0..pwmTop (set properly in setup)
 uint16_t pwmPrescale = 1;
 uint32_t onTicks = 0;           // LED on-time per period, in timer ticks (0..pwmTop+1)
 float    currentX = 0.0f;       // knob/sweep position 0..1 before the curve
@@ -260,7 +263,7 @@ void runNoiseTest() {
   uint32_t saved = onTicks;
   uint32_t steps = pwmSteps();
 
-  Serial.println(F("Pot-noise test, about 6 s. Best with both panel pots and the A8 knob near mid-travel."));
+  Serial.println(F("Pot-noise test, about 6 s. Best with both panel pots (and the A8 knob, if fitted) near mid-travel."));
   pwmWriteTicks(0);          delay(300);  sampleBlock(1500, mOff, pOff);
   pwmWriteTicks(steps);      delay(300);  sampleBlock(1500, mOn,  pOn);
   pwmWriteTicks(steps / 2);  delay(300);  sampleBlock(1500, mPwm, pPwm);
@@ -268,8 +271,8 @@ void runNoiseTest() {
 
   for (uint8_t i = 0; i < 3; i++) {
     if (i == 0) Serial.print(F("A1 WPN STA (ribbon): "));
-    else if (i == 1) Serial.print(F("A2 REFUEL  (ribbon): "));
-    else Serial.print(F("A8 knob    (local) : "));
+    else if (i == 1) Serial.print(F("A3 REFUEL  (ribbon): "));
+    else Serial.print(F("A8 knob  (S3 pins) : "));
     Serial.print(F("LEDs off mean "));   Serial.print(mOff[i], 1);
     Serial.print(F(" p-p "));            Serial.print(pOff[i]);
     Serial.print(F("  |  full on mean ")); Serial.print(mOn[i], 1);
@@ -280,8 +283,8 @@ void runNoiseTest() {
     Serial.print(F(" shift "));          Serial.println(mPwm[i] - mOff[i], 1);
   }
   Serial.print(F("PWM was "));  Serial.print(pwmHz, 1);
-  Serial.println(F(" Hz. 1 count = 4.9 mV. A8 does not go through the ribbon, so it is the reference."));
-  Serial.println(F("A shift on A1/A2 but not A8 = LED return current lifting the panel ground."));
+  Serial.println(F(" Hz. 1 count = 4.9 mV. A8 carries no LED current, so it is the reference (ignore it with no knob)."));
+  Serial.println(F("A shift on A1/A3 but not A8 = LED return current lifting the panel ground."));
   knobForce = true;           // make knob mode re-apply on the next reading
 }
 
@@ -373,6 +376,7 @@ void setup() {
   Serial.print(F("LED dim play, sketch version "));
   Serial.println(SKETCH_VERSION);
   printHelp();
+  Serial.println(F("Manual mode, LEDs off. Try  d 20  . Knob mode (k) needs a knob on socket S3 pin 22."));
 }
 
 void loop() {

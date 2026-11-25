@@ -10,7 +10,7 @@ description: Mega 4-socket panel carrier PCB for the Millz A-10C sim cockpit. So
   <img src="/img/mega-carrier-placement.png" alt="Parts placement of the Mega carrier PCB: four 2x13 sockets across the top half, gate drivers and FETs between them, two RJ45 jacks at lower left, fuses, capacitors and the 12 V connector at lower right" width="1600" height="1573" />
 </figure>
 
-<div class="note">Last updated 2026-11-16. <strong>Version 1.2 is ordered and in production. No carrier has been built or powered yet.</strong> Everything on this page is the design as ordered, not a tested result. If you want to build one, wait until I've posted the first-article tests. Build history is in the <a href="#build-log">posts at the bottom</a>.</div>
+<div class="note">Last updated 2026-11-25. <strong>The first version 1.2 carrier is built and works on the bench:</strong> power checks passed, it dims the AUX LTS backlight from the Mega, and it runs that panel in DCS. Tested so far: the 12 V input, all four dimmer outputs, and every signal line on socket S1. Not yet tested: the signal lines of S2 to S4, more than one panel at a time, the dim bus between two carriers, and the scope test in the checklist. Results are <a href="#results-on-the-first-carrier">below</a>; build history is in the <a href="#build-log">posts at the bottom</a>.</div>
 
 ## At a glance
 
@@ -25,6 +25,21 @@ description: Mega 4-socket panel carrier PCB for the Millz A-10C sim cockpit. So
 | Power in | 12 V on a 2-pin pluggable terminal block. The Mega itself runs from USB |
 | Made by | JLCPCB, assembled: 98 surface-mount parts and 5 connectors. I add the Mega pins and the RJ45 jacks |
 | Design tools | KiCad 7, built by script, autorouted with Freerouting. There is no schematic |
+
+## What's where
+
+<figure>
+  <img src="/img/mega-carrier-zones.png" alt="Top view of the Mega carrier PCB with eight numbered zones: 12 V entry, socket fuses, dimmers, panel sockets, signal protection, Mega headers, dim bus and a row of small parts" loading="lazy" width="1600" height="1823" />
+  <figcaption>The PCB in eight zones. <a href="/posts/mega-carrier-tour/">A tour of the carrier PCB</a> explains what each one does.</figcaption>
+</figure>
+
+Finding your way on the bare PCB, sockets at the top:
+
+- **Every square pad in the Mega header rows is a ground pin.**
+- **Power header:** the leftmost group of eight in the bottom row. Left to right: not connected, IOREF, RESET, 3.3 V, 5 V, ground, ground, VIN. The carrier only uses the last four.
+- **Double row:** the pair at the top is 5 V, the pair at the bottom is ground. D22 is the left column and D23 the right.
+- **Sockets:** pin 1 is at the lower left, by the white triangle. Odd pins run along the bottom row, nearest the key notch, and even pins along the top row.
+- **J8:** the top pad, the square one, is DIM1.
 
 ## Socket to Mega pin map
 
@@ -102,7 +117,7 @@ Five M3 mounting holes.
 - **Outputs are weak.** Because of the 1 kΩ in every line, a socket pin used as an output can push only about 3 mA. A panel with indicator lamps needs a transistor per lamp, or that socket's 1 kΩ arrays swapped for 100 Ω ones.
 - **LED current.** Each socket's fuse holds 1.5 A at room temperature. Plan on 1 A continuous per socket, which is about 80 LEDs of the kind in my AUX LTS panel.
 - **Whole carrier.** The input fuse holds 5 A at room temperature. Plan on 4 A in open air and less in a closed, warm box.
-- **+5 V per socket:** 100 mA. Enough for pots and small logic. Not for servos or LED strip.
+- **+5 V per socket:** 100 mA. Enough for pots and small logic. Not for servos or LED strip. The fuse on this pin has already held a dead short for about half an hour with no damage.
 - **A reversed ribbon is not survivable.** It puts 12 V on signal pins. Keyed sockets and keyed plugs are the only protection.
 - **Fused 12 V traces** are 0.8 mm wide and up to 116 mm long: fine at 1 A, warm at a sustained 1.5 A.
 - **Autorouted** and electrically checked, not hand-tidied.
@@ -110,8 +125,9 @@ Five M3 mounting holes.
 ## What I solder myself
 
 - **Mega header pins**, on the bottom, only on carriers that get a Mega: five 1×8 strips, one 1×10, and two 1×18 side by side. 86 joints. Plug the strips into the Mega, set the carrier on top, and solder from the carrier's top side. The Mega is the jig.
-- **Two RJ45 jacks**, Amphenol 54602-908LF. Test-fit one before soldering: two pegs and eight pins should seat without force.
+- **Two RJ45 jacks**, Amphenol 54602-908LF. Test-fit one before soldering: two pegs and eight pins should seat without force. Mine fit. They are only needed once two carriers are linked.
 - **The 12 V lead** for each carrier: a 2-pin 5.08 mm pluggable screw plug, with an inline blade fuse holder and a 7.5 A fuse.
+- **JP5**, a solder blob, on the one carrier that is the dim master.
 
 ## First-article checklist
 
@@ -126,6 +142,33 @@ Before a Mega or a panel goes near the first carrier:
 6. Scope LED+ at minimum and mid brightness: clean edges, nothing below ground, LEDs fully off at zero.
 
 I'll also repeat the two measurements from the [breadboard dimming test](/posts/led-dimming-bench-test/): supply current at a fixed duty across PWM frequencies, and the pot-noise test.
+
+### Results on the first carrier
+
+Run on 2026-11-25. The story is in [the bench post](/posts/mega-carrier-first-power/).
+
+| Step | Result |
+|---|---|
+| 0, plug continuity | Pass |
+| 1, 12 V with no Mega | Pass |
+| 2, socket continuity | Grounds pass on all four sockets |
+| 3, 12 V off with 5 V on the dim line | Pass: driver inputs read 0 V |
+| Added: 12 V on with 5 V on the dim line | Pass: LED+ of all four sockets goes to 12 V |
+| Added: AUX LTS panel on S1 as the load | 36 LEDs lit, 0.435 A at 12 V |
+| 4, scope test with the 12 V pulled | Not done yet |
+| 5, Mega fitted, AUX LTS on S1 | Pass through a row-swap adapter: every switch line and both pots read on the designed pins, and the panel works in DCS |
+| 5, four sockets loaded | Not done yet |
+| 6, scope on LED+ | Not done yet. Dimming from the Mega works by eye |
+
+The adapter in step 5 is for that panel, not the carrier. The AUX LTS header turned out to be a mirror image of the standard; see its [panel page](/panels/aux-lts/).
+
+With no Mega fitted, the dim line can be driven from a bench supply at J8's top pad. The supply's negative has to be tied to the carrier's ground.
+
+## Test sketches
+
+- [Carrier_socket_scan.ino](/files/controller-box/Carrier_socket_scan.ino): prints which Mega pin moved when you work a control, with the socket and ribbon pin the design assigns to it. Run this first on any new carrier, socket or panel.
+- [LED_dim_play.ino](/files/controller-box/LED_dim_play.ino): backlight dimming from the Serial Monitor, on D12. Needs JP5 bridged.
+- [AUX_LTS_dcsbios.ino](/files/controller-box/AUX_LTS_dcsbios.ino): the AUX LTS panel on socket S1, for DCS.
 
 ## Firmware notes for the dim master
 
@@ -159,7 +202,7 @@ Do not use LCSC C9040 for the sockets. It is the same header with ejector latche
 
 ## Files
 
-All original work, CC0. Untested until the first-article results are posted.
+All original work, CC0. The first carrier built from these files works on the bench. What has and hasn't been tested is in the results above.
 
 - [Gerbers and drill files (zip)](/files/mega-carrier/gerbers_mega_carrier_v1.2.zip)
 - [Parts list for assembly (csv)](/files/mega-carrier/BOM_mega_carrier_v1.2.csv)
@@ -174,6 +217,8 @@ All original work, CC0. Untested until the first-article results are posted.
 
 ## Build log
 
+- [A tour of the carrier PCB](/posts/mega-carrier-tour/): what every part is doing
+- [The carrier PCBs work, and the panel that was a mirror image](/posts/mega-carrier-first-power/): first power, first panel, first DCS run
 - [A carrier PCB for the Mega](/posts/mega-carrier-pcb/): the design, the reviews, the order
 - [Backlight dimming on a breadboard](/posts/led-dimming-bench-test/): the dimming idea tested with an interim driver
 - [The panel connector standard](/posts/panel-connector-standard/): the pinout this PCB implements

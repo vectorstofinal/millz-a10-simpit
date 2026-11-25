@@ -5,7 +5,7 @@ summary: "The AUX LTS panel went onto an Arduino Mega through its ribbon cable. 
 tags: [panels, arduino, dcs-bios, controller-box]
 hero: /img/aux-lts-dcs-first-test.jpg
 heroAlt: "DCS A-10C left console, looking down at the AUX LTS panel with its HARS/SAS and NVIS LTS toggles, two dimmer knobs and two test buttons"
-files: [aux-lts-dcsbios-ino]
+files: [aux-lts-dcsbios-v3-ino]
 ---
 
 <div class="bottom-line">The AUX LTS panel now moves its twin in DCS. Two pots, two pushbuttons and two toggles all read correctly on a Mega through the ribbon cable. Four things needed fixing in the sketch, none in the wiring: both toggles were backward, the buttons had a small delay, the sim didn't pick up my switch positions at startup, and the knobs moved in slow motion. Version 3 of the sketch fixes all four.</div>

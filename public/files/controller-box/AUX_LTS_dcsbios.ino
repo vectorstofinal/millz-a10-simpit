@@ -1,7 +1,7 @@
 /*
-  A-10C simpit - AUX LTS panel, DCS-BIOS sketch (bench wiring as tested 2026-11-14)
+  A-10C simpit - AUX LTS panel, DCS-BIOS sketch (Mega carrier v1.2, panel on socket S1)
 
-  SKETCH VERSION: 3   (2026-11-14)
+  SKETCH VERSION: 4   (2026-11-25)
   Version rule: this number goes up by one every time this sketch is changed. Never reuse a number.
   History:
     v1  2026-11-14  First DCS-BIOS version for the as-wired bench hookup. Based on
@@ -14,42 +14,52 @@
     v3  2026-11-14  Pots: knobs moved in slow motion in the sim. Pot messages are now rate-limited
                     (poll every 20 ms instead of every loop pass), with lighter smoothing and a
                     coarser send step, so a turn sends at most about 50 messages per second per pot.
+    v4  2026-11-25  Pin map changed from the bench jumpers to the Mega carrier v1.2 with the panel's
+                    ribbon in socket S1. Two pins move: FIRE DETECT TEST D22 -> D23 and REFUEL
+                    STATUS A2 -> A3 (the bench jumpers for those two were one pin off the
+                    socket standard). Everything else is unchanged from v3. The optional
+                    backlight section still uses the bench pins and now refuses to compile.
 
   Board : Arduino Mega 2560
   Lib   : DCS-BIOS Arduino library (DCS-Skunkworks, or the FP-Fork 0.3.9 in Dropbox)
   PC    : DCS-BIOS serial link at 250000 baud (close the Arduino Serial Monitor first)
 
-  As-wired map (ribbon pin -> Mega pin), verified with the serial test sketches on 2026-11-14:
-    ribbon  3  GND                 -> GND
-    ribbon  7  +5 V pot reference  -> 5V
-    ribbon 12  FIRE DETECT TEST    -> D22   closed while pressed
+  Socket S1 map (ribbon pin -> Mega pin). S1 carries ribbon 11-20 on D22-D31 and ribbon 22-25 on
+  A0-A3, each through 1 k on the carrier. Switch behavior is as found on the bench, 2026-11-14:
+    ribbon  3  GND                 -> GND (carrier)
+    ribbon  7  +5 V pot reference  -> 5V through the carrier's 100 mA fuse
+    ribbon 12  FIRE DETECT TEST    -> D23   closed while pressed
     ribbon 13  SIGNAL LIGHTS TEST  -> D24   closed while pressed
     ribbon 15  NVIS                -> D26   closed with the lever at TOP  (PCB pad is labeled "NVIS OFF")
     ribbon 17  NVIS                -> D28   closed with the lever at OFF  (PCB pad is labeled "NVIS TOP")
     ribbon 19  HARS/SAS            -> D30   closed with the lever at NORM
   DCS values found on 2026-11-14: ALCP_NVIS_LTS 0 = OFF, 2 = TOP; ALCP_HARSSAS 1 = OVERRIDE.
     ribbon 23  WPN STA pot wiper   -> A1    reads 1023 at full CCW (ends swapped on the PCB)
-    ribbon 25  REFUEL STATUS wiper -> A2    reads 0 at full CCW
+    ribbon 25  REFUEL STATUS wiper -> A3    reads 0 at full CCW
   Both pots sweep the full 0..1023, so no endpoint trimming.
 */
 
-#define SKETCH_VERSION 3
+#define SKETCH_VERSION 4
 
 #define DCSBIOS_DEFAULT_SERIAL
 #include "DcsBios.h"
 
-// Set to 1 only when the high-side dimmer (PWM on D9) and the stand-in CONSOLE pot (wiper on A8)
-// are wired. With 0 the sketch only reads the panel's own controls.
+// Leave at 0. The backlight section below is the old bench version (PWM on D9, Timer2). On the
+// carrier D9 is a socket-4 input and the dim pin is D12 (Timer1), so it has to be ported before it
+// can be used. Until then, dim with LED_dim_play. With 0 the sketch only reads the panel's controls.
 #define ENABLE_BACKLIGHT 0
+#if ENABLE_BACKLIGHT
+#error "Backlight section not ported to the carrier yet: it drives D9, which is a socket-4 input there."
+#endif
 
 // ---- pins (Mega) ----
-const uint8_t PIN_FDBA_TEST = 22;   // ribbon 12
+const uint8_t PIN_FDBA_TEST = 23;   // ribbon 12
 const uint8_t PIN_LAMP_TEST = 24;   // ribbon 13
 const uint8_t PIN_NVIS_TOP  = 26;   // ribbon 15: closed at TOP
 const uint8_t PIN_NVIS_OFF  = 28;   // ribbon 17: closed at OFF
 const uint8_t PIN_HARS_SAS  = 30;   // ribbon 19: closed at NORM
 const uint8_t PIN_WPN_STA   = A1;   // ribbon 23
-const uint8_t PIN_REFUEL    = A2;   // ribbon 25
+const uint8_t PIN_REFUEL    = A3;   // ribbon 25
 
 // ---- pushbuttons: closed sends "1". Switch2Pos(msg, pin, reverse, debounce_ms) ----
 // Debounce is 10 ms (library default 50) to cut the press-to-sim delay. Raise it if a single
