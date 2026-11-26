@@ -1,5 +1,5 @@
 ---
-title: "Where it started: first switches on DCS-BIOS"
+title: "First switches on DCS-BIOS: the January 2024 notes in one place"
 date: 2024-01-16
 summary: "Two weeks of breadboard work in January 2024: DCS-BIOS talking to an Arduino, a pot, a rotary encoder and an LCD. Plus the gotchas that cost me an evening each."
 tags: [electronics, dcs-bios, arduino]
@@ -7,7 +7,7 @@ tags: [electronics, dcs-bios, arduino]
 
 <div class="bottom-line">DCS-BIOS works on the first try once you know the rules. Don't call <code>Serial.begin()</code>, don't put a <code>delay()</code> in <code>loop()</code>, and wire switches to ground, not +5 V.</div>
 
-This is the oldest entry in the log. Back in January 2024 I had a Mega on the bench and wanted to see a physical switch move something in the A-10C. I followed The Warthog Project's DCS-BIOS video and had a switch working the first night.
+This is a cleaned-up summary of my January 2024 DCS-BIOS notes, not the start of the build. The start was [an Arduino Pro Micro set up as a joystick](/posts/first-tiny-steps-toward-building-simpit/) on the last day of 2023. The next day I wanted to see a physical switch move something in the A-10C through DCS-BIOS. I followed The Warthog Project's DCS-BIOS video and had a switch working the first night. The original posts are in the log too: [the first DCS-BIOS try](/posts/first-time-trying-dcs-bios-to-talk-to/) and [the pot, LED, encoder and LCD test](/posts/lcd-potentiometer-led-rotary-encoder/).
 
 ## Setup that worked
 
@@ -59,4 +59,4 @@ void loop()  { DcsBios::loop(); }
 
 I planned to use joystick-style HID for the "dumb" switches so they'd work in other aircraft too, and DCS-BIOS for anything two-way (lights, displays). That changed: the whole pit now runs on DCS-BIOS, because it keeps the switches and lights in sync with the jet. The [connector standard post](/posts/panel-connector-standard/) has the current architecture.
 
-Later that month I printed The Warthog Project's standby compass and started on backlighting. One printing tip from that: organic/tree supports are great, but orient the part so the top of each tree has a *small* contact patch. If the tree flares out where it meets the part, you'll never break it loose. Flexing the supports with pliers works well.
+Later that month I [printed The Warthog Project's standby compass](/posts/standby-compass-first-steps/) and started on backlighting. One printing tip from that: organic/tree supports are great, but orient the part so the top of each tree has a *small* contact patch. If the tree flares out where it meets the part, you'll never break it loose. Flexing the supports with pliers works well.
