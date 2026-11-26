@@ -80,6 +80,11 @@ FDM only; no resin printer in the shop.
 ## Electronics bench
 
 - **Arduino Mega 2560 bench rig** with a 2x13 panel socket, used to test panels before the console controller box exists. See the [connector post](/posts/panel-connector-standard/).
+- **Bench power supply: UNI-T UDP3305S-E.** Linear, four outputs: two at 0 to 30 V and 0 to 5 A, one at 0 to 6 V and 0 to 3 A, and a fixed 5 V, 2 A USB output. It sets to 10 mV and 1 mA.
+  - It powers a new PCB the first time, with the current limit set low, so a short shows up as a number on the display and not as smoke. That's how the [first carrier PCB](/posts/mega-carrier-first-power/) got its power checks.
+  - Its display is where the backlight current figures on this site come from, like the 0.432 A for the 36 LEDs in [AUX LTS: first light](/posts/aux-lts-first-light/).
+  - The 6 V output can stand in for a Mega's dimming signal when no Mega is fitted.
+  - One trap: a current limit left low from an earlier test quietly drops the voltage and dims every LED. Check the limit before trusting a reading.
 - **ATX power supply** for the 12 V backlight rail.
 - **Multimeter** for continuity and isolation checks on every milled PCB before it sees power.
 
