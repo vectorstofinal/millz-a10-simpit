@@ -3,6 +3,7 @@ title: "A10-C Standby Compass: Final Setup"
 date: 2024-02-07T18:03:00-05:00
 summary: "Everything soldered and squeezed into the case, an acrylic front glass, and the aerial refueling LEDs wired."
 tags: [standby-compass, electronics, wiring, 3d-printing]
+hero: /img/vtf-compass-final-1.jpg
 ---
 
 <div class="note">Originally posted on my old blog, <a href="https://vectorstofinal.blogspot.com/2024/02/a10-c-standby-compass-final-setup.html">Vectors To Final</a>, on February 7, 2024.</div>

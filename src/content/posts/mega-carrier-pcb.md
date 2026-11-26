@@ -4,6 +4,7 @@ date: 2026-11-15
 summary: "Instead of hand wiring every console box, each Arduino Mega gets a 100 mm carrier PCB with four panel sockets, a backlight dimmer per socket and a protected 12 V input. Version 1.2 is ordered. This is the design, what three rounds of review caught, and what the fab's placement preview caught that no review could."
 tags: [controller-box, pcb, electronics, kicad]
 files: [mega-carrier-gerbers, mega-carrier-bom, mega-carrier-cpl, mega-carrier-kicad-pcb, mega-carrier-kicad-pro, mega-carrier-polarity-check]
+hero: /img/mega-carrier-placement.png
 ---
 
 <div class="bottom-line">Each Arduino Mega in a console box now gets a carrier PCB: 100 x 100 mm, four 2x13 panel sockets, a high-side backlight dimmer and fuse per socket, a protected 12 V input, and two RJ45 jacks for the dimming signal. I ordered five assembled copies of version 1.2 from JLCPCB. Nothing has been built or powered yet, so treat the files as untested. The reference page is <a href="/controller-box/mega-carrier/">here</a>.</div>

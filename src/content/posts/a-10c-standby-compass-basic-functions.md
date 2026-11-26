@@ -3,6 +3,7 @@ title: "A-10C Standby Compass: Basic Functions Working"
 date: 2024-02-01T16:29:00-05:00
 summary: "LEDs, IR sensor and stepper working together in the standby compass, and what I learned about step modes and calibration."
 tags: [standby-compass, electronics, dcs-bios, arduino]
+hero: /img/vtf-compass-basic.jpg
 ---
 
 <div class="note">Originally posted on my old blog, <a href="https://vectorstofinal.blogspot.com/2024/02/a-10c-standby-compass-basic-functions.html">Vectors To Final</a>, on February 1, 2024.</div>

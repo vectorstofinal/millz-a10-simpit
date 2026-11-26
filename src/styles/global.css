@@ -105,10 +105,14 @@ h3 { font-size: 19px; margin: 32px 0 8px; font-weight: 600; }
 .post-list a.card:hover .t { color: var(--accent); }
 .post-list .s { color: var(--muted); grid-column: 2; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; grid-column: 2; margin-top: 4px; padding: 0; list-style: none; }
+.post-list a.card.has-thumb { grid-template-columns: 120px minmax(0, 1fr) 148px; }
+.post-list .thumb { grid-column: 3; grid-row: 1 / span 4; align-self: start; width: 148px; height: 111px; object-fit: cover; border: 1px solid var(--line); border-radius: 8px; background: var(--img-bg); }
 .tag { font-family: var(--f-mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; }
 @media (max-width: 640px) {
   .post-list a.card { grid-template-columns: 1fr; }
   .post-list .s, .tags { grid-column: 1; }
+  .post-list a.card.has-thumb { grid-template-columns: minmax(0, 1fr) 96px; }
+  .post-list .thumb { grid-column: 2; grid-row: 1 / span 3; width: 96px; height: 72px; }
 }
 
 /* Article */

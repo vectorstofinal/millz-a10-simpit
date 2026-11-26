@@ -3,6 +3,7 @@ title: "A printed deck plate, and the AUX LTS panel in its console"
 date: 2026-11-25
 summary: "The plywood plate that the forward left-console panels mount in was fiddly to modify for the AUX LTS panel, so I replaced it with a 3D print that has the opening, the support ears and the screw inserts built in. The panel now sits in the console."
 tags: [console, 3d-printing, panels, aux-lts]
+hero: /img/printed-deck-aux-lts.jpg
 ---
 
 <div class="bottom-line">The AUX LTS panel is in the left console. It needed an opening in the deck shaped to the back of the panel, with ears under its corners, and cutting that into the existing plywood plate was more fiddly than it was worth. So the plate is now a 3D print with all of that built in. This post is the story and a photo only. The plate's outline comes from the paid plans the consoles are built from, so there are no files or dimensions here.</div>

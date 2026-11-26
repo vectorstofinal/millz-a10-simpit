@@ -3,6 +3,7 @@ title: "Heated Inserts for 3D print screws"
 date: 2024-01-11T17:15:00-05:00
 summary: "Embedding magnets and brass heat inserts in 3D prints, with the countersink sizing I should have used."
 tags: [3d-printing]
+hero: /img/vtf-heat-inserts.jpg
 ---
 
 <div class="note">Originally posted on my old blog, <a href="https://vectorstofinal.blogspot.com/2024/01/heated-inserts-for-3d-print-screws.html">Vectors To Final</a>, on January 11, 2024.</div>

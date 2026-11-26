@@ -3,6 +3,7 @@ title: "Standby Compass: StepperTest"
 date: 2024-01-31T12:18:00-05:00
 summary: "The X27-168 stepper running from an EasyDriver on the breadboard, with the pin connections and things learned."
 tags: [standby-compass, electronics, arduino, testing]
+hero: /img/vtf-stepper-test.jpg
 ---
 
 <div class="note">Originally posted on my old blog, <a href="https://vectorstofinal.blogspot.com/2024/01/standby-compass-servo-test.html">Vectors To Final</a>, on January 31, 2024.</div>

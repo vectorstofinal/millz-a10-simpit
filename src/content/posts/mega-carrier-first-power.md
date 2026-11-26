@@ -4,6 +4,7 @@ date: 2026-11-25
 summary: "The five Mega carrier PCBs arrived. The first one passed its power checks, dims the AUX LTS backlight from the Mega, and now runs the panel in DCS, lighting included. In between, DCS saw nothing at all, and the fault turned out to be in the panel, not the carrier: its ribbon header is numbered as a mirror image. A second cable and a spare pin header fixed it."
 tags: [controller-box, pcb, electronics, testing, dcs-bios, aux-lts]
 files: [carrier-socket-scan-ino, aux-lts-dcsbios-ino, led-dim-play-ino]
+hero: /img/mega-carrier-first-bench.jpg
 ---
 
 <div class="bottom-line">The first <a href="/controller-box/mega-carrier/">Mega carrier PCB</a> works. It passed every power check, lit the AUX LTS panel at 0.435 A, dims it from the Mega, and runs both toggles, both pushbuttons and both knobs in DCS. Getting there took a detour. With the panel plugged straight in, DCS saw nothing. A small scanner sketch showed every control arriving one pin off, and the cause was the panel's own PCB: I had numbered its ribbon header from the wrong side, so it's a mirror image of the standard. Two stock ribbon cables with a long pin header between them swap the rows back. The carrier itself needed no changes.</div>

@@ -3,6 +3,7 @@ title: "More Standby Compass work"
 date: 2024-01-26T17:37:00-05:00
 summary: "Filled, sanded and painted the compass box, and tested the PSU breakout board with 50 green LEDs on 12 V."
 tags: [standby-compass, electronics, backlighting]
+hero: /img/vtf-compass-box.jpg
 ---
 
 <div class="note">Originally posted on my old blog, <a href="https://vectorstofinal.blogspot.com/2024/01/more-standby-compass-work.html">Vectors To Final</a>, on January 26, 2024.</div>

@@ -3,6 +3,7 @@ title: "A tour of the carrier PCB: what every part is doing"
 date: 2026-11-25
 summary: "The Mega carrier PCB has 103 parts on it, and I couldn't have told you what half of them were for when I ordered it. Now that the first one works, here is the PCB zone by zone: what each group of parts is, why it's there, and what would go wrong without it."
 tags: [controller-box, pcb, electronics, explainer]
+hero: /img/mega-carrier-zones.png
 ---
 
 <div class="bottom-line">The <a href="/controller-box/mega-carrier/">Mega carrier PCB</a> does three jobs: it gets 12 V to each panel's backlight safely, it dims that backlight, and it carries each panel's switches and knobs to the Arduino Mega underneath. Almost every part on it belongs to one of those three. The rest are fuses and guards for the days when something is plugged in wrong. This post walks the PCB in eight zones. The first carrier is built and working; that story is in <a href="/posts/mega-carrier-first-power/">the bench post</a>.</div>

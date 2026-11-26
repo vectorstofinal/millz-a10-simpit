@@ -3,6 +3,7 @@ title: "A-10C Standby Compass - Sun Shade"
 date: 2024-02-09T12:29:00-05:00
 summary: "A painted aluminum sun shade for the aerial refueling LED box, cut from a template traced from the DCS artwork."
 tags: [standby-compass]
+hero: /img/vtf-sun-shade.jpg
 ---
 
 <div class="note">Originally posted on my old blog, <a href="https://vectorstofinal.blogspot.com/2024/02/a-10c-standby-compass-sun-shade.html">Vectors To Final</a>, on February 9, 2024.</div>

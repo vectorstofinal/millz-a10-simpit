@@ -3,6 +3,7 @@ title: "LCD, Potentiometer, LED, Rotary Encoder all working with DCS-BIOS"
 date: 2024-01-16T17:23:00-05:00
 summary: "What I learned getting a pot, a switch, an LED, a rotary encoder and an LCD working with DCS-BIOS, and the sketch."
 tags: [electronics, dcs-bios, arduino]
+hero: /img/vtf-lcd-breadboard.jpg
 ---
 
 <div class="note">Originally posted on my old blog, <a href="https://vectorstofinal.blogspot.com/2024/01/lcd-potentiometer-led-rotary-encoder.html">Vectors To Final</a>, on January 16, 2024.</div>

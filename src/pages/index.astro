@@ -32,7 +32,8 @@ const status = [
   <ul class="post-list">
     {posts.map((p) => (
       <li>
-        <a class="card" href={`/posts/${p.id}/`}>
+        <a class:list={['card', { 'has-thumb': p.data.hero }]} href={`/posts/${p.id}/`}>
+          {p.data.hero && <img class="thumb" src={p.data.hero} alt="" loading="lazy" width="148" height="111" />}
           <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
           <span class="t">{p.data.title}</span>
           <span class="s">{p.data.summary}</span>
