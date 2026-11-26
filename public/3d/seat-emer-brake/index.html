@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Seat Adjust / EMER BRAKE 3D · Millz A-10 SimPit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{color-scheme:dark;--bg:#0d1110;--panel:#141a18;--line:#26302d;--ink:#e3ebe7;--muted:#8b9a94;--nvis:#6cf58c;--nvis-dim:#2b5f3a;--warn:#e9b04a;
+--c0:#6cf58c;--c1:#5fb8ff;--c2:#e9b04a;--c3:#ff6b5e;
+--f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+.wrap{max-width:1240px;margin:0 auto;padding:28px 16px 56px;display:grid;gap:22px}
+header{display:grid;gap:6px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--f-mono);font-weight:500;font-size:clamp(26px,4.2vw,44px);letter-spacing:.04em;line-height:1.08;margin:0;text-wrap:balance}
+h1 span{color:var(--nvis)}
+.lede{margin:4px 0 0;max-width:74ch;color:var(--muted)}
+h2{font-family:var(--f-mono);font-weight:500;letter-spacing:.08em;font-size:17px;margin:0;text-transform:uppercase}
+.viewer{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:radial-gradient(120% 90% at 50% 35%,#1a2220 0%,#0a0d0c 70%);height:clamp(400px,72vh,760px)}
+#stage{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+#stage:active{cursor:grabbing}
+.hud{position:absolute;left:12px;top:12px;display:flex;flex-wrap:wrap;gap:6px;pointer-events:none}
+.hud .tag{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.06em;color:var(--muted);background:rgba(13,17,16,.72);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+.key{position:absolute;right:12px;top:12px;display:grid;gap:4px;background:rgba(13,17,16,.82);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12.5px;pointer-events:none}
+.key div{display:flex;gap:8px;align-items:center}.sw{width:11px;height:11px;border-radius:3px;flex:none}
+.tip{position:absolute;pointer-events:none;max-width:290px;background:rgba(10,14,13,.95);border:1px solid var(--nvis-dim);border-radius:8px;padding:8px 10px;font-size:13px;line-height:1.4;transform:translate(14px,14px)}
+.tip b{display:block;font-family:var(--f-mono);font-weight:500;font-size:12px;letter-spacing:.04em;color:var(--nvis);margin-bottom:2px}
+.tip i{display:block;font-style:normal;font-family:var(--f-mono);font-size:11px;margin-top:4px}
+.sel{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;min-height:46px}
+.sel .chips{display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0}
+.chip{font-family:var(--f-mono);font-size:12.5px;background:#2a1730;border:1px solid #ff4fd8;color:#ffd9f6;border-radius:6px;padding:3px 8px}
+.chip b{color:#fff;font-weight:500}
+.sel .hint{color:var(--muted);font-size:13px}
+.loading{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-family:var(--f-mono);font-size:13px}
+.rail{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.group{display:flex;flex-wrap:wrap;gap:8px;align-items:center;min-width:0}
+.lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+button{font:500 13px var(--f-body);color:var(--ink);background:#1b2321;border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+button:hover{border-color:#3a4844}
+button:focus-visible{outline:2px solid var(--nvis);outline-offset:2px}
+button[aria-pressed="true"]{background:var(--nvis-dim);border-color:var(--nvis);color:#eafff0}
+.primary{background:var(--nvis);color:#08130c;border-color:var(--nvis);font-weight:600}
+.primary[aria-pressed="true"]{background:var(--nvis);color:#08130c}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+@media (max-width:860px){.cols{grid-template-columns:1fr}.key{display:none}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:12px;min-width:0;align-content:start}
+.tbl{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}
+th{font-family:var(--f-mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 10px 8px 0;border-bottom:1px solid var(--line)}
+td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line);vertical-align:top}tr:last-child td{border-bottom:0}
+td.z{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:baseline}
+.note{font-size:13px;color:var(--muted);margin:0;max-width:92ch}
+ol.gaps{margin:0;padding-left:20px;display:grid;gap:8px}
+</style></head><body>
+<div class="wrap">
+<header>
+  <a href="/panels/seat-emer-brake/" style="font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--nvis);text-decoration:none">&larr; MILLZ A-10 SIMPIT · SEAT ADJUST / EMER BRAKE PANEL PAGE</a>
+  <div class="eyebrow">A-10C sim cockpit · left console · forward of AUX LTS · concept model, 2026-11-26</div>
+  <h1>SEAT ADJUST / <span>EMER BRAKE</span></h1>
+  <p class="lede">The seat adjust switch and the emergency brake handle, modeled from reference photos and the cockpit in the sim, with the face angles worked out rather than eyeballed. Turn on Confidence to color each surface by how well it is known. Drag to orbit, scroll to zoom, hover for notes, and use Pull to slide the brake handle out. This is a shape study, not a set of print files.</p>
+</header>
+<section class="viewer" aria-label="3D reference model of the seat adjust and emergency brake corner">
+  <canvas id="stage"></canvas>
+  <div class="hud" aria-hidden="true"><span class="tag" id="hudMode">Materials</span><span class="tag" id="hudBrake">Brake released</span></div>
+  <div class="key" id="key" hidden>
+    <div><span class="sw" style="background:var(--c0)"></span>The Warthog Project files, or my own choice</div>
+    <div><span class="sw" style="background:var(--c1)"></span>Read from references: angles ±1°, sizes ±1.5 mm</div>
+    <div><span class="sw" style="background:var(--c2)"></span>Angle from references, extent or position estimated</div>
+    <div><span class="sw" style="background:var(--c3)"></span>Assumed, not seen</div>
+  </div>
+  <div class="tip" id="tip" hidden></div><div class="loading" id="loading">Loading model…</div>
+</section>
+<section class="sel" aria-label="Selected faces" hidden><span class="lbl">Selected</span><div class="chips" id="chips"><span class="hint">Nothing selected. Click a face in the model.</span></div><button id="btnCopy" type="button" hidden>Copy labels</button><button id="btnClear" type="button" hidden>Clear</button></section>
+<section class="rail" aria-label="Viewer controls">
+  <div class="group"><button class="primary" id="btnConf" type="button" aria-pressed="false">Confidence</button></div>
+  <div class="group"><span class="lbl">Brake</span><button id="btnBrake" type="button" aria-pressed="false">Pull</button></div>
+  <div class="group" role="group" aria-label="View"><span class="lbl">View</span>
+    <button type="button" data-view="pilot">Pilot</button><button type="button" data-view="aft">Aft</button><button type="button" data-view="side">Outboard side</button><button type="button" data-view="inboard">Inboard side</button><button type="button" data-view="top">Top</button><button type="button" data-view="iso">Iso</button><button type="button" data-view="under">Under</button></div>
+</section>
+<div class="cols">
+  <section class="card"><h2>Angles from the references</h2>
+    <div class="tbl"><table><thead><tr><th>Angle</th><th>Value</th></tr></thead><tbody>
+      <tr><td><span class="dot" style="background:var(--c1)"></span>Seat face, from the deck</td><td class="z">63°</td></tr>
+      <tr><td><span class="dot" style="background:var(--c1)"></span>Seat face, turned toward the right side</td><td class="z">45° to the aft wall</td></tr>
+      <tr><td><span class="dot" style="background:var(--c1)"></span>Aft wall, from the deck</td><td class="z">65° (leans back 25°)</td></tr>
+      <tr><td><span class="dot" style="background:var(--c1)"></span>Box top, to the deck</td><td class="z">28°, high at the aft inboard corner</td></tr>
+      <tr><td><span class="dot" style="background:var(--c1)"></span>Inboard wall</td><td class="z">leans 13° outboard</td></tr>
+      <tr><td><span class="dot" style="background:var(--c1)"></span>Brake shaft, to the deck</td><td class="z">25° in the jet; modeled at 8°</td></tr>
+      <tr><td><span class="dot" style="background:var(--c1)"></span>Grip, from the foot</td><td class="z">59°</td></tr>
+      <tr><td><span class="dot" style="background:var(--c1)"></span>Grip, above the deck</td><td class="z">33° in the jet; 51° as modeled</td></tr>
+      <tr><td><span class="dot" style="background:var(--c1)"></span>Brake travel, full pull</td><td class="z">about 32 mm, along the shaft</td></tr>
+    </tbody></table></div>
+    <p class="note">The box is a plain rectangular block with one corner cut at 45° for the seat panel. It looks skewed because the deck under it is tilted in the jet (about 15° nose-up and 13° toward the pilot) while the box is square to the forward bulkhead. In the jet the block and the brake foot are square to the box, which leans the handle 14° outboard and points the shaft 25° into the deck. Here I made the handle square to the plate and laid the shaft down to 8°, so it stays above the plate. Everything is drawn relative to the plate.</p>
+  </section>
+  <section class="card"><h2>Where the gaps are</h2>
+    <ol class="gaps">
+      <li><b>Absolute scale.</b> Angles are measured. Sizes are ratios scaled to an assumed 78 mm grip and The Warthog Project's 65 mm wide panel.</li>
+      <li><b>Box size.</b> Width, depth and height are estimates. The back and the outboard end don't show in any reference I have, so those are my own shapes.</li>
+      <li><b>Shaft angle.</b> The jet's shaft points 25° into the deck. Mine is 8°, so nothing has to go through the plate.</li>
+      <li><b>Handle over the AUX LTS panel.</b> The handle's foot hangs over the next panel aft, more so when pulled. In the model it touches the NVIS toggle at full pull. A printed mockup on the real console will settle that.</li>
+      <li><b>Guide block.</b> Square to the shaft and to the plate, so it no longer leans with the box.</li>
+      <li><b>Mechanism.</b> None yet. The model is the outside shape only.</li>
+      <li><b>Toggle paddle.</b> Shape seen, ribs not modeled.</li>
+    </ol>
+  </section>
+</div></div>
+<script type="importmap">{"imports":{"three":"/3d/vendor/three.module.js","three/addons/":"/3d/vendor/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+import {toCreasedNormals} from 'three/addons/utils/BufferGeometryUtils.js';
+const P = await (await fetch('P.json')).json();
+const CLS = [
+  {hex:0x6cf58c, css:'var(--c0)', label:'From The Warthog Project files, or my own choice'},
+  {hex:0x5fb8ff, css:'var(--c1)', label:'Read from references: angles ±1°, sizes ±1.5 mm'},
+  {hex:0xe9b04a, css:'var(--c2)', label:'Angle from references, extent or position estimated'},
+  {hex:0xff6b5e, css:'var(--c3)', label:'Assumed, not seen'}];
+const $ = id => document.getElementById(id);
+const canvas = $('stage'), viewer = canvas.parentElement;
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.15;
+const scene = new THREE.Scene();
+const pm = new THREE.PMREMGenerator(renderer);
+scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+const camera = new THREE.PerspectiveCamera(28, 1, 5, 4000);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.dampingFactor = 0.08; controls.minDistance = 60; controls.maxDistance = 1400;
+const TARGET = new THREE.Vector3(-6, 30, 6);
+const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(180, 320, 260); scene.add(key);
+const fill = new THREE.DirectionalLight(0xbfd8ff, 0.5); fill.position.set(-260, 120, 60); scene.add(fill);
+
+// model (x inboard, y forward, z up) -> three (x, z, -y)
+const b64 = (s, T) => { const bin = atob(s), u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return new T(u.buffer); };
+const m2t = a => new THREE.Vector3(a[0], a[2], -a[1]);
+const root = new THREE.Group(), brake = new THREE.Group(); scene.add(root); root.add(brake);
+const meshes = [];
+const confMat = new THREE.MeshStandardMaterial({vertexColors:true, roughness:0.85, metalness:0, envMapIntensity:0.25});
+for (const part of P.parts) {
+  const v = b64(part.v, Float32Array), idx = b64(part.i, Uint32Array), cls = b64(part.c, Uint8Array), fid = b64(part.f, Uint16Array);
+  const pos = new Float32Array(v.length);
+  for (let i = 0; i < v.length; i += 3) { pos[i] = v[i]; pos[i+1] = v[i+2]; pos[i+2] = -v[i+1]; }
+  let g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setIndex(new THREE.BufferAttribute(idx, 1));
+  g = g.toNonIndexed();
+  const col = new Float32Array(cls.length * 9), c = new THREE.Color();
+  for (let t = 0; t < cls.length; t++) { c.setHex(CLS[cls[t]].hex).multiplyScalar(0.62); for (let k = 0; k < 3; k++) c.toArray(col, t * 9 + k * 3); }
+  g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  g = toCreasedNormals(g, 0.34);
+  const mat = new THREE.MeshStandardMaterial({color: part.color, roughness: part.rough, metalness: part.metal});
+  const mesh = new THREE.Mesh(g, mat);
+  mesh.userData = {part, cls, mat, fid, faces: new Map(part.faces.map(f => [f.id, f]))};
+  (part.group === 'brake' ? brake : root).add(mesh); meshes.push(mesh);
+}
+function quad(bl, br, tr, tl, tex) {
+  const g = new THREE.BufferGeometry();
+  const p = [bl, br, tr, tl].map(m2t);
+  g.setAttribute('position', new THREE.Float32BufferAttribute([p[0],p[1],p[2],p[3]].flatMap(q => [q.x,q.y,q.z]), 3));
+  g.setAttribute('uv', new THREE.Float32BufferAttribute([0,0, 1,0, 1,1, 0,1], 2));
+  g.setIndex([0,1,2, 0,2,3]); g.computeVertexNormals();
+  tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+  return new THREE.Mesh(g, new THREE.MeshStandardMaterial({map:tex, transparent:true, roughness:0.8, side:THREE.DoubleSide, polygonOffset:true, polygonOffsetFactor:-2}));
+}
+function decalTexture() {
+  const c = document.createElement('canvas'); c.width = 256; c.height = 1280; const x = c.getContext('2d');
+  x.fillStyle = '#e8b33a'; x.fillRect(0, 0, 256, 1280);
+  x.strokeStyle = '#141414'; x.lineWidth = 34;
+  for (let y = -300; y < 1500; y += 118) { x.beginPath(); x.moveTo(-20, y + 150); x.lineTo(276, y); x.stroke(); }
+  x.fillStyle = '#141414'; x.fillRect(82, 60, 92, 1020);
+  x.strokeStyle = '#141414'; x.lineWidth = 16; x.strokeRect(8, 8, 240, 1264);
+  x.fillStyle = '#f2f2ee'; x.font = '600 82px "IBM Plex Mono", monospace'; x.textAlign = 'center'; x.textBaseline = 'middle';
+  const rows = ['E','M','E','R','','B','R','A','K','E']; let y = 118;
+  for (const ch of rows) { if (ch) { x.fillText(ch, 128, y); y += 104; } else y += 52; }
+  return new THREE.CanvasTexture(c);
+}
+function legendTexture(L) {
+  const k = 10, c = document.createElement('canvas'); c.width = L.w * k; c.height = L.h * k; const x = c.getContext('2d');
+  const X = u => (u + L.w / 2) * k, Y = s => (L.h / 2 - s) * k;
+  x.strokeStyle = x.fillStyle = '#eef2ee'; x.lineWidth = 5; x.textAlign = 'center'; x.textBaseline = 'middle';
+  const tu = L.toggle[0], ts = L.toggle[1];
+  x.font = '500 46px "IBM Plex Mono", monospace';
+  x.fillText('SEAT', X(tu), Y(ts + 21)); x.fillText('UP', X(tu), Y(ts + 13.5)); x.fillText('DOWN', X(tu), Y(ts - 12.5));
+  x.beginPath(); x.moveTo(X(tu - 8), Y(ts + 21)); x.lineTo(X(tu - 13), Y(ts + 21)); x.lineTo(X(tu - 13), Y(ts + 12));
+  x.moveTo(X(tu + 8), Y(ts + 21)); x.lineTo(X(tu + 13), Y(ts + 21)); x.lineTo(X(tu + 13), Y(ts + 12)); x.stroke();
+  let s = ts + 9; for (const ch of 'HOLD') { x.fillText(ch, X(tu + 17), Y(s)); s -= 6; }
+  return new THREE.CanvasTexture(c);
+}
+const extras = [];
+{ const d = P.meta.decal; const q = quad(d.bl, d.br, d.tr, d.tl, decalTexture()); brake.add(q); extras.push(q);
+  const L = P.meta.legend, add = (a, u, s) => [a[0] + L.u[0]*u + L.s[0]*s, a[1] + L.u[1]*u + L.s[1]*s, a[2] + L.u[2]*u + L.s[2]*s];
+  const q2 = quad(add(L.c, -L.w/2, -L.h/2), add(L.c, L.w/2, -L.h/2), add(L.c, L.w/2, L.h/2), add(L.c, -L.w/2, L.h/2), legendTexture(L)); root.add(q2); extras.push(q2); }
+
+const VIEWS = {pilot:[150,-250,235], aft:[-20,-380,90], side:[-400,-40,60], inboard:[400,-60,80], top:[0,-21,500], iso:[-240,-270,220], under:[-200,-260,-200]};
+let camGoal = null;
+function setView(name, snap) { const p = m2t(VIEWS[name]).add(new THREE.Vector3(TARGET.x, 0, TARGET.z)); if (snap) { camera.position.copy(p); controls.target.copy(TARGET); controls.update(); } else camGoal = p; }
+document.querySelectorAll('[data-view]').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+canvas.addEventListener('pointerdown', () => { camGoal = null; });
+canvas.addEventListener('wheel', () => { camGoal = null; }, {passive:true});
+
+let conf = false, pulled = false, pull = 0; const PULL = m2t(P.meta.pull);
+$('btnConf').addEventListener('click', e => { conf = !conf; e.currentTarget.setAttribute('aria-pressed', conf);
+  for (const m of meshes) m.material = conf ? confMat : m.userData.mat;
+  for (const q of extras) q.visible = !conf; $('key').hidden = !conf; $('hudMode').textContent = conf ? 'Confidence' : 'Materials'; });
+$('btnBrake').addEventListener('click', e => { pulled = !pulled; e.currentTarget.setAttribute('aria-pressed', pulled); e.currentTarget.textContent = pulled ? 'Release' : 'Pull'; $('hudBrake').textContent = pulled ? 'Brake pulled ' + P.meta.travel + ' mm' : 'Brake released'; });
+
+const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(), tip = $('tip'); let hoverXY = null;
+// ---- face selection: click a face to highlight it and get a label to quote
+const selMat = new THREE.MeshBasicMaterial({color:0xff4fd8, transparent:true, opacity:0.62, side:THREE.DoubleSide, polygonOffset:true, polygonOffsetFactor:-4, polygonOffsetUnits:-4});
+const selected = new Map();
+function faceInfo(hit) {
+  const u = hit.object.userData, id = u.fid[hit.faceIndex] || 0, f = u.faces.get(id);
+  return {mesh: hit.object, id, label: u.part.code + id, part: u.part.name, desc: f ? f.desc : 'rounded edges and curved surfaces of this part'};
+}
+function overlay(mesh, id) {
+  const src = mesh.geometry.attributes.position.array, fid = mesh.userData.fid, out = [];
+  for (let t = 0; t < fid.length; t++) if ((fid[t] || 0) === id) for (let k = 0; k < 9; k++) out.push(src[t * 9 + k]);
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(out, 3));
+  const o = new THREE.Mesh(g, selMat); o.raycast = () => {}; o.renderOrder = 2; mesh.add(o); return o;
+}
+function drawChips() {
+  const box = $('chips'); box.replaceChildren();
+  if (!selected.size) { const s = document.createElement('span'); s.className = 'hint'; s.textContent = 'Nothing selected. Click a face in the model.'; box.append(s); }
+  for (const s of selected.values()) { const c = document.createElement('span'); c.className = 'chip'; const b = document.createElement('b'); b.textContent = s.label; c.append(b, ' ' + s.part + ', ' + s.desc); box.append(c); }
+  $('btnCopy').hidden = $('btnClear').hidden = !selected.size;
+}
+function clearSel() { for (const s of selected.values()) { s.mesh.remove(s.o); s.o.geometry.dispose(); } selected.clear(); }
+function pick(x, y, w, h, add) {
+  mouse.set(x / w * 2 - 1, -(y / h) * 2 + 1); ray.setFromCamera(mouse, camera);
+  const hit = ray.intersectObjects(meshes, false)[0];
+  if (!hit) { if (!add) clearSel(); drawChips(); return; }
+  const f = faceInfo(hit);
+  if (add && selected.has(f.label)) { const s = selected.get(f.label); s.mesh.remove(s.o); s.o.geometry.dispose(); selected.delete(f.label); }
+  else { if (!add) clearSel(); f.o = overlay(f.mesh, f.id); selected.set(f.label, f); }
+  drawChips();
+}
+let downAt = null;
+canvas.addEventListener('pointerdown', ev => { downAt = [ev.clientX, ev.clientY]; });
+canvas.addEventListener('pointerup', ev => { if (!downAt) return; const moved = Math.hypot(ev.clientX - downAt[0], ev.clientY - downAt[1]); downAt = null; if (moved > 4) return; const r = canvas.getBoundingClientRect(); pick(ev.clientX - r.left, ev.clientY - r.top, r.width, r.height, ev.shiftKey); });
+$('btnClear').addEventListener('click', () => { clearSel(); drawChips(); });
+$('btnCopy').addEventListener('click', async e => { const txt = [...selected.values()].map(s => s.label + ' (' + s.part + ', ' + s.desc + ')').join('; '); const b = e.currentTarget; try { await navigator.clipboard.writeText(txt); b.textContent = 'Copied'; } catch { b.textContent = 'Copy blocked'; } setTimeout(() => { b.textContent = 'Copy labels'; }, 1400); });
+window.__pick = (x, y, add) => { const r = canvas.getBoundingClientRect(); pick(x * r.width, y * r.height, r.width, r.height, add); };
+canvas.addEventListener('pointermove', ev => { const r = canvas.getBoundingClientRect(); hoverXY = [ev.clientX - r.left, ev.clientY - r.top, r.width, r.height]; });
+canvas.addEventListener('pointerleave', () => { hoverXY = null; tip.hidden = true; });
+function hover() {
+  if (!hoverXY) return; const [x, y, w, h] = hoverXY; mouse.set(x / w * 2 - 1, -(y / h) * 2 + 1); ray.setFromCamera(mouse, camera);
+  const hit = ray.intersectObjects(meshes, false)[0];
+  if (!hit) { tip.hidden = true; return; }
+  const u = hit.object.userData, k = CLS[u.cls[hit.faceIndex] ?? 2];
+  tip.replaceChildren(); const b = document.createElement('b'); b.textContent = u.part.name; const t = document.createTextNode(u.part.tip);
+  const i = document.createElement('i'); i.style.color = k.css; i.textContent = 'This surface: ' + k.label; const f = faceInfo(hit); const j = document.createElement('i'); j.style.color = '#ff9be8'; j.textContent = 'Face ' + f.label + ': ' + f.desc; tip.append(b, t, i, j);
+  tip.style.left = Math.min(x, w - 300) + 'px'; tip.style.top = Math.min(y, h - 130) + 'px'; tip.hidden = false;
+}
+function resize() { const w = viewer.clientWidth, h = viewer.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.render(scene, camera); }
+new ResizeObserver(resize).observe(viewer); resize(); setView('pilot', true); $('loading').hidden = true;
+window.__ready = true;
+renderer.setAnimationLoop(() => {
+  if (camGoal) { camera.position.lerp(camGoal, 0.12); controls.target.lerp(TARGET, 0.12); if (camera.position.distanceTo(camGoal) < 0.5) camGoal = null; }
+  const goal = pulled ? 1 : 0; pull += (goal - pull) * 0.15; brake.position.copy(PULL).multiplyScalar(pull);
+  controls.update(); hover(); renderer.render(scene, camera);
+});
+window.__setView = n => setView(n, true); window.__conf = () => $('btnConf').click();
+</script>
+</body></html>
