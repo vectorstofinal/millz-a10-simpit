@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+// One entry per interactive model under public/3d/. Add new models here.
+const models = [
+  {
+    url: '/3d/aux-lts/',
+    panel: 'AUX LTS',
+    title: 'AUX LTS panel',
+    summary: 'The finished panel, layer by layer: acrylic stack, switches, LEDs and PCB. Explode it and switch the backlight on.',
+    status: 'As built',
+    img: '/img/aux-lts-3d.png',
+    alt: 'AUX LTS panel 3D model with the green backlight on',
+    page: '/panels/aux-lts/',
+  },
+  {
+    url: '/3d/seat-emer-brake/',
+    panel: 'Seat / brake',
+    title: 'Seat adjust and emergency brake',
+    summary: 'Concept model of the seat switch box and the pull-out brake handle. Pull the handle, and color each surface by how well it is known.',
+    status: 'Concept',
+    img: '/img/seat-emer-brake-3d.png',
+    alt: 'Seat adjust and emergency brake 3D model',
+    page: '/panels/seat-emer-brake/',
+  },
+];
+---
+<Base title="3D Renders" description="Interactive 3D models of the Millz A-10C sim cockpit panels. Orbit, zoom and take them apart in the browser.">
+  <div class="article" style="max-width:880px">
+    <header>
+      <span class="eyebrow">Interactive</span>
+      <h1>3D Renders</h1>
+      <p class="lede">Panels you can turn around in the browser. Drag to orbit, scroll to zoom. Each one links back to its panel page.</p>
+    </header>
+    <ul class="post-list">
+      {models.map((m) => (
+        <li>
+          <a class="card has-thumb" href={m.url}>
+            <time>{m.panel}</time>
+            <span class="t">{m.title}</span>
+            <span class="s">{m.summary}</span>
+            <span class="tags"><span class="tag">{m.status}</span></span>
+            <img class="thumb" src={m.img} alt={m.alt} loading="lazy" />
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p>Reference pages for these panels: {models.map((m, i) => (<><a href={m.page}>{m.panel}</a>{i < models.length - 1 ? ', ' : '.'}</>))}</p>
+  </div>
+</Base>
