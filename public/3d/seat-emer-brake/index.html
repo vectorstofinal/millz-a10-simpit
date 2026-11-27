@@ -55,9 +55,10 @@ ol.gaps{margin:0;padding-left:20px;display:grid;gap:8px}
 <div class="wrap">
 <header>
   <a href="/panels/seat-emer-brake/" style="font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--nvis);text-decoration:none">&larr; MILLZ A-10 SIMPIT · SEAT ADJUST / EMER BRAKE PANEL PAGE</a>
-  <div class="eyebrow">A-10C sim cockpit · left console · forward of AUX LTS · concept model, 2026-11-26</div>
+  <div class="eyebrow">A-10C sim cockpit · left console · forward of AUX LTS · concept model, revised after the fit mockup, 2026-11-26</div>
   <h1>SEAT ADJUST / <span>EMER BRAKE</span></h1>
   <p class="lede">The seat adjust switch and the emergency brake handle, modeled from reference photos and the cockpit in the sim, with the face angles worked out rather than eyeballed. Turn on Confidence to color each surface by how well it is known. Drag to orbit, scroll to zoom, hover for notes, and use Pull to slide the brake handle out. This is a shape study, not a set of print files.</p>
+  <p class="lede"><b style="color:var(--ink)">Revised after a printed fit mockup:</b> thicker plate so its top is level with the AUX LTS panel, mounting screws sunk in pockets, taller and more upright handle with a shorter foot, handle moved outboard, and everything shifted forward to leave room for the panel behind.</p>
 </header>
 <section class="viewer" aria-label="3D reference model of the seat adjust and emergency brake corner">
   <canvas id="stage"></canvas>
@@ -86,18 +87,19 @@ ol.gaps{margin:0;padding-left:20px;display:grid;gap:8px}
       <tr><td><span class="dot" style="background:var(--c1)"></span>Box top, to the deck</td><td class="z">28°, high at the aft inboard corner</td></tr>
       <tr><td><span class="dot" style="background:var(--c1)"></span>Inboard wall</td><td class="z">leans 13° outboard</td></tr>
       <tr><td><span class="dot" style="background:var(--c1)"></span>Brake shaft, to the deck</td><td class="z">25° in the jet; modeled at 8°</td></tr>
-      <tr><td><span class="dot" style="background:var(--c1)"></span>Grip, from the foot</td><td class="z">59°</td></tr>
-      <tr><td><span class="dot" style="background:var(--c1)"></span>Grip, above the deck</td><td class="z">33° in the jet; 51° as modeled</td></tr>
+      <tr><td><span class="dot" style="background:var(--c1)"></span>Grip, from the foot</td><td class="z">59° in the jet; 65° as modeled</td></tr>
+      <tr><td><span class="dot" style="background:var(--c1)"></span>Grip, above the deck</td><td class="z">33° in the jet; 57° as modeled</td></tr>
       <tr><td><span class="dot" style="background:var(--c1)"></span>Brake travel, full pull</td><td class="z">about 32 mm, along the shaft</td></tr>
     </tbody></table></div>
     <p class="note">The box is a plain rectangular block with one corner cut at 45° for the seat panel. It looks skewed because the deck under it is tilted in the jet (about 15° nose-up and 13° toward the pilot) while the box is square to the forward bulkhead. In the jet the block and the brake foot are square to the box, which leans the handle 14° outboard and points the shaft 25° into the deck. Here I made the handle square to the plate and laid the shaft down to 8°, so it stays above the plate. Everything is drawn relative to the plate.</p>
   </section>
   <section class="card"><h2>Where the gaps are</h2>
     <ol class="gaps">
-      <li><b>Absolute scale.</b> Angles are measured. Sizes are ratios scaled to an assumed 78 mm grip and The Warthog Project's 65 mm wide panel.</li>
+      <li><b>Absolute scale.</b> Angles are measured. Sizes started as ratios scaled to an assumed 78 mm grip and The Warthog Project's 65 mm wide panel, and are now being corrected against a printed mockup on the console.</li>
       <li><b>Box size.</b> Width, depth and height are estimates. The back and the outboard end don't show in any reference I have, so those are my own shapes.</li>
       <li><b>Shaft angle.</b> The jet's shaft points 25° into the deck. Mine is 8°, so nothing has to go through the plate.</li>
-      <li><b>Handle over the AUX LTS panel.</b> The handle's foot hangs over the next panel aft, more so when pulled. In the model it touches the NVIS toggle at full pull. A printed mockup on the real console will settle that.</li>
+      <li><b>Handle and the AUX LTS panel.</b> In the first version the handle's foot touched the NVIS toggle on the panel behind at full pull. After moving the handle outboard and forward, shortening its foot and raising the plate, the model shows about 8 mm to that toggle. The closest thing is now the left dimmer knob, about 3 mm away at full pull.</li>
+      <li><b>Handle shape.</b> Taller and more upright than the jet's. Both changes came from trying the mockup on the console.</li>
       <li><b>Guide block.</b> Square to the shaft and to the plate, so it no longer leans with the box.</li>
       <li><b>Mechanism.</b> None yet. The model is the outside shape only.</li>
       <li><b>Toggle paddle.</b> Shape seen, ribs not modeled.</li>
@@ -127,7 +129,7 @@ scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
 const camera = new THREE.PerspectiveCamera(28, 1, 5, 4000);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true; controls.dampingFactor = 0.08; controls.minDistance = 60; controls.maxDistance = 1400;
-const TARGET = new THREE.Vector3(-6, 30, 6);
+const TARGET = new THREE.Vector3(-6, 38, 6);
 const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(180, 320, 260); scene.add(key);
 const fill = new THREE.DirectionalLight(0xbfd8ff, 0.5); fill.position.set(-260, 120, 60); scene.add(fill);
 
